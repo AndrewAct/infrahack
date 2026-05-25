@@ -1,0 +1,13 @@
+# macOS
+.DS_Store
+
+# Local agent skills and assistant state
+.codex/
+.claude/
+
+# Local editor/OS noise
+.idea/
+*.iml
+*.swp
+*.swo
+*~
