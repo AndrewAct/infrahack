@@ -6,21 +6,32 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public final class AsyncEventBus implements EventBus {
     private final ConcurrentMap<EventType, CopyOnWriteArraySet<SubscriberRegistration>> registry = new ConcurrentHashMap<>();
-    private final ErrorHandler errorHandler;
     private final MetricsRecorder metrics;
+    private final RetryingDeliveryExecutor deliveryExecutor;
 
     // Hashset is not thread safe, so we use the ConcurrentHashMap.newKeySet() factory method.
     private final Set<ExecutorService> knownExecutors = ConcurrentHashMap.newKeySet();
     private final AtomicBoolean closed = new AtomicBoolean();
 
     public AsyncEventBus(ErrorHandler errorHandler, MetricsRecorder metrics) {
-        this.errorHandler = Objects.requireNonNull(errorHandler, "errorHandler");
+        this(errorHandler, metrics, RetryPolicy.defaultPolicy(), new InMemoryDeadLetterSink());
+    }
+
+    public AsyncEventBus(
+            ErrorHandler errorHandler,
+            MetricsRecorder metrics,
+            RetryPolicy retryPolicy,
+            DeadLetterSink deadLetterSink) {
         this.metrics = Objects.requireNonNull(metrics, "metrics");
+        this.deliveryExecutor = new RetryingDeliveryExecutor(
+                Objects.requireNonNull(errorHandler, "errorHandler"),
+                metrics,
+                Objects.requireNonNull(retryPolicy, "retryPolicy"),
+                Objects.requireNonNull(deadLetterSink, "deadLetterSink"));
     }
 
     @Override
@@ -61,28 +72,14 @@ public final class AsyncEventBus implements EventBus {
         int rejected = 0;
 
         for (SubscriberRegistration subscriberRegistration : subscribers) {
-            try {
-                subscriberRegistration.executor().execute(() -> invokeSubscriber(event, subscriberRegistration));
-                metrics.recordSubmitted(event, subscriberRegistration.subscriberId());
+            DeliveryEnvelope envelope = DeliveryEnvelope.initial(event, subscriberRegistration.subscriberId());
+            if (deliveryExecutor.submit(envelope, subscriberRegistration)) {
                 submitted++;
-            } catch (RejectedExecutionException e) {
-                metrics.recordRejected(event, subscriberRegistration.subscriberId());
-                errorHandler.handle(event, subscriberRegistration.subscriberId(), e);
+            } else {
                 rejected++;
             }
         }
         return new DispatchResult(subscribers.size(), submitted, rejected);
-    }
-
-    public void invokeSubscriber(DomainEvent event, SubscriberRegistration subscriberRegistration) {
-        long startNanos = System.nanoTime();
-        try {
-            subscriberRegistration.subscriber().handle(event);
-            metrics.recordSuccess(event, subscriberRegistration.subscriberId(), System.nanoTime() - startNanos);
-        } catch (Exception e) {
-            metrics.recordFailure(event, subscriberRegistration.subscriberId(), System.nanoTime() - startNanos);
-            errorHandler.handle(event, subscriberRegistration.subscriberId(), e);
-        }
     }
 
     @Override
@@ -92,6 +89,7 @@ public final class AsyncEventBus implements EventBus {
             return;
         }
 
+        deliveryExecutor.close();
         for (ExecutorService executor : knownExecutors) {
             executor.shutdown();
         }
