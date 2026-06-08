@@ -67,6 +67,13 @@ javac -d out $(find src/main/java -name '*.java')
 java -cp out io.infrahack.eventdispatcher.Demo
 ```
 
+To simulate a Kafka-style hot partition where one partition receives 10x more events
+than the others:
+
+```bash
+java -cp out io.infrahack.eventdispatcher.PartitionSkewDemo
+```
+
 If you use an IDE, import `event-dispatcher/java/pom.xml` as the project. The source roots should be:
 
 ```text
