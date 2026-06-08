@@ -9,3 +9,6 @@
 *.swp
 *.swo
 *~
+
+# Java build output
+/out/
