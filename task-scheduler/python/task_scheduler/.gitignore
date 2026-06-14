@@ -1,0 +1,15 @@
+# Local secrets — DATABASE_URL / Supabase password live here.
+# (repo-root .gitignore does NOT cover .env, so it must be ignored here.)
+.env
+
+# Personal interview/study notes — generated, kept local, not part of the codebase.
+docs/
+
+# Throwaway EXPLAIN ANALYZE demo: it seeds then deletes test rows, not a real migration.
+sql/explain_demo.sql
+
+# Also ignored at the repo root (infrahack/.gitignore); repeated here so this
+# package stays self-contained if checked out on its own.
+.venv/
+.idea/
+.DS_Store
