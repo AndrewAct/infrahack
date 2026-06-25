@@ -45,11 +45,11 @@ Each is a clean extension point, called out under *Known gaps*.
 Layered, dependencies point inward (services → model, never the reverse):
 
 ```
-            ┌─────────────── service ───────────────┐
- driver →   │ ParkingService   (park/checkout/pay/exit/lost) │
- admin  →   │ AdminService     (maintenance, reports)        │
-            │ PermissionService · MetricsCollector · Audit   │
-            └───────┬───────────────┬───────────────┬────────┘
+            ┌─────────────── service ───────────────────────────┐
+ driver →   │ ParkingService   (park/checkout/pay/exit/lost)    │
+ admin  →   │ AdminService     (maintenance, reports)           │
+            │ PermissionService · MetricsCollector · Audit      │
+            └───────┬───────────────┬───────────────┬───────────┘
                     │               │               │
               strategy/         repository/        model/
          SpotAssignment*     TicketRepository   ParkingLot → Level → Spot
