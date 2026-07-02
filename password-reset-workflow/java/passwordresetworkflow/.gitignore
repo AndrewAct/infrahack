@@ -1,0 +1,50 @@
+target/
+!.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
+.kotlin
+
+### IntelliJ IDEA ###
+# Ignore the ENTIRE .idea/ directory. It stores local data-source config
+# (.idea/dataSources*) containing the DB host/username — must never be committed.
+.idea/
+*.iws
+*.iml
+*.ipr
+
+### Eclipse ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+### VS Code ###
+.vscode/
+
+### Mac OS ###
+.DS_Store
+
+### Secrets / local env (NEVER commit real credentials) ###
+# Ignore every dotenv variant...
+.env
+.env.*
+# ...except the committed placeholder template.
+!.env.example
+# Common credential file types.
+*.pem
+*.key
+*.p12
+secrets/
