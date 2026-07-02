@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: password-reset-workflow
+
+password-reset:
+  # Verification codes expire this many seconds after generation.
+  code-ttl-seconds: ${RESET_CODE_TTL_SECONDS:30}
