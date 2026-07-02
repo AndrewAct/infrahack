@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: movie-watchlist-spring
+
+# Actuator: liveness/readiness + Prometheus scrape endpoint (replaces our hand-rolled /health + /metrics).
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, info, prometheus
+  endpoint:
+    health:
+      probes:
+        enabled: true      # exposes /actuator/health/liveness and /actuator/health/readiness
