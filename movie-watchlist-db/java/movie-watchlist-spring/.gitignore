@@ -1,0 +1,18 @@
+target/
+*.log
+
+### Secrets / local env — never commit ###
+.env
+.env.*
+!.env.example
+application-local.yml
+application-local.yaml
+application-secret.*
+*.pem
+*.key
+
+### IDE (contains data-source creds) ###
+.idea/
+*.iml
+.vscode/
+.DS_Store
