@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: distributedratelimiter
+
+rate-limiter:
+  # How often (ms) each instance polls Postgres for rule changes (RuleCache.refresh()).
+  rule-refresh-interval-ms: ${RATE_LIMITER_RULE_REFRESH_INTERVAL_MS:10000}
