@@ -1,6 +1,6 @@
 # Airline Ticket Price Calculator
 
-Zoox 风格的 OOP live-coding 题：解析航司、里程和舱位，通过可替换的航司定价策略计算票价。
+OOP live-coding 题：解析航司、里程和舱位，通过可替换的航司定价策略计算票价。
 
 这不是航班预订系统，也不涉及库存、座位分配、支付或行程搜索。题目的重点是：
 
