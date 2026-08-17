@@ -11,8 +11,8 @@ import io.infrahack.ridesharedispatch.domain.OfferId;
 import io.infrahack.ridesharedispatch.domain.OfferStatus;
 import io.infrahack.ridesharedispatch.domain.exception.ConflictException;
 import io.infrahack.ridesharedispatch.domain.exception.NotFoundException;
-import io.infrahack.ridesharedispatch.infrastructure.redis.AgentOperationalStateStore;
-import io.infrahack.ridesharedispatch.infrastructure.redis.AgentReservationStore;
+import io.infrahack.ridesharedispatch.infrastructure.redis.DriverOperationalStateStore;
+import io.infrahack.ridesharedispatch.infrastructure.redis.DriverReservationStore;
 import io.infrahack.ridesharedispatch.observability.DispatchMetrics;
 import io.infrahack.ridesharedispatch.repository.AssignmentRepository;
 import io.infrahack.ridesharedispatch.repository.DispatchOfferRepository;
@@ -44,15 +44,15 @@ public class OfferService {
     private final DispatchRequestRepository requestRepository;
     private final AssignmentRepository assignmentRepository;
     private final OutboxRepository outboxRepository;
-    private final AgentReservationStore reservationStore;
-    private final AgentOperationalStateStore stateStore;
+    private final DriverReservationStore reservationStore;
+    private final DriverOperationalStateStore stateStore;
     private final DispatchMetrics metrics;
     private final TransactionTemplate transactionTemplate;
     private final Duration freshnessWindow;
 
     public OfferService(DispatchOfferRepository offerRepository, DispatchRequestRepository requestRepository,
                          AssignmentRepository assignmentRepository, OutboxRepository outboxRepository,
-                         AgentReservationStore reservationStore, AgentOperationalStateStore stateStore,
+                         DriverReservationStore reservationStore, DriverOperationalStateStore stateStore,
                          DispatchMetrics metrics, DispatchProperties properties,
                          PlatformTransactionManager transactionManager) {
         this.offerRepository = offerRepository;
@@ -82,12 +82,12 @@ public class OfferService {
             throw new ConflictException("Offer %s expired at %s".formatted(offerId, offer.expiresAt()));
         }
         AssignmentId assignmentId = AssignmentId.forOffer(offer.id());
-        AgentOperationalStateStore.OccupyResult occupyResult = stateStore.consumeReservationAndMarkOccupied(
-                offer.agentId(), offer.reservationToken(), assignmentId, freshnessWindow);
-        if (occupyResult == AgentOperationalStateStore.OccupyResult.STALE_RESERVATION
-                || occupyResult == AgentOperationalStateStore.OccupyResult.INELIGIBLE) {
+        DriverOperationalStateStore.OccupyResult occupyResult = stateStore.consumeReservationAndMarkOccupied(
+                offer.driverId(), offer.reservationToken(), assignmentId, freshnessWindow);
+        if (occupyResult == DriverOperationalStateStore.OccupyResult.STALE_RESERVATION
+                || occupyResult == DriverOperationalStateStore.OccupyResult.INELIGIBLE) {
             expireOfferBestEffort(offer);
-            throw new ConflictException("Reservation for agent %s is no longer held".formatted(offer.agentId()));
+            throw new ConflictException("Reservation for driver %s is no longer held".formatted(offer.driverId()));
         }
 
         Assignment assignment;
@@ -101,18 +101,18 @@ public class OfferService {
                 DispatchRequest request = requestRepository.findById(offer.requestId())
                         .orElseThrow(() -> new NotFoundException("DispatchRequest", offer.requestId()));
                 if (!requestRepository.transitionFromSearching(request.id(), DispatchRequestStatus.MATCHED,
-                        Optional.of(offer.agentId()))) {
+                        Optional.of(offer.driverId()))) {
                     throw new ConflictException("DispatchRequest %s is no longer SEARCHING".formatted(request.id()));
                 }
 
                 Assignment created = new Assignment(assignmentId, request.id(), offer.id(),
-                        request.requesterId(), offer.agentId(), AssignmentStatus.CREATED, 0L, Instant.now(),
+                        request.requesterId(), offer.driverId(), AssignmentStatus.CREATED, 0L, Instant.now(),
                         Optional.empty(), Optional.empty());
                 assignmentRepository.insert(created);
                 outboxRepository.append("AssignmentCreated", created.id().value(), Map.of(
                         "assignmentId", created.id().value().toString(),
                         "requestId", request.id().value().toString(),
-                        "agentId", offer.agentId().value().toString(),
+                        "driverId", offer.driverId().value().toString(),
                         "requesterId", request.requesterId().value().toString()));
                 return created;
             });
@@ -121,11 +121,11 @@ public class OfferService {
             throw failure;
         }
 
-        if (occupyResult == AgentOperationalStateStore.OccupyResult.ACQUIRED) {
+        if (occupyResult == DriverOperationalStateStore.OccupyResult.ACQUIRED) {
             metrics.reservationReleased();
         }
 
-        log.info("offer accepted offerId={} assignmentId={} agentId={}", offerId, assignment.id(), offer.agentId());
+        log.info("offer accepted offerId={} assignmentId={} driverId={}", offerId, assignment.id(), offer.driverId());
         return assignment;
     }
 
@@ -137,9 +137,9 @@ public class OfferService {
         if (!offerRepository.transitionFromPending(offerId, OfferStatus.REJECTED)) {
             throw new ConflictException("Offer %s was already resolved by a concurrent request".formatted(offerId));
         }
-        reservationStore.release(offer.agentId(), offer.reservationToken());
+        reservationStore.release(offer.driverId(), offer.reservationToken());
         metrics.reservationReleased();
-        log.info("offer rejected offerId={} agentId={}", offerId, offer.agentId());
+        log.info("offer rejected offerId={} driverId={}", offerId, offer.driverId());
         // Known gap (documented in docs/DESIGN.md "Known gaps"): the MVP does not
         // automatically re-run matching against the next candidate after a reject. A
         // production system would resubmit the request to MatchingService here.
@@ -147,14 +147,14 @@ public class OfferService {
 
     private void expireOfferBestEffort(DispatchOffer offer) {
         offerRepository.transitionFromPending(offer.id(), OfferStatus.EXPIRED);
-        reservationStore.release(offer.agentId(), offer.reservationToken());
+        reservationStore.release(offer.driverId(), offer.reservationToken());
         metrics.reservationReleased();
     }
 
     private void compensateOccupancy(DispatchOffer offer, AssignmentId assignmentId) {
         try {
             if (assignmentRepository.findByOfferId(offer.id()).isEmpty()) {
-                stateStore.markAvailableIfOwned(offer.agentId(), assignmentId, freshnessWindow);
+                stateStore.markAvailableIfOwned(offer.driverId(), assignmentId, freshnessWindow);
             }
         } catch (RuntimeException compensationFailure) {
             log.error("failed to compensate provisional occupancy offerId={} assignmentId={}",

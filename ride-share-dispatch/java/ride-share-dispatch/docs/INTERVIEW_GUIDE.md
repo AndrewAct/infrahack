@@ -34,7 +34,7 @@ Completion uses OCC and writes an outbox event in the same transaction. Kafka de
 at-least-once, so each consumer writes an inbox marker together with its durable business
 effect. Payment uses a stable operation ID because a timeout may mean the charge happened.
 
-The project has 36 integration tests against real PostgreSQL, Redis, and Kafka, including
+The project has 37 integration tests against real PostgreSQL, Redis, and Kafka, including
 reservation races, stale offers and locations, consumer rollback, OCC conflicts, and a
 timeout/retry test proving one modeled charge.
 
@@ -104,7 +104,7 @@ candidates because their scaling and failure profiles differ.
 
 Redis matches the high-write, TTL-based, low-latency nature of live locations and
 reservations. PostgreSQL provides durable transactions, unique constraints, indexes, and
-OCC for requests and assignments. Persisting every coordinate in the agent profile would
+OCC for requests and assignments. Persisting every coordinate in the driver profile would
 create write amplification, row contention, and the wrong durability cost.
 
 ### 3. Approximate discovery, authoritative commit
@@ -169,7 +169,7 @@ I made a failure/invariant table and changed only the boundaries that enforced i
 
 ### Result
 
-The refactored suite passed 36 tests against real PostgreSQL, Redis, and Kafka containers,
+The refactored suite passed 37 tests against real PostgreSQL, Redis, and Kafka containers,
 and a local end-to-end path reached payment and notification through the outbox. More
 importantly, each core invariant now points to a specific primitive and test. I also kept
 the residual Redis/PostgreSQL handoff and Docker/Testcontainers portability issue explicit
@@ -303,7 +303,7 @@ comparison, persistence, and idempotency checks deterministic for the MVP.
 | “The benchmark proves it handles 60K QPS.” | “60K updates/s is a sizing assumption. The refactored build does not yet publish measured capacity.” |
 | “A timeout means payment failed.” | “The outcome is uncertain until reconciliation using the same operation ID.” |
 | “A TTL solves worker ownership.” | “A TTL guarantees eventual release; an owner token prevents an expired worker from releasing a newer lease.” |
-| “Testcontainers makes tests environment-free.” | “It makes infrastructure reproducible once a compatible Docker daemon is discoverable; the current pinned version still has a portability gap on some recent Docker setups.” |
+| “Testcontainers makes tests environment-free.” | “It makes dependency versions reproducible once Docker is reachable; the daemon and socket remain host prerequisites. The project pins `1.21.4` for recent Docker Engine compatibility.” |
 
 ## A debugging story: `mvn clean install` and misleading logs
 
@@ -319,11 +319,12 @@ There are two layers to diagnose separately:
 2. **Compatibility:** does the pinned Testcontainers client support the installed Docker
    Engine API?
 
-An environment-specific socket/API override can unblock one machine, but it is not a good
-repository default. The durable fix should be to upgrade the pinned Testcontainers
-version to one compatible with the current Docker Engine, verify a plain Maven build, and
-remove obsolete workaround text. That change is intentionally recorded as outstanding,
-not claimed as complete.
+The failing build pinned Testcontainers `1.21.3`. An API override confirmed that Docker
+Engine 29's minimum API, rather than Spring configuration, was the blocker. The durable
+fix was to upgrade to Testcontainers `1.21.4`, whose release targets recent Docker Engine
+changes, and return the normal build to `mvn clean install`. `DOCKER_HOST` may still be
+needed when the active macOS context uses a non-default socket; that is discovery, not API
+compatibility.
 
 This is a useful interview lesson: identify the first causal error, ignore framework
 bootstrap noise, distinguish environment discovery from version compatibility, and do not
@@ -359,14 +360,14 @@ Read these files in order when preparing for a deep dive:
 
 1. [`DESIGN.md`](DESIGN.md) — invariants and complete architecture.
 2. [`V1__init_schema.sql`](../src/main/resources/db/migration/V1__init_schema.sql) — durable constraints, inbox, outbox, and payment ledger.
-3. [`AgentOperationalStateStore.java`](../src/main/java/io/infrahack/ridesharedispatch/infrastructure/redis/AgentOperationalStateStore.java) — ordered location and state transitions.
-4. [`AgentReservationStore.java`](../src/main/java/io/infrahack/ridesharedispatch/infrastructure/redis/AgentReservationStore.java) — atomic eligibility and ownership.
+3. [`DriverOperationalStateStore.java`](../src/main/java/io/infrahack/ridesharedispatch/infrastructure/redis/DriverOperationalStateStore.java) — ordered location and state transitions.
+4. [`DriverReservationStore.java`](../src/main/java/io/infrahack/ridesharedispatch/infrastructure/redis/DriverReservationStore.java) — atomic eligibility and ownership.
 5. [`MatchingService.java`](../src/main/java/io/infrahack/ridesharedispatch/service/MatchingService.java) — bounded coarse-to-fine matching.
 6. [`OfferService.java`](../src/main/java/io/infrahack/ridesharedispatch/service/OfferService.java) — Redis-to-PostgreSQL ownership handoff.
 7. [`AssignmentService.java`](../src/main/java/io/infrahack/ridesharedispatch/service/AssignmentService.java) — OCC and completion outbox.
 8. [`OutboxPublisher.java`](../src/main/java/io/infrahack/ridesharedispatch/infrastructure/kafka/OutboxPublisher.java) — leased at-least-once publication.
 9. [`PaymentService.java`](../src/main/java/io/infrahack/ridesharedispatch/service/PaymentService.java) — stable identity, retry, and uncertainty.
-10. [`AgentReservationConcurrencyTest.java`](../src/test/java/io/infrahack/ridesharedispatch/AgentReservationConcurrencyTest.java), [`ConsumerAtomicityTest.java`](../src/test/java/io/infrahack/ridesharedispatch/ConsumerAtomicityTest.java), and [`PaymentServiceIdempotencyTest.java`](../src/test/java/io/infrahack/ridesharedispatch/PaymentServiceIdempotencyTest.java) — evidence for the hardest claims.
+10. [`DriverReservationConcurrencyTest.java`](../src/test/java/io/infrahack/ridesharedispatch/DriverReservationConcurrencyTest.java), [`ConsumerAtomicityTest.java`](../src/test/java/io/infrahack/ridesharedispatch/ConsumerAtomicityTest.java), and [`PaymentServiceIdempotencyTest.java`](../src/test/java/io/infrahack/ridesharedispatch/PaymentServiceIdempotencyTest.java) — evidence for the hardest claims.
 
 ## Final preparation checklist
 

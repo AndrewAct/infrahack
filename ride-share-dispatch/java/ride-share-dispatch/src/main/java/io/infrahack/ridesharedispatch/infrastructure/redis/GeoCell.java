@@ -10,7 +10,7 @@ import java.util.List;
  * {@code floor(lat / SIZE) : floor(lng / SIZE)}. This is not a sophisticated GIS index --
  * cell area varies with latitude and there is no attempt at equal-area partitioning --
  * but it is enough to bound "search nearby cells" to O(rings^2) instead of scanning every
- * known agent, which is the property that actually matters for this module. See
+ * known driver, which is the property that actually matters for this module. See
  * SpatialIndex for the swap-in seam if a production system needed something sharper.
  */
 final class GeoCell {

@@ -1,6 +1,6 @@
 package io.infrahack.ridesharedispatch.infrastructure.redis;
 
-import io.infrahack.ridesharedispatch.domain.AgentId;
+import io.infrahack.ridesharedispatch.domain.DriverId;
 import io.infrahack.ridesharedispatch.domain.GeoPoint;
 import io.infrahack.ridesharedispatch.service.SpatialIndex;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -14,13 +14,13 @@ import java.util.Set;
 import java.util.UUID;
 
 /**
- * Grid membership is two structures per agent:
+ * Grid membership is two structures per driver:
  * <ul>
- *   <li>{@code geo:cell:{cellId}} -&gt; Redis SET of agent ids currently in that cell</li>
- *   <li>{@code geo:agent-cell:{agentId}} -&gt; the one cell id this agent is currently filed
+ *   <li>{@code geo:cell:{cellId}} -&gt; Redis SET of driver ids currently in that cell</li>
+ *   <li>{@code geo:driver-cell:{driverId}} -&gt; the one cell id this driver is currently filed
  *   under, so a move can find and clean up its previous membership</li>
  * </ul>
- * Moving an agent is a read-old / write-new / remove-old sequence, not a single atomic
+ * Moving a driver is a read-old / write-new / remove-old sequence, not a single atomic
  * operation. That is an intentional tradeoff: candidate discovery is documented as
  * eventually consistent (see SpatialIndex), and the authoritative check happens at
  * reservation time, so a Lua script here would add complexity without changing any
@@ -30,7 +30,7 @@ import java.util.UUID;
 public class RedisGridSpatialIndex implements SpatialIndex {
 
     private static final String CELL_KEY_PREFIX = "geo:cell:";
-    private static final String AGENT_CELL_KEY_PREFIX = "geo:agent-cell:";
+    private static final String DRIVER_CELL_KEY_PREFIX = "geo:driver-cell:";
 
     /** Collect a small multiple of what the caller asked for before ranking/filtering
      *  trims it down -- some candidates will be stale or already reserved. */
@@ -43,31 +43,31 @@ public class RedisGridSpatialIndex implements SpatialIndex {
     }
 
     @Override
-    public void upsert(AgentId agentId, GeoPoint point) {
+    public void upsert(DriverId driverId, GeoPoint point) {
         String newCellId = GeoCell.indexOf(point).cellId();
-        String agentCellKey = AGENT_CELL_KEY_PREFIX + agentId.value();
+        String driverCellKey = DRIVER_CELL_KEY_PREFIX + driverId.value();
 
-        String oldCellId = redis.opsForValue().getAndSet(agentCellKey, newCellId);
+        String oldCellId = redis.opsForValue().getAndSet(driverCellKey, newCellId);
         if (oldCellId != null && !oldCellId.equals(newCellId)) {
-            redis.opsForSet().remove(CELL_KEY_PREFIX + oldCellId, agentId.value().toString());
+            redis.opsForSet().remove(CELL_KEY_PREFIX + oldCellId, driverId.value().toString());
         }
-        redis.opsForSet().add(CELL_KEY_PREFIX + newCellId, agentId.value().toString());
+        redis.opsForSet().add(CELL_KEY_PREFIX + newCellId, driverId.value().toString());
     }
 
     @Override
-    public void remove(AgentId agentId) {
-        String agentCellKey = AGENT_CELL_KEY_PREFIX + agentId.value();
-        String cellId = redis.opsForValue().get(agentCellKey);
+    public void remove(DriverId driverId) {
+        String driverCellKey = DRIVER_CELL_KEY_PREFIX + driverId.value();
+        String cellId = redis.opsForValue().get(driverCellKey);
         if (cellId != null) {
-            redis.opsForSet().remove(CELL_KEY_PREFIX + cellId, agentId.value().toString());
-            redis.delete(agentCellKey);
+            redis.opsForSet().remove(CELL_KEY_PREFIX + cellId, driverId.value().toString());
+            redis.delete(driverCellKey);
         }
     }
 
     @Override
-    public List<AgentId> nearby(GeoPoint origin, int maxRings, int maxCandidates) {
+    public List<DriverId> nearby(GeoPoint origin, int maxRings, int maxCandidates) {
         GeoCell.Index center = GeoCell.indexOf(origin);
-        Set<AgentId> collected = new LinkedHashSet<>();
+        Set<DriverId> collected = new LinkedHashSet<>();
         int perRingBudget = Math.max(1, maxCandidates * CANDIDATE_OVERSAMPLE_FACTOR);
 
         for (int ring = 0; ring <= maxRings; ring++) {
@@ -79,7 +79,7 @@ public class RedisGridSpatialIndex implements SpatialIndex {
                         .build();
                 try (Cursor<String> members = redis.opsForSet().scan(CELL_KEY_PREFIX + cellId, options)) {
                     while (members.hasNext() && collectedThisRing < perRingBudget) {
-                        if (collected.add(AgentId.of(UUID.fromString(members.next())))) {
+                        if (collected.add(DriverId.of(UUID.fromString(members.next())))) {
                             collectedThisRing++;
                         }
                     }

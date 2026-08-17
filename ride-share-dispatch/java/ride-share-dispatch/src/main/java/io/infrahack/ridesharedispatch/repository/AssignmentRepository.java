@@ -1,6 +1,6 @@
 package io.infrahack.ridesharedispatch.repository;
 
-import io.infrahack.ridesharedispatch.domain.AgentId;
+import io.infrahack.ridesharedispatch.domain.DriverId;
 import io.infrahack.ridesharedispatch.domain.Assignment;
 import io.infrahack.ridesharedispatch.domain.AssignmentId;
 import io.infrahack.ridesharedispatch.domain.AssignmentStatus;
@@ -33,7 +33,7 @@ public class AssignmentRepository {
             DispatchRequestId.of(rs.getObject("request_id", UUID.class)),
             OfferId.of(rs.getObject("offer_id", UUID.class)),
             RequesterId.of(rs.getObject("requester_id", UUID.class)),
-            AgentId.of(rs.getObject("agent_id", UUID.class)),
+            DriverId.of(rs.getObject("driver_id", UUID.class)),
             AssignmentStatus.valueOf(rs.getString("status")),
             rs.getLong("version"),
             rs.getObject("created_at", OffsetDateTime.class).toInstant(),
@@ -49,11 +49,11 @@ public class AssignmentRepository {
     public void insert(Assignment assignment) {
         jdbc.update("""
                         INSERT INTO assignments
-                            (assignment_id, request_id, offer_id, requester_id, agent_id, status, version, created_at)
+                            (assignment_id, request_id, offer_id, requester_id, driver_id, status, version, created_at)
                         VALUES (?, ?, ?, ?, ?, ?, ?, ?)
                         """,
                 assignment.id().value(), assignment.requestId().value(), assignment.offerId().value(),
-                assignment.requesterId().value(), assignment.agentId().value(), assignment.status().name(),
+                assignment.requesterId().value(), assignment.driverId().value(), assignment.status().name(),
                 assignment.version(), OffsetDateTime.ofInstant(assignment.createdAt(), ZoneOffset.UTC));
     }
 

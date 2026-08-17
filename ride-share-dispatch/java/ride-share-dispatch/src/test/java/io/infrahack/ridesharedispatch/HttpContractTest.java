@@ -18,6 +18,20 @@ class HttpContractTest extends AbstractIntegrationTest {
     private final HttpClient client = HttpClient.newHttpClient();
 
     @Test
+    void driverApiUsesRideShareVocabulary() throws Exception {
+        HttpRequest request = HttpRequest.newBuilder(uri("/drivers"))
+                .header("Content-Type", "application/json")
+                .POST(HttpRequest.BodyPublishers.ofString("""
+                        {"displayName":"Driver One","serviceType":"STANDARD"}
+                        """))
+                .build();
+
+        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        assertThat(response.statusCode()).isEqualTo(201);
+        assertThat(response.body()).contains("\"driverId\"");
+    }
+
+    @Test
     void validationErrorsUseTheStableEnvelope() throws Exception {
         String oversizedKey = "x".repeat(121);
         String body = """

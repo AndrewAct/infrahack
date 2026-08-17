@@ -1,6 +1,6 @@
 package io.infrahack.ridesharedispatch;
 
-import io.infrahack.ridesharedispatch.domain.AgentId;
+import io.infrahack.ridesharedispatch.domain.DriverId;
 import io.infrahack.ridesharedispatch.domain.GeoPoint;
 import io.infrahack.ridesharedispatch.service.SpatialIndex;
 import org.junit.jupiter.api.Test;
@@ -17,7 +17,7 @@ class SpatialIndexBoundTest extends AbstractIntegrationTest {
     @Test
     void hotCellReturnsOnlyTheConfiguredOversampleBudget() {
         GeoPoint point = new GeoPoint(37.7749, -122.4194);
-        IntStream.range(0, 200).forEach(i -> spatialIndex.upsert(AgentId.newId(), point));
+        IntStream.range(0, 200).forEach(i -> spatialIndex.upsert(DriverId.newId(), point));
 
         assertThat(spatialIndex.nearby(point, 0, 5)).hasSizeLessThanOrEqualTo(15);
     }

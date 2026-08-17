@@ -17,12 +17,12 @@ public record DispatchRequest(
         String serviceType,
         GeoPoint origin,
         GeoPoint destination,
-        Optional<AgentId> matchedAgentId,
+        Optional<DriverId> matchedDriverId,
         Instant createdAt,
         Instant updatedAt
 ) {
 
-    public DispatchRequest withStatus(DispatchRequestStatus newStatus, Optional<AgentId> matched, Instant now) {
+    public DispatchRequest withStatus(DispatchRequestStatus newStatus, Optional<DriverId> matched, Instant now) {
         if (!status.canTransitionTo(newStatus)) {
             throw new IllegalStateException(
                     "Illegal dispatch request transition %s -> %s".formatted(status, newStatus));

@@ -1,6 +1,6 @@
 package io.infrahack.ridesharedispatch.repository;
 
-import io.infrahack.ridesharedispatch.domain.AgentId;
+import io.infrahack.ridesharedispatch.domain.DriverId;
 import io.infrahack.ridesharedispatch.domain.DispatchRequest;
 import io.infrahack.ridesharedispatch.domain.DispatchRequestId;
 import io.infrahack.ridesharedispatch.domain.DispatchRequestStatus;
@@ -33,7 +33,7 @@ public class DispatchRequestRepository {
             rs.getString("service_type"),
             new GeoPoint(rs.getDouble("origin_lat"), rs.getDouble("origin_lng")),
             new GeoPoint(rs.getDouble("dest_lat"), rs.getDouble("dest_lng")),
-            Optional.ofNullable(rs.getObject("matched_agent_id", UUID.class)).map(AgentId::of),
+            Optional.ofNullable(rs.getObject("matched_driver_id", UUID.class)).map(DriverId::of),
             rs.getObject("created_at", OffsetDateTime.class).toInstant(),
             rs.getObject("updated_at", OffsetDateTime.class).toInstant());
 
@@ -79,13 +79,13 @@ public class DispatchRequestRepository {
     /** Conditional update: only succeeds from SEARCHING, so two concurrent offer-accepts
      *  for the same request cannot both win. */
     public boolean transitionFromSearching(DispatchRequestId id, DispatchRequestStatus newStatus,
-                                            Optional<AgentId> matchedAgentId) {
+                                            Optional<DriverId> matchedDriverId) {
         int rows = jdbc.update("""
                         UPDATE dispatch_requests
-                        SET status = ?, matched_agent_id = ?, updated_at = ?
+                        SET status = ?, matched_driver_id = ?, updated_at = ?
                         WHERE request_id = ? AND status = 'SEARCHING'
                         """,
-                newStatus.name(), matchedAgentId.map(AgentId::value).orElse(null),
+                newStatus.name(), matchedDriverId.map(DriverId::value).orElse(null),
                 OffsetDateTime.now(), id.value());
         return rows == 1;
     }

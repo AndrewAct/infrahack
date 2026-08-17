@@ -1,12 +1,12 @@
 package io.infrahack.ridesharedispatch;
 
-import io.infrahack.ridesharedispatch.domain.AgentId;
+import io.infrahack.ridesharedispatch.domain.DriverId;
 import io.infrahack.ridesharedispatch.domain.DispatchRequest;
 import io.infrahack.ridesharedispatch.domain.DispatchRequestId;
 import io.infrahack.ridesharedispatch.domain.DispatchRequestStatus;
 import io.infrahack.ridesharedispatch.domain.GeoPoint;
 import io.infrahack.ridesharedispatch.domain.RequesterId;
-import io.infrahack.ridesharedispatch.infrastructure.redis.AgentReservationStore;
+import io.infrahack.ridesharedispatch.infrastructure.redis.DriverReservationStore;
 import io.infrahack.ridesharedispatch.service.MatchingService;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
@@ -28,16 +28,16 @@ import java.util.stream.IntStream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class AgentReservationConcurrencyTest extends AbstractIntegrationTest {
+class DriverReservationConcurrencyTest extends AbstractIntegrationTest {
 
     private static final GeoPoint ORIGIN = new GeoPoint(37.7749, -122.4194);
 
-    @Autowired private AgentReservationStore reservationStore;
+    @Autowired private DriverReservationStore reservationStore;
     @Autowired private MatchingService matchingService;
 
     @RepeatedTest(5)
     void exactlyOneConcurrentDispatchRequestReservesTheOnlyDriver() throws Exception {
-        createAvailableAgentAt(ORIGIN);
+        createAvailableDriverAt(ORIGIN);
         int racerCount = 20;
         CountDownLatch startGate = new CountDownLatch(1);
         ExecutorService pool = Executors.newFixedThreadPool(racerCount);
@@ -59,16 +59,16 @@ class AgentReservationConcurrencyTest extends AbstractIntegrationTest {
 
     @Test
     void wrongTokenCannotReleaseTheWinningReservation() {
-        AgentId agentId = createAvailableAgentAt(ORIGIN);
+        DriverId driverId = createAvailableDriverAt(ORIGIN);
         UUID winner = UUID.randomUUID();
-        assertThat(reservationStore.tryReserveEligible(agentId, winner, Duration.ofSeconds(10),
+        assertThat(reservationStore.tryReserveEligible(driverId, winner, Duration.ofSeconds(10),
                 Instant.now(), Duration.ofSeconds(5), "STANDARD"))
-                .isEqualTo(AgentReservationStore.ReserveResult.ACQUIRED);
+                .isEqualTo(DriverReservationStore.ReserveResult.ACQUIRED);
 
-        assertThat(reservationStore.release(agentId, UUID.randomUUID())).isFalse();
-        assertThat(redisTemplate.opsForValue().get("reservation:" + agentId.value()))
+        assertThat(reservationStore.release(driverId, UUID.randomUUID())).isFalse();
+        assertThat(redisTemplate.opsForValue().get("reservation:" + driverId.value()))
                 .isEqualTo(winner.toString());
-        assertThat(reservationStore.release(agentId, winner)).isTrue();
+        assertThat(reservationStore.release(driverId, winner)).isTrue();
     }
 
     private static DispatchRequest request() {

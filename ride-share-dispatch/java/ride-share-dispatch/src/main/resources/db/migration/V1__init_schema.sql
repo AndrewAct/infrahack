@@ -6,10 +6,10 @@
 -- and be queryable with strong consistency. See docs/DESIGN.md "Storage responsibility".
 
 -- ============================================================================
--- agents: durable profile only. No lat/lng/status columns -- see module README.
+-- drivers: durable profile only. No lat/lng/status columns -- see module README.
 -- ============================================================================
-CREATE TABLE agents (
-    agent_id        UUID PRIMARY KEY,
+CREATE TABLE drivers (
+    driver_id        UUID PRIMARY KEY,
     display_name    VARCHAR(120) NOT NULL,
     service_type    VARCHAR(40)  NOT NULL,
     rating          NUMERIC(3, 2) NOT NULL DEFAULT 5.00,
@@ -34,7 +34,7 @@ CREATE TABLE dispatch_requests (
     origin_lng             DOUBLE PRECISION NOT NULL,
     dest_lat               DOUBLE PRECISION NOT NULL,
     dest_lng               DOUBLE PRECISION NOT NULL,
-    matched_agent_id       UUID,
+    matched_driver_id       UUID,
     matching_claimed_by    UUID,
     matching_claimed_until TIMESTAMPTZ,
     created_at             TIMESTAMPTZ  NOT NULL DEFAULT now(),
@@ -51,12 +51,12 @@ CREATE INDEX idx_dispatch_requests_requester_created
     ON dispatch_requests (requester_id, created_at DESC);
 
 -- ============================================================================
--- dispatch_offers: one offer per (request, candidate agent) attempt.
+-- dispatch_offers: one offer per (request, candidate driver) attempt.
 -- ============================================================================
 CREATE TABLE dispatch_offers (
     offer_id            UUID PRIMARY KEY,
     request_id          UUID NOT NULL REFERENCES dispatch_requests (request_id),
-    agent_id            UUID NOT NULL REFERENCES agents (agent_id),
+    driver_id            UUID NOT NULL REFERENCES drivers (driver_id),
     status              VARCHAR(20) NOT NULL DEFAULT 'PENDING',
     -- Must match the Redis reservation value at accept time. A stale accept (reservation
     -- already expired and possibly reissued to someone else) fails this comparison.
@@ -67,7 +67,7 @@ CREATE TABLE dispatch_offers (
 );
 
 CREATE INDEX idx_dispatch_offers_request ON dispatch_offers (request_id);
-CREATE INDEX idx_dispatch_offers_agent ON dispatch_offers (agent_id);
+CREATE INDEX idx_dispatch_offers_driver ON dispatch_offers (driver_id);
 CREATE UNIQUE INDEX uq_dispatch_offers_pending_request
     ON dispatch_offers (request_id) WHERE status = 'PENDING';
 
@@ -81,7 +81,7 @@ CREATE TABLE assignments (
     -- UNIQUE: one accepted offer produces at most one assignment (invariant #3).
     offer_id        UUID NOT NULL UNIQUE REFERENCES dispatch_offers (offer_id),
     requester_id    UUID NOT NULL,
-    agent_id        UUID NOT NULL REFERENCES agents (agent_id),
+    driver_id        UUID NOT NULL REFERENCES drivers (driver_id),
     status          VARCHAR(20) NOT NULL DEFAULT 'CREATED',
     version         BIGINT NOT NULL DEFAULT 0,
     created_at      TIMESTAMPTZ NOT NULL DEFAULT now(),
@@ -90,12 +90,12 @@ CREATE TABLE assignments (
 );
 
 CREATE INDEX idx_assignments_requester_created ON assignments (requester_id, created_at DESC);
-CREATE INDEX idx_assignments_agent_created ON assignments (agent_id, created_at DESC);
+CREATE INDEX idx_assignments_driver_created ON assignments (driver_id, created_at DESC);
 -- Redis is the fast ownership gate; this partial unique index is the durable final fence.
 -- Even if Redis state is lost or a lease expires at the worst possible moment, Postgres
--- still refuses two active assignments for the same agent.
-CREATE UNIQUE INDEX uq_assignments_active_agent
-    ON assignments (agent_id) WHERE status IN ('CREATED', 'IN_PROGRESS');
+-- still refuses two active assignments for the same driver.
+CREATE UNIQUE INDEX uq_assignments_active_driver
+    ON assignments (driver_id) WHERE status IN ('CREATED', 'IN_PROGRESS');
 
 -- ============================================================================
 -- payments: money is always integer cents, never floating point.

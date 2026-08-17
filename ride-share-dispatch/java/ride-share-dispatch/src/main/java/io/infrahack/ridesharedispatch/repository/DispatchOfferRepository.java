@@ -1,6 +1,6 @@
 package io.infrahack.ridesharedispatch.repository;
 
-import io.infrahack.ridesharedispatch.domain.AgentId;
+import io.infrahack.ridesharedispatch.domain.DriverId;
 import io.infrahack.ridesharedispatch.domain.DispatchOffer;
 import io.infrahack.ridesharedispatch.domain.DispatchRequestId;
 import io.infrahack.ridesharedispatch.domain.OfferId;
@@ -20,7 +20,7 @@ public class DispatchOfferRepository {
     private static final RowMapper<DispatchOffer> ROW_MAPPER = (rs, rowNum) -> new DispatchOffer(
             OfferId.of(rs.getObject("offer_id", UUID.class)),
             DispatchRequestId.of(rs.getObject("request_id", UUID.class)),
-            AgentId.of(rs.getObject("agent_id", UUID.class)),
+            DriverId.of(rs.getObject("driver_id", UUID.class)),
             OfferStatus.valueOf(rs.getString("status")),
             rs.getObject("reservation_token", UUID.class),
             rs.getObject("expires_at", OffsetDateTime.class).toInstant(),
@@ -36,11 +36,11 @@ public class DispatchOfferRepository {
     public void insert(DispatchOffer offer) {
         jdbc.update("""
                         INSERT INTO dispatch_offers
-                            (offer_id, request_id, agent_id, status, reservation_token, expires_at,
+                            (offer_id, request_id, driver_id, status, reservation_token, expires_at,
                              created_at, updated_at)
                         VALUES (?, ?, ?, ?, ?, ?, ?, ?)
                         """,
-                offer.id().value(), offer.requestId().value(), offer.agentId().value(),
+                offer.id().value(), offer.requestId().value(), offer.driverId().value(),
                 offer.status().name(), offer.reservationToken(),
                 OffsetDateTime.ofInstant(offer.expiresAt(), ZoneOffset.UTC),
                 OffsetDateTime.ofInstant(offer.createdAt(), ZoneOffset.UTC),

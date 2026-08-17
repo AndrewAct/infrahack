@@ -7,9 +7,10 @@ position and availability. The backend must find an eligible driver, hold that d
 briefly, turn an accepted offer into one durable assignment, and finish the ride without
 losing events or duplicating payment.
 
-The implementation keeps reusable domain names: a rider is a `Requester`, a driver is a
-`MobileAgent`, and a ride request is a `DispatchRequest`. The repository and module name
-use **ride-share dispatch** so the scenario is obvious before those abstractions matter.
+The implementation consistently calls the mobile service provider a `Driver`. It retains
+`Requester` and `DispatchRequest` for the rider and ride request because those names still
+describe their roles in the dispatch workflow without an ambiguous generic-provider
+abstraction. The repository and module name use **ride-share dispatch** throughout.
 
 This is a learning system, not a complete ride-share product. Its goal is the smallest
 production-shaped implementation in which concurrency, failure, and recovery decisions
@@ -64,7 +65,7 @@ batches into object storage and columnar files.
 
 ## Core invariants
 
-1. An agent has at most one live reservation key.
+1. A driver has at most one live reservation key.
 2. One `(requester_id, idempotency_key)` creates at most one dispatch request.
 3. One accepted offer creates at most one assignment, and one driver has at most one
    active durable assignment.
@@ -86,7 +87,7 @@ One deployable Spring Boot process contains explicit internal boundaries:
 ```text
  HTTP API
     |
-    +---- AgentService ----------> Redis driver snapshot + cell membership
+    +---- DriverService ----------> Redis driver snapshot + cell membership
     |
     +---- DispatchRequestService -> PostgreSQL request + outbox
     |          |
@@ -144,9 +145,9 @@ silently converted to `FAILED`.
 
 | Method | Endpoint | Meaning |
 |---|---|---|
-| POST | `/agents` | Register durable driver profile |
-| POST | `/agents/{agentId}/availability` | Go available/offline; occupied drivers cannot go available |
-| POST | `/agents/{agentId}/location` | Publish current position and sequence |
+| POST | `/drivers` | Register durable driver profile |
+| POST | `/drivers/{driverId}/availability` | Go available/offline; occupied drivers cannot go available |
+| POST | `/drivers/{driverId}/location` | Publish current position and sequence |
 | POST | `/dispatch-requests` | Create/replay a ride request and attempt matching |
 | GET | `/dispatch-requests/{requestId}` | Read request and latest offer |
 | POST | `/offers/{offerId}/accept` | Accept live offer and create assignment |
@@ -174,7 +175,7 @@ Important constraints and indexes:
 - a partial unique index on active assignments prevents two `CREATED`/`IN_PROGRESS`
   assignments for one driver even if Redis state is lost at an unfortunate time.
 - a partial unique pending-offer index prevents concurrent pending offers for one request.
-- requester and agent assignment-history indexes support time-ordered reads.
+- requester and driver assignment-history indexes support time-ordered reads.
 - partial due-payment and pending-outbox indexes serve worker scans.
 - `(event_id, consumer_name)` deduplicates each independent Kafka projection.
 - `(event_id, recipient_id, channel)` deduplicates notification deliveries.
@@ -432,7 +433,7 @@ consumer lag, Redis command latency, and Hikari pool saturation.
 ## Scaling at 10x and 100x
 
 At 10x, separate the hot location/matching deployment from durable lifecycle APIs;
-partition Kafka by agent/assignment identity; add Redis Cluster cell ownership; batch or
+partition Kafka by driver/assignment identity; add Redis Cluster cell ownership; batch or
 sample telemetry; horizontally scale leased outbox/payment workers; and use a real routing
 service for top-K ETA.
 

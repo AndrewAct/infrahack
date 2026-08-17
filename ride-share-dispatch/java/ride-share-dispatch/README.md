@@ -43,7 +43,7 @@ One Spring Boot process contains several explicit internal modules:
 ```text
 HTTP API
    |
-   +--> agent service --------> Redis live driver state + grid cells
+   +--> driver service --------> Redis live driver state + grid cells
    |
    +--> dispatch/matching ----> Redis reservation + PostgreSQL request/offer
    |
@@ -188,6 +188,12 @@ java -jar target/ride-share-dispatch.jar
 ```
 
 Flyway applies the schema automatically during startup. No manual SQL command is needed.
+This unreleased module corrected the original V1 vocabulary in place, so a local database
+created by the pre-refactor build has an obsolete Flyway checksum and table names. Reset
+that disposable environment once with `docker compose down -v` before starting the new
+build. A released system would instead add a V2 rename migration and preserve the
+immutable V1 history.
+
 For an edit/run development loop, this is equivalent:
 
 ```bash
@@ -231,11 +237,11 @@ outlive its ownership token.
 ### 1. Register a driver
 
 ```bash
-AGENT_JSON=$(curl -fsS -X POST http://localhost:8080/agents \
+DRIVER_JSON=$(curl -fsS -X POST http://localhost:8080/drivers \
   -H 'Content-Type: application/json' \
   -d '{"displayName":"Driver One","serviceType":"STANDARD"}')
-AGENT_ID=$(printf '%s' "$AGENT_JSON" | jq -r '.agentId')
-printf 'agent=%s\n' "$AGENT_ID"
+DRIVER_ID=$(printf '%s' "$DRIVER_JSON" | jq -r '.driverId')
+printf 'driver=%s\n' "$DRIVER_ID"
 ```
 
 Registration writes the durable profile to PostgreSQL. It does not put frequently
@@ -244,11 +250,11 @@ changing coordinates in that row.
 ### 2. Make the driver available and publish a fresh location
 
 ```bash
-curl -fsS -X POST "http://localhost:8080/agents/$AGENT_ID/availability" \
+curl -fsS -X POST "http://localhost:8080/drivers/$DRIVER_ID/availability" \
   -H 'Content-Type: application/json' \
   -d '{"available":true}'
 
-curl -fsS -X POST "http://localhost:8080/agents/$AGENT_ID/location" \
+curl -fsS -X POST "http://localhost:8080/drivers/$DRIVER_ID/location" \
   -H 'Content-Type: application/json' \
   -d '{
     "latitude": 37.0000,
@@ -358,9 +364,9 @@ reason to inspect backlog and logs—not to repeat the original ride command wit
 
 | Method | Path | Purpose |
 |---|---|---|
-| `POST` | `/agents` | create durable driver profile |
-| `POST` | `/agents/{agentId}/availability` | move hot state between offline and available when legal |
-| `POST` | `/agents/{agentId}/location` | accept a monotonically ordered live location |
+| `POST` | `/drivers` | create durable driver profile |
+| `POST` | `/drivers/{driverId}/availability` | move hot state between offline and available when legal |
+| `POST` | `/drivers/{driverId}/location` | accept a monotonically ordered live location |
 | `POST` | `/dispatch-requests` | idempotently create and attempt to match a ride |
 | `GET` | `/dispatch-requests/{requestId}` | read ride request and latest offer |
 | `POST` | `/offers/{offerId}/accept` | transfer reservation to assignment ownership |
@@ -388,7 +394,7 @@ Testcontainers, replace the application connection properties dynamically, and r
 database and Redis state before each test. Docker Compose does not need to be running for
 the tests, but a compatible Docker daemon must be reachable.
 
-The last verified suite result was **36 tests, 0 failures**. It covers:
+The last verified suite result was **37 tests, 0 failures**. It covers:
 
 - concurrent requests racing for one driver;
 - idempotent request replay and conflicting key reuse;
@@ -401,14 +407,14 @@ The last verified suite result was **36 tests, 0 failures**. It covers:
 - bounded search behavior in a hot spatial cell;
 - HTTP validation and health information exposure.
 
-### Current Testcontainers limitation
+### Docker and Testcontainers troubleshooting
 
-The POM currently pins Testcontainers `1.21.3`. A plain `mvn clean install` succeeds only
-when Testcontainers can discover a compatible Docker daemon. Some recent Docker Engine
-setups expose two independent failure modes:
+The POM pins Testcontainers `1.21.4`, selected because its release fixes compatibility
+with recent Docker Engine changes. A plain `mvn clean install` still requires
+Testcontainers to discover a running Docker daemon.
 
-1. no reachable socket, often shown as missing `/var/run/docker.sock`;
-2. client/daemon API incompatibility after discovery.
+A missing or inaccessible socket is often shown as `/var/run/docker.sock` not found even
+when Docker Desktop uses a context-specific socket elsewhere.
 
 The Spring messages about not finding nested `@Configuration` classes are informational;
 Spring immediately finds `RideShareDispatchApplication`. The causal failure is later in
@@ -428,10 +434,9 @@ On a non-default macOS context, this may be needed in the Maven shell:
 export DOCKER_HOST="$(docker context inspect --format '{{.Endpoints.docker.Host}}')"
 ```
 
-An environment-specific Docker API override may diagnose compatibility, but it is not the
-intended permanent fix. The repository should upgrade the Testcontainers pin to a release
-compatible with the active Docker Engine and verify the unmodified Maven command. Until
-that is done, use this only to verify compilation and packaging without executing tests:
+The earlier `1.21.3` pin required an API-version workaround with Docker Engine 29. That
+workaround is no longer part of the normal command. If Docker itself is intentionally
+unavailable, use this only to verify compilation and packaging without executing tests:
 
 ```bash
 mvn -DskipTests clean install
@@ -530,7 +535,7 @@ k6 run load-tests/dispatch-smoke.js
 Example explicit workload:
 
 ```bash
-AGENT_COUNT=200 \
+DRIVER_COUNT=200 \
 LOCATION_VUS=100 \
 DISPATCH_RATE=20 \
 DURATION=10m \
@@ -608,8 +613,8 @@ use `down` when you intend to preserve reusable local state.
 | Problem | Mechanism | Starting point |
 |---|---|---|
 | duplicate HTTP command | DB unique key + request fingerprint | [`DispatchRequestService`](src/main/java/io/infrahack/ridesharedispatch/service/DispatchRequestService.java) |
-| two rides compete for one driver | eligibility-checking Redis Lua + `SET NX PX` | [`AgentReservationStore`](src/main/java/io/infrahack/ridesharedispatch/infrastructure/redis/AgentReservationStore.java) |
-| out-of-order coordinates | sequence-checked Redis snapshot | [`AgentOperationalStateStore`](src/main/java/io/infrahack/ridesharedispatch/infrastructure/redis/AgentOperationalStateStore.java) |
+| two rides compete for one driver | eligibility-checking Redis Lua + `SET NX PX` | [`DriverReservationStore`](src/main/java/io/infrahack/ridesharedispatch/infrastructure/redis/DriverReservationStore.java) |
+| out-of-order coordinates | sequence-checked Redis snapshot | [`DriverOperationalStateStore`](src/main/java/io/infrahack/ridesharedispatch/infrastructure/redis/DriverOperationalStateStore.java) |
 | stale offer acceptance | exact reservation token + atomic occupied transition | [`OfferService`](src/main/java/io/infrahack/ridesharedispatch/service/OfferService.java) |
 | concurrent durable transition | OCC version predicate | [`AssignmentService`](src/main/java/io/infrahack/ridesharedispatch/service/AssignmentService.java) |
 | DB commit / Kafka dual write | transactional outbox + expiring publisher claim | [`OutboxPublisher`](src/main/java/io/infrahack/ridesharedispatch/infrastructure/kafka/OutboxPublisher.java) |

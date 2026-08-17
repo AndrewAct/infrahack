@@ -1,7 +1,7 @@
 // k6 smoke/load test for ride-share-dispatch.
 //
 // Models the two traffic shapes described in docs/DESIGN.md "Traffic estimation":
-//   1. Location pings -- high frequency, one agent phoning home every few seconds.
+//   1. Location pings -- high frequency, one driver phoning home every few seconds.
 //   2. Dispatch requests -- much lower frequency, one requester creating a trip and
 //      then driving it through offer -> assignment -> completion.
 //
@@ -25,7 +25,7 @@ const BASE_URL = __ENV.BASE_URL || 'http://localhost:8080';
 const LAT_MIN = 37.74, LAT_MAX = 37.79;
 const LNG_MIN = -122.44, LNG_MAX = -122.39;
 
-const AGENT_COUNT = Number(__ENV.AGENT_COUNT || 20);
+const DRIVER_COUNT = Number(__ENV.DRIVER_COUNT || 20);
 
 // Custom metrics beyond k6's built-in http_req_duration, so the DESIGN.md matching-path
 // claims ("first success wins, losers try next candidate") are actually measurable here.
@@ -36,7 +36,7 @@ const matchLatency = new Trend('dispatch_match_latency_ms');
 
 export const options = {
     scenarios: {
-        // High-frequency hot path: every VU is one agent pinging its location.
+        // High-frequency hot path: every VU is one driver pinging its location.
         location_pings: {
             executor: 'constant-vus',
             exec: 'locationPing',
@@ -73,46 +73,46 @@ function randomIntBetween(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-// setup() runs once, in a single VU, before any scenario starts. Registering agents here
+// setup() runs once, in a single VU, before any scenario starts. Registering drivers here
 // (instead of inside a scenario) means their durable Postgres rows exist exactly once no
-// matter how many VUs later phone in their locations, and the returned agentIds are
+// matter how many VUs later phone in their locations, and the returned driverIds are
 // shared, read-only, across every VU via k6's setup-data mechanism.
 export function setup() {
-    const agentIds = [];
-    for (let i = 0; i < AGENT_COUNT; i++) {
+    const driverIds = [];
+    for (let i = 0; i < DRIVER_COUNT; i++) {
         const res = http.post(
-            `${BASE_URL}/agents`,
-            JSON.stringify({ displayName: `LoadTestAgent-${i}`, serviceType: 'STANDARD' }),
+            `${BASE_URL}/drivers`,
+            JSON.stringify({ displayName: `LoadTestDriver-${i}`, serviceType: 'STANDARD' }),
             { headers: { 'Content-Type': 'application/json' } },
         );
-        check(res, { 'agent registered': (r) => r.status === 201 });
-        const agentId = res.json('agentId');
+        check(res, { 'driver registered': (r) => r.status === 201 });
+        const driverId = res.json('driverId');
 
-        http.post(`${BASE_URL}/agents/${agentId}/availability`,
+        http.post(`${BASE_URL}/drivers/${driverId}/availability`,
             JSON.stringify({ available: true }),
             { headers: { 'Content-Type': 'application/json' } });
 
         const start = randomPoint();
-        http.post(`${BASE_URL}/agents/${agentId}/location`,
+        http.post(`${BASE_URL}/drivers/${driverId}/location`,
             JSON.stringify({ latitude: start.lat, longitude: start.lng, sequenceNumber: 1 }),
             { headers: { 'Content-Type': 'application/json' } });
 
-        agentIds.push(agentId);
+        driverIds.push(driverId);
     }
-    return { agentIds };
+    return { driverIds };
 }
 
-// One VU = one agent's device, sending a strictly increasing sequence number forever.
-// __VU is stable for the lifetime of a VU, so using it to pick an agent and seed the
+// One VU = one driver's device, sending a strictly increasing sequence number forever.
+// __VU is stable for the lifetime of a VU, so using it to pick a driver and seed the
 // sequence counter keeps updates from one simulated device monotonic, matching the
-// invariant AgentOperationalStateStore enforces server-side.
+// invariant DriverOperationalStateStore enforces server-side.
 export function locationPing(data) {
-    const agentId = data.agentIds[__VU % data.agentIds.length];
+    const driverId = data.driverIds[__VU % data.driverIds.length];
     // setup() used sequence 1. Start scenario updates at 2 so the first real ping is new.
     const seq = __ITER + 2;
     const point = randomPoint();
 
-    const res = http.post(`${BASE_URL}/agents/${agentId}/location`,
+    const res = http.post(`${BASE_URL}/drivers/${driverId}/location`,
         JSON.stringify({ latitude: point.lat, longitude: point.lng, sequenceNumber: seq }),
         { headers: { 'Content-Type': 'application/json' } });
 
@@ -153,7 +153,7 @@ export function dispatchTrip() {
         replayRes.status === 200 && replayRes.json('requestId') === createRes.json('requestId'));
 
     if (!offer) {
-        return; // No agent was available/matchable -- expected under high dispatch_rate / low AGENT_COUNT.
+        return; // No driver was available/matchable -- expected under high dispatch_rate / low DRIVER_COUNT.
     }
 
     const acceptRes = http.post(`${BASE_URL}/offers/${offer.offerId}/accept`, null,

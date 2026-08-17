@@ -15,7 +15,7 @@ public record Assignment(
         DispatchRequestId requestId,
         OfferId offerId,
         RequesterId requesterId,
-        AgentId agentId,
+        DriverId driverId,
         AssignmentStatus status,
         long version,
         Instant createdAt,
@@ -29,7 +29,7 @@ public record Assignment(
                     "Illegal assignment transition %s -> %s".formatted(status, newStatus));
         }
         return new Assignment(
-                id, requestId, offerId, requesterId, agentId, newStatus, version + 1,
+                id, requestId, offerId, requesterId, driverId, newStatus, version + 1,
                 createdAt,
                 newStatus == AssignmentStatus.IN_PROGRESS ? Optional.of(now) : startedAt,
                 newStatus == AssignmentStatus.COMPLETED ? Optional.of(now) : completedAt);

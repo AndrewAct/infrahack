@@ -59,9 +59,9 @@ that make the project readable and runnable:
 - simulated notification and payment adapters;
 - no authentication, UI, real maps, surge pricing, or multi-region deployment.
 
-The generic internal terms `Requester`, `MobileAgent`, and `DispatchRequest` remain useful
-architectural vocabulary. The module name and README translate them into the concrete
-ride-share story: rider, driver, and ride request.
+`Driver` is now the consistent name for the mobile service provider. `Requester` and
+`DispatchRequest` remain useful workflow terms for the rider and ride request without
+forcing readers to translate an ambiguous abstraction throughout the code.
 
 ## Architecture after the refactor
 
@@ -108,7 +108,7 @@ or synchronously writing every coordinate into a durable profile row.
 
 | Area | Earlier weakness | Why it mattered | Current design |
 |---|---|---|---|
-| Project identity | `realtime-geo-dispatch`, then `nearby-agent-dispatch`, described an implementation mechanism | A reader could not tell which user problem the system solved | `ride-share-dispatch` names the scenario; generic terms are translated at the boundary |
+| Project identity | `realtime-geo-dispatch` and an intermediate generic rename described implementation mechanisms | A reader could not tell which user problem the system solved | `ride-share-dispatch` names the scenario and `Driver` is used throughout the implementation |
 | Reservation | Eligibility read and `SET NX` were separate | State could change between check and reservation | One Lua script validates status, assignment, service type, account status, freshness, then executes `SET NX PX` |
 | Offer acceptance | Read reservation, then update other state | Two accepts or an expired/reissued reservation could race | Lua consumes the exact token and moves the driver to `OCCUPIED`; DB uniqueness fences durable ownership |
 | Availability | A driver could be made available while occupied | The same driver could re-enter matching | Availability transition rejects `OCCUPIED` or an active assignment; completion releases only its own assignment |
@@ -169,7 +169,7 @@ PostgreSQL then commits the offer, matched request, and assignment. The partial 
 index
 
 ```sql
-UNIQUE (agent_id) WHERE status IN ('CREATED', 'IN_PROGRESS')
+UNIQUE (driver_id) WHERE status IN ('CREATED', 'IN_PROGRESS')
 ```
 
 is the durable backstop if Redis loses state or two cross-store paths interleave badly.
@@ -348,9 +348,9 @@ capacity numbers belong only in [`BENCHMARK.md`](BENCHMARK.md) after a repeatabl
 | Invariant or claim | Implementation boundary | Test evidence |
 |---|---|---|
 | One logical command creates at most one request | DB unique key + fingerprint | `DispatchRequestIdempotencyTest` |
-| One reservation winner for one driver | Redis Lua `SET NX PX` | `AgentReservationConcurrencyTest` |
-| Wrong owner cannot release a reservation | token-checked Lua delete | `AgentReservationConcurrencyTest`, `OfferServiceTest` |
-| Occupied driver cannot re-enter matching | state transition checks + active assignment | `AgentOwnershipTest` |
+| One reservation winner for one driver | Redis Lua `SET NX PX` | `DriverReservationConcurrencyTest` |
+| Wrong owner cannot release a reservation | token-checked Lua delete | `DriverReservationConcurrencyTest`, `OfferServiceTest` |
+| Occupied driver cannot re-enter matching | state transition checks + active assignment | `DriverOwnershipTest` |
 | Older location cannot overwrite newer state | sequence-checked Redis update | `LocationOrderingTest` |
 | Stale/wrong-service driver cannot commit a match | final reservation/accept validation | `MatchingServiceTest`, `OfferServiceTest` |
 | One offer creates at most one assignment | deterministic ID + unique `offer_id` | `OfferServiceTest` |
@@ -362,11 +362,16 @@ capacity numbers belong only in [`BENCHMARK.md`](BENCHMARK.md) after a repeatabl
 | Search work is bounded in a hot cell | incremental scan + oversample cap | `SpatialIndexBoundTest` |
 | Expired worker cannot release a new lease | owner-token matching claim | `DispatchRecoveryTest` |
 
-The suite was last run successfully as **36 tests with 0 failures** against real
+The suite was last run successfully as **37 tests with 0 failures** against real
 PostgreSQL, Redis, and Kafka containers. A separate end-to-end run exercised driver
 creation, location, idempotent request replay, offer acceptance, assignment start and
 completion, outbox publication, notification, and payment. This is correctness evidence,
 not a throughput benchmark.
+
+The verification pass also exposed a build-tooling problem rather than an application
+failure: Testcontainers `1.21.3` negotiated an obsolete Docker API against Docker Engine
+29. A temporary API flag proved the diagnosis; the repository then upgraded to `1.21.4`,
+the compatible patch release, and removed that workaround from the normal build path.
 
 ## What remains intentionally incomplete
 
@@ -379,15 +384,7 @@ include:
 - no cancellation/refund/dispute workflow;
 - no CDC-based outbox, dead-letter operations UI, or automated reconciliation console;
 - no multi-region ownership, Redis failover design, or hot-cell sub-sharding;
-- no measured benchmark for the refactored build;
-- Testcontainers `1.21.3` has a local compatibility/discovery issue with some recent
-  Docker setups, so a plain `mvn clean install` is not yet environment-independent.
-
-That last point is a build reproducibility gap, not an application invariant failure.
-The immediate diagnosis is to separate “Docker is not discoverable” from “the Docker API
-version is incompatible.” The likely repository fix is upgrading to a compatible
-Testcontainers release and then simplifying the README workaround; it has not been
-applied in this documentation-only change.
+- no measured benchmark for the refactored build.
 
 ## Why the current version is better
 

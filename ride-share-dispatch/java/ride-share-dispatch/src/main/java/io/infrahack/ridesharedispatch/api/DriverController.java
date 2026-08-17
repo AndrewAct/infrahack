@@ -1,10 +1,10 @@
 package io.infrahack.ridesharedispatch.api;
 
-import io.infrahack.ridesharedispatch.domain.Agent;
-import io.infrahack.ridesharedispatch.domain.AgentId;
+import io.infrahack.ridesharedispatch.domain.Driver;
+import io.infrahack.ridesharedispatch.domain.DriverId;
 import io.infrahack.ridesharedispatch.domain.GeoPoint;
-import io.infrahack.ridesharedispatch.infrastructure.redis.AgentOperationalStateStore;
-import io.infrahack.ridesharedispatch.service.AgentService;
+import io.infrahack.ridesharedispatch.infrastructure.redis.DriverOperationalStateStore;
+import io.infrahack.ridesharedispatch.service.DriverService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -24,22 +24,22 @@ import java.time.Instant;
 import java.util.UUID;
 
 /**
- * Agent registration (durable, rare) and hot pings (availability + location, frequent).
+ * Driver registration (durable, rare) and hot pings (availability + location, frequent).
  * No authentication -- see module README "Out of scope".
  */
 @RestController
-@RequestMapping("/agents")
-public class AgentController {
+@RequestMapping("/drivers")
+public class DriverController {
 
-    public record RegisterAgentRequest(@NotBlank @Size(max = 120) String displayName,
+    public record RegisterDriverRequest(@NotBlank @Size(max = 120) String displayName,
                                        @NotBlank @Size(max = 40) String serviceType) {
     }
 
-    public record AgentResponse(UUID agentId, String displayName, String serviceType, double rating,
+    public record DriverResponse(UUID driverId, String displayName, String serviceType, double rating,
                                  String accountStatus, Instant createdAt) {
-        static AgentResponse from(Agent agent) {
-            return new AgentResponse(agent.id().value(), agent.displayName(), agent.serviceType(),
-                    agent.rating(), agent.accountStatus().name(), agent.createdAt());
+        static DriverResponse from(Driver driver) {
+            return new DriverResponse(driver.id().value(), driver.displayName(), driver.serviceType(),
+                    driver.rating(), driver.accountStatus().name(), driver.createdAt());
         }
     }
 
@@ -56,30 +56,30 @@ public class AgentController {
     public record LocationUpdateResponse(String result) {
     }
 
-    private final AgentService agentService;
+    private final DriverService driverService;
 
-    public AgentController(AgentService agentService) {
-        this.agentService = agentService;
+    public DriverController(DriverService driverService) {
+        this.driverService = driverService;
     }
 
     @PostMapping
-    public ResponseEntity<AgentResponse> register(@Valid @RequestBody RegisterAgentRequest request) {
-        Agent agent = agentService.register(request.displayName(), request.serviceType());
-        return ResponseEntity.status(HttpStatus.CREATED).body(AgentResponse.from(agent));
+    public ResponseEntity<DriverResponse> register(@Valid @RequestBody RegisterDriverRequest request) {
+        Driver driver = driverService.register(request.displayName(), request.serviceType());
+        return ResponseEntity.status(HttpStatus.CREATED).body(DriverResponse.from(driver));
     }
 
-    @PostMapping("/{agentId}/availability")
-    public ResponseEntity<Void> setAvailability(@PathVariable UUID agentId,
+    @PostMapping("/{driverId}/availability")
+    public ResponseEntity<Void> setAvailability(@PathVariable UUID driverId,
                                                 @Valid @RequestBody AvailabilityRequest request) {
-        agentService.setAvailability(AgentId.of(agentId), request.available());
+        driverService.setAvailability(DriverId.of(driverId), request.available());
         return ResponseEntity.noContent().build();
     }
 
-    @PostMapping("/{agentId}/location")
-    public ResponseEntity<LocationUpdateResponse> updateLocation(@PathVariable UUID agentId,
+    @PostMapping("/{driverId}/location")
+    public ResponseEntity<LocationUpdateResponse> updateLocation(@PathVariable UUID driverId,
                                                                    @Valid @RequestBody LocationUpdateRequest request) {
-        AgentOperationalStateStore.LocationUpdateResult result = agentService.recordLocation(
-                AgentId.of(agentId), new GeoPoint(request.latitude(), request.longitude()),
+        DriverOperationalStateStore.LocationUpdateResult result = driverService.recordLocation(
+                DriverId.of(driverId), new GeoPoint(request.latitude(), request.longitude()),
                 request.sequenceNumber(), request.clientTimestamp() == null ? Instant.now() : request.clientTimestamp());
         return ResponseEntity.ok(new LocationUpdateResponse(result.name()));
     }

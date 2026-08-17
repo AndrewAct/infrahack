@@ -25,7 +25,7 @@ class DispatchRecoveryTest extends AbstractIntegrationTest {
 
         var first = service.createOrReplay(requester, "recoverable-command", command);
         assertThat(first.offer()).isEmpty();
-        createAvailableAgentAt(origin);
+        createAvailableDriverAt(origin);
 
         var replay = service.createOrReplay(requester, "recoverable-command", command);
         assertThat(replay.wasReplay()).isTrue();

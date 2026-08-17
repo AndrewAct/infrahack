@@ -42,7 +42,7 @@ class KafkaEventFlowTest extends AbstractIntegrationTest {
 
     @Test
     void completingAnAssignmentEventuallyChargesPaymentAndDeliversOneNotification() {
-        createAvailableAgentAt(new GeoPoint(37.7750, -122.4195));
+        createAvailableDriverAt(new GeoPoint(37.7750, -122.4195));
         DispatchRequestService.CreateCommand command = new DispatchRequestService.CreateCommand(
                 "STANDARD", new GeoPoint(37.7749, -122.4194), new GeoPoint(37.7849, -122.4094));
         DispatchRequestService.CreateResult result = dispatchRequestService.createOrReplay(

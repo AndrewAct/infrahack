@@ -25,7 +25,7 @@ class ConsumerAtomicityTest extends AbstractIntegrationTest {
 
     @Test
     void failedBusinessPreparationRollsBackTheProcessedMarker() throws Exception {
-        createAvailableAgentAt(new GeoPoint(37.7749, -122.4194));
+        createAvailableDriverAt(new GeoPoint(37.7749, -122.4194));
         var result = dispatchRequestService.createOrReplay(RequesterId.newId(), "consumer-atomicity",
                 new DispatchRequestService.CreateCommand("STANDARD",
                         new GeoPoint(37.7749, -122.4194), new GeoPoint(37.78, -122.41)));

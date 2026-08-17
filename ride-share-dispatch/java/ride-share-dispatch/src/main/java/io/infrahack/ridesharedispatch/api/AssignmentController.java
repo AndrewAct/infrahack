@@ -17,12 +17,12 @@ import java.util.UUID;
 @RequestMapping("/assignments")
 public class AssignmentController {
 
-    public record AssignmentResponse(UUID assignmentId, UUID requestId, UUID requesterId, UUID agentId,
+    public record AssignmentResponse(UUID assignmentId, UUID requestId, UUID requesterId, UUID driverId,
                                       String status, long version, Instant createdAt,
                                       Instant startedAt, Instant completedAt) {
         static AssignmentResponse from(Assignment a) {
             return new AssignmentResponse(a.id().value(), a.requestId().value(), a.requesterId().value(),
-                    a.agentId().value(), a.status().name(), a.version(), a.createdAt(),
+                    a.driverId().value(), a.status().name(), a.version(), a.createdAt(),
                     a.startedAt().orElse(null), a.completedAt().orElse(null));
         }
     }

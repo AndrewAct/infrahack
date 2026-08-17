@@ -1,7 +1,7 @@
 package io.infrahack.ridesharedispatch.service;
 
 import io.infrahack.ridesharedispatch.config.DispatchProperties;
-import io.infrahack.ridesharedispatch.domain.AgentId;
+import io.infrahack.ridesharedispatch.domain.DriverId;
 import io.infrahack.ridesharedispatch.domain.DispatchOffer;
 import io.infrahack.ridesharedispatch.domain.DispatchRequest;
 import io.infrahack.ridesharedispatch.domain.DispatchRequestId;
@@ -13,7 +13,7 @@ import io.infrahack.ridesharedispatch.domain.RequesterId;
 import io.infrahack.ridesharedispatch.domain.exception.IdempotencyConflictException;
 import io.infrahack.ridesharedispatch.domain.exception.NotFoundException;
 import io.infrahack.ridesharedispatch.observability.DispatchMetrics;
-import io.infrahack.ridesharedispatch.infrastructure.redis.AgentReservationStore;
+import io.infrahack.ridesharedispatch.infrastructure.redis.DriverReservationStore;
 import io.infrahack.ridesharedispatch.repository.DispatchOfferRepository;
 import io.infrahack.ridesharedispatch.repository.DispatchRequestRepository;
 import io.infrahack.ridesharedispatch.repository.OutboxRepository;
@@ -57,7 +57,7 @@ public class DispatchRequestService {
     private final MatchingService matchingService;
     private final DispatchProperties properties;
     private final DispatchMetrics metrics;
-    private final AgentReservationStore reservationStore;
+    private final DriverReservationStore reservationStore;
     private final TransactionTemplate transactionTemplate;
 
     public DispatchRequestService(DispatchRequestRepository requestRepository,
@@ -66,7 +66,7 @@ public class DispatchRequestService {
                                    MatchingService matchingService,
                                    DispatchProperties properties,
                                    DispatchMetrics metrics,
-                                   AgentReservationStore reservationStore,
+                                   DriverReservationStore reservationStore,
                                    PlatformTransactionManager transactionManager) {
         this.requestRepository = requestRepository;
         this.offerRepository = offerRepository;
@@ -82,7 +82,7 @@ public class DispatchRequestService {
      * {@code Idempotency-Key} + requester is the logical command identity. A retried
      * POST with the same key and the same payload returns the original DispatchRequest;
      * the same key with a different payload is a caller error (409), never a silent
-     * merge. This is API idempotency, distinct from the agent-reservation concurrency
+     * merge. This is API idempotency, distinct from the driver-reservation concurrency
      * control performed a few lines down -- see docs/DESIGN.md "Idempotency vs
      * concurrency control".
      */
@@ -125,7 +125,7 @@ public class DispatchRequestService {
         if (livePending.isPresent()) return livePending;
         latest.filter(offer -> offer.status() == OfferStatus.PENDING).ifPresent(expired -> {
             offerRepository.transitionFromPending(expired.id(), OfferStatus.EXPIRED);
-            reservationStore.release(expired.agentId(), expired.reservationToken());
+            reservationStore.release(expired.driverId(), expired.reservationToken());
             metrics.reservationReleased();
         });
 
@@ -140,9 +140,9 @@ public class DispatchRequestService {
             if (outcome.isEmpty()) return Optional.empty();
             MatchingService.MatchOutcome match = outcome.orElseThrow();
             try {
-                return Optional.of(createOffer(request, match.agentId(), match.reservationToken()));
+                return Optional.of(createOffer(request, match.driverId(), match.reservationToken()));
             } catch (RuntimeException databaseFailure) {
-                reservationStore.release(match.agentId(), match.reservationToken());
+                reservationStore.release(match.driverId(), match.reservationToken());
                 metrics.reservationReleased();
                 throw databaseFailure;
             }
@@ -164,16 +164,16 @@ public class DispatchRequestService {
         }));
     }
 
-    private DispatchOffer createOffer(DispatchRequest request, AgentId agentId, UUID reservationToken) {
+    private DispatchOffer createOffer(DispatchRequest request, DriverId driverId, UUID reservationToken) {
         return transactionTemplate.execute(status -> {
             Instant now = Instant.now();
             DispatchOffer offer = new DispatchOffer(
-                    OfferId.newId(), request.id(), agentId, OfferStatus.PENDING, reservationToken,
+                    OfferId.newId(), request.id(), driverId, OfferStatus.PENDING, reservationToken,
                     now.plusSeconds(properties.offerTtlSeconds()), now, now);
             offerRepository.insert(offer);
-            outboxRepository.append("AgentReserved", agentId.value(), Map.of(
+            outboxRepository.append("DriverReserved", driverId.value(), Map.of(
                     "requestId", request.id().value().toString(),
-                    "agentId", agentId.value().toString(),
+                    "driverId", driverId.value().toString(),
                     "offerId", offer.id().value().toString()));
             return offer;
         });

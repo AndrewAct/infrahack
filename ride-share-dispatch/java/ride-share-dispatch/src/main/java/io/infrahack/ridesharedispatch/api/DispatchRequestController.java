@@ -46,21 +46,21 @@ public class DispatchRequestController {
             @DecimalMin("-180.0") @DecimalMax("180.0") double destLng) {
     }
 
-    public record OfferSummary(UUID offerId, UUID agentId, String status, Instant expiresAt) {
+    public record OfferSummary(UUID offerId, UUID driverId, String status, Instant expiresAt) {
         static OfferSummary from(DispatchOffer offer) {
-            return new OfferSummary(offer.id().value(), offer.agentId().value(), offer.status().name(), offer.expiresAt());
+            return new OfferSummary(offer.id().value(), offer.driverId().value(), offer.status().name(), offer.expiresAt());
         }
     }
 
     public record DispatchRequestResponse(UUID requestId, UUID requesterId, String status, String serviceType,
                                            double originLat, double originLng, double destLat, double destLng,
-                                           UUID matchedAgentId, OfferSummary offer, Instant createdAt) {
+                                           UUID matchedDriverId, OfferSummary offer, Instant createdAt) {
         static DispatchRequestResponse from(DispatchRequest request, Optional<DispatchOffer> offer) {
             return new DispatchRequestResponse(
                     request.id().value(), request.requesterId().value(), request.status().name(), request.serviceType(),
                     request.origin().latitude(), request.origin().longitude(),
                     request.destination().latitude(), request.destination().longitude(),
-                    request.matchedAgentId().map(io.infrahack.ridesharedispatch.domain.AgentId::value).orElse(null),
+                    request.matchedDriverId().map(io.infrahack.ridesharedispatch.domain.DriverId::value).orElse(null),
                     offer.map(OfferSummary::from).orElse(null),
                     request.createdAt());
         }

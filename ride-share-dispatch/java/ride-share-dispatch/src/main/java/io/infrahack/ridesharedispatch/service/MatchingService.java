@@ -1,12 +1,12 @@
 package io.infrahack.ridesharedispatch.service;
 
 import io.infrahack.ridesharedispatch.config.DispatchProperties;
-import io.infrahack.ridesharedispatch.domain.AgentId;
-import io.infrahack.ridesharedispatch.domain.AgentOperationalState;
+import io.infrahack.ridesharedispatch.domain.DriverId;
+import io.infrahack.ridesharedispatch.domain.DriverOperationalState;
 import io.infrahack.ridesharedispatch.domain.DispatchRequest;
 import io.infrahack.ridesharedispatch.domain.GeoPoint;
-import io.infrahack.ridesharedispatch.infrastructure.redis.AgentReservationStore;
-import io.infrahack.ridesharedispatch.infrastructure.redis.AgentOperationalStateStore;
+import io.infrahack.ridesharedispatch.infrastructure.redis.DriverReservationStore;
+import io.infrahack.ridesharedispatch.infrastructure.redis.DriverOperationalStateStore;
 import io.infrahack.ridesharedispatch.observability.DispatchMetrics;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,14 +39,14 @@ public class MatchingService {
     private static final Logger log = LoggerFactory.getLogger(MatchingService.class);
 
     private final SpatialIndex spatialIndex;
-    private final AgentOperationalStateStore stateStore;
-    private final AgentReservationStore reservationStore;
+    private final DriverOperationalStateStore stateStore;
+    private final DriverReservationStore reservationStore;
     private final EtaEstimator etaEstimator;
     private final DispatchProperties properties;
     private final DispatchMetrics metrics;
 
-    public MatchingService(SpatialIndex spatialIndex, AgentOperationalStateStore stateStore,
-                            AgentReservationStore reservationStore, EtaEstimator etaEstimator,
+    public MatchingService(SpatialIndex spatialIndex, DriverOperationalStateStore stateStore,
+                            DriverReservationStore reservationStore, EtaEstimator etaEstimator,
                             DispatchProperties properties, DispatchMetrics metrics) {
         this.spatialIndex = spatialIndex;
         this.stateStore = stateStore;
@@ -56,10 +56,10 @@ public class MatchingService {
         this.metrics = metrics;
     }
 
-    public record MatchOutcome(AgentId agentId, UUID reservationToken) {
+    public record MatchOutcome(DriverId driverId, UUID reservationToken) {
     }
 
-    private record RankedCandidate(AgentId agentId, GeoPoint location, double etaMinutes) {
+    private record RankedCandidate(DriverId driverId, GeoPoint location, double etaMinutes) {
     }
 
     public Optional<MatchOutcome> attemptMatch(DispatchRequest request) {
@@ -72,7 +72,7 @@ public class MatchingService {
         Duration freshnessWindow = Duration.ofSeconds(properties.locationFreshnessSeconds());
         long deadlineNanos = System.nanoTime() + TimeUnit.MILLISECONDS.toNanos(properties.matchingTimeoutMs());
 
-        List<AgentId> candidateIds = spatialIndex.nearby(
+        List<DriverId> candidateIds = spatialIndex.nearby(
                 request.origin(), properties.maxCellSearchRings(), properties.maxCandidates());
         metrics.matchingCandidatesExamined().increment(candidateIds.size());
 
@@ -89,18 +89,18 @@ public class MatchingService {
             }
             UUID token = UUID.randomUUID();
             Duration reservationTtl = Duration.ofSeconds(properties.reservationTtlSeconds());
-            AgentReservationStore.ReserveResult result = reservationStore.tryReserveEligible(
-                    candidate.agentId(), token, reservationTtl, Instant.now(), freshnessWindow, request.serviceType());
-            if (result == AgentReservationStore.ReserveResult.ACQUIRED) {
+            DriverReservationStore.ReserveResult result = reservationStore.tryReserveEligible(
+                    candidate.driverId(), token, reservationTtl, Instant.now(), freshnessWindow, request.serviceType());
+            if (result == DriverReservationStore.ReserveResult.ACQUIRED) {
                 metrics.reservationAcquired();
-                log.info("reservation acquired agentId={} requestId={} etaMinutes={}",
-                        candidate.agentId(), request.id(), candidate.etaMinutes());
-                return Optional.of(new MatchOutcome(candidate.agentId(), token));
+                log.info("reservation acquired driverId={} requestId={} etaMinutes={}",
+                        candidate.driverId(), request.id(), candidate.etaMinutes());
+                return Optional.of(new MatchOutcome(candidate.driverId(), token));
             }
-            if (result == AgentReservationStore.ReserveResult.CONFLICT) {
+            if (result == DriverReservationStore.ReserveResult.CONFLICT) {
                 metrics.matchingReservationConflictsTotal().increment();
-                log.info("reservation conflict agentId={} requestId={}, trying next candidate",
-                        candidate.agentId(), request.id());
+                log.info("reservation conflict driverId={} requestId={}, trying next candidate",
+                        candidate.driverId(), request.id());
             }
         }
 
@@ -111,23 +111,23 @@ public class MatchingService {
     }
 
     private List<RankedCandidate> rankEligibleCandidates(GeoPoint origin, String serviceType,
-                                                         List<AgentId> candidateIds,
+                                                         List<DriverId> candidateIds,
                                                          Instant now, Duration freshnessWindow,
                                                          long deadlineNanos) {
         List<RankedCandidate> eligible = new ArrayList<>();
-        for (AgentId agentId : candidateIds) {
+        for (DriverId driverId : candidateIds) {
             if (deadlineExceeded(deadlineNanos)) break;
-            Optional<AgentOperationalState> state = stateStore.get(agentId);
+            Optional<DriverOperationalState> state = stateStore.get(driverId);
             if (state.isEmpty() || !state.get().isMatchable(now, freshnessWindow, serviceType)) {
-                log.debug("excluding non-matchable candidate agentId={}", agentId);
-                if (state.isEmpty() || state.get().status() != io.infrahack.ridesharedispatch.domain.AgentOperationalStatus.AVAILABLE
+                log.debug("excluding non-matchable candidate driverId={}", driverId);
+                if (state.isEmpty() || state.get().status() != io.infrahack.ridesharedispatch.domain.DriverOperationalStatus.AVAILABLE
                         || !state.get().isFresh(now, freshnessWindow)) {
-                    spatialIndex.remove(agentId); // lazy cleanup for expired/offline cell members
+                    spatialIndex.remove(driverId); // lazy cleanup for expired/offline cell members
                 }
                 continue;
             }
             GeoPoint location = state.get().location().orElseThrow();
-            eligible.add(new RankedCandidate(agentId, location, etaEstimator.estimateEtaMinutes(origin, location)));
+            eligible.add(new RankedCandidate(driverId, location, etaEstimator.estimateEtaMinutes(origin, location)));
         }
         eligible.sort(Comparator.comparingDouble(RankedCandidate::etaMinutes));
         return eligible.size() > properties.maxCandidates()

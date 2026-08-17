@@ -1,9 +1,9 @@
 package io.infrahack.ridesharedispatch;
 
-import io.infrahack.ridesharedispatch.domain.Agent;
-import io.infrahack.ridesharedispatch.domain.AgentId;
+import io.infrahack.ridesharedispatch.domain.Driver;
+import io.infrahack.ridesharedispatch.domain.DriverId;
 import io.infrahack.ridesharedispatch.domain.GeoPoint;
-import io.infrahack.ridesharedispatch.service.AgentService;
+import io.infrahack.ridesharedispatch.service.DriverService;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -66,7 +66,7 @@ public abstract class AbstractIntegrationTest {
     protected StringRedisTemplate redisTemplate;
 
     @Autowired
-    protected AgentService agentService;
+    protected DriverService driverService;
 
     /** Every test starts from a clean Postgres and Redis so tests can run in any order
      *  and assert on exact row counts. */
@@ -74,18 +74,18 @@ public abstract class AbstractIntegrationTest {
     void resetState() {
         jdbc.update("TRUNCATE TABLE outbox_events, processed_events, notification_deliveries, "
                 + "fake_payment_provider_charges, payments, assignments, dispatch_offers, "
-                + "dispatch_requests, agents RESTART IDENTITY CASCADE");
+                + "dispatch_requests, drivers RESTART IDENTITY CASCADE");
         try (RedisConnection connection = Objects.requireNonNull(redisTemplate.getConnectionFactory()).getConnection()) {
             connection.serverCommands().flushAll();
         }
     }
 
-    /** Registers a durable agent profile, marks it available, and pings a fresh location --
+    /** Registers a durable driver profile, marks it available, and pings a fresh location --
      *  the minimum state a candidate needs to be matchable. */
-    protected AgentId createAvailableAgentAt(GeoPoint point) {
-        Agent agent = agentService.register("Test Agent", "STANDARD");
-        agentService.setAvailability(agent.id(), true);
-        agentService.recordLocation(agent.id(), point, 1L, Instant.now());
-        return agent.id();
+    protected DriverId createAvailableDriverAt(GeoPoint point) {
+        Driver driver = driverService.register("Test Driver", "STANDARD");
+        driverService.setAvailability(driver.id(), true);
+        driverService.recordLocation(driver.id(), point, 1L, Instant.now());
+        return driver.id();
     }
 }

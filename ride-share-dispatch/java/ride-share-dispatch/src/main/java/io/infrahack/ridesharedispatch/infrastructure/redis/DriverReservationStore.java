@@ -1,6 +1,6 @@
 package io.infrahack.ridesharedispatch.infrastructure.redis;
 
-import io.infrahack.ridesharedispatch.domain.AgentId;
+import io.infrahack.ridesharedispatch.domain.DriverId;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.script.DefaultRedisScript;
 import org.springframework.data.redis.core.script.RedisScript;
@@ -13,25 +13,25 @@ import java.util.UUID;
 
 /**
  * The correctness-critical primitive of the whole module: at most one in-flight
- * reservation per agent, ever. See docs/DESIGN.md "Reservation algorithm".
+ * reservation per driver, ever. See docs/DESIGN.md "Reservation algorithm".
  *
  * <p>This is deliberately NOT:
  * <pre>
- *   if (agent.isAvailable()) { reserve(agent); }
+ *   if (driver.isAvailable()) { reserve(driver); }
  * </pre>
  * That is a check-then-act race -- two matching attempts can both observe "available"
- * before either writes, and both would believe they won the agent. Instead every
+ * before either writes, and both would believe they won the driver. Instead every
  * reservation attempt is one Lua operation that validates current operational state,
  * freshness, account and service eligibility, then performs {@code SET NX PX}. Redis
  * serializes the script, so eligibility validation and acquisition have no race window.
  *
  * <p>The TTL is what makes this safe against a crashed matching worker: if the process
  * dies after winning the reservation but before the offer is accepted or explicitly
- * released, the key expires on its own and the agent becomes reservable again. No
+ * released, the key expires on its own and the driver becomes reservable again. No
  * separate cleanup job is required.
  */
 @Component
-public class AgentReservationStore {
+public class DriverReservationStore {
 
     private static final String RESERVATION_KEY_PREFIX = "reservation:";
 
@@ -63,19 +63,19 @@ public class AgentReservationStore {
 
     private final StringRedisTemplate redis;
 
-    public AgentReservationStore(StringRedisTemplate redis) {
+    public DriverReservationStore(StringRedisTemplate redis) {
         this.redis = redis;
     }
 
     public enum ReserveResult { ACQUIRED, CONFLICT, INELIGIBLE }
 
     /** Final commit-time validation and reservation are one Lua operation. */
-    public ReserveResult tryReserveEligible(AgentId agentId, UUID token, Duration ttl,
+    public ReserveResult tryReserveEligible(DriverId driverId, UUID token, Duration ttl,
                                              Instant now, Duration freshnessWindow,
                                              String requiredServiceType) {
         long freshnessCutoff = now.minus(freshnessWindow).toEpochMilli();
         Long result = redis.execute(RESERVE_IF_ELIGIBLE,
-                List.of(stateKey(agentId), reservationKey(agentId)),
+                List.of(stateKey(driverId), reservationKey(driverId)),
                 token.toString(), requiredServiceType, Long.toString(freshnessCutoff),
                 Long.toString(ttl.toMillis()));
         if (result != null && result == 1L) return ReserveResult.ACQUIRED;
@@ -85,16 +85,16 @@ public class AgentReservationStore {
 
     /** Safe release: a no-op if the reservation already expired or was won by someone
      *  else. Returns true only if this call actually removed its own reservation. */
-    public boolean release(AgentId agentId, UUID token) {
-        Long deleted = redis.execute(COMPARE_AND_DELETE, List.of(reservationKey(agentId)), token.toString());
+    public boolean release(DriverId driverId, UUID token) {
+        Long deleted = redis.execute(COMPARE_AND_DELETE, List.of(reservationKey(driverId)), token.toString());
         return deleted != null && deleted == 1L;
     }
 
-    private static String reservationKey(AgentId agentId) {
-        return RESERVATION_KEY_PREFIX + agentId.value();
+    private static String reservationKey(DriverId driverId) {
+        return RESERVATION_KEY_PREFIX + driverId.value();
     }
 
-    private static String stateKey(AgentId agentId) {
-        return "agent:state:" + agentId.value();
+    private static String stateKey(DriverId driverId) {
+        return "driver:state:" + driverId.value();
     }
 }

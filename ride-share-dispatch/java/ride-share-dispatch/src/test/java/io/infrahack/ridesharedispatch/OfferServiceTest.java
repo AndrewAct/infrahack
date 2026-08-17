@@ -38,7 +38,7 @@ class OfferServiceTest extends AbstractIntegrationTest {
     private OfferService offerService;
 
     private DispatchOffer createRequestWithOffer() {
-        createAvailableAgentAt(new GeoPoint(37.7750, -122.4195));
+        createAvailableDriverAt(new GeoPoint(37.7750, -122.4195));
         DispatchRequestService.CreateCommand command = new DispatchRequestService.CreateCommand(
                 "STANDARD", new GeoPoint(37.7749, -122.4194), new GeoPoint(37.7849, -122.4094));
         DispatchRequestService.CreateResult result = dispatchRequestService.createOrReplay(
@@ -54,7 +54,7 @@ class OfferServiceTest extends AbstractIntegrationTest {
         Assignment assignment = offerService.accept(offer.id());
 
         assertThat(assignment.status()).isEqualTo(AssignmentStatus.CREATED);
-        assertThat(assignment.agentId()).isEqualTo(offer.agentId());
+        assertThat(assignment.driverId()).isEqualTo(offer.driverId());
 
         String requestStatus = jdbc.queryForObject(
                 "SELECT status FROM dispatch_requests WHERE request_id = ?", String.class, offer.requestId().value());
@@ -120,7 +120,7 @@ class OfferServiceTest extends AbstractIntegrationTest {
         String status = jdbc.queryForObject(
                 "SELECT status FROM dispatch_offers WHERE offer_id = ?", String.class, offer.id().value());
         assertThat(status).isEqualTo(OfferStatus.REJECTED.name());
-        assertThat(redisTemplate.hasKey("reservation:" + offer.agentId().value())).isFalse();
+        assertThat(redisTemplate.hasKey("reservation:" + offer.driverId().value())).isFalse();
     }
 
     @Test
@@ -134,7 +134,7 @@ class OfferServiceTest extends AbstractIntegrationTest {
     @Test
     void staleOfferCannotDeleteAReservationReissuedToAnotherRequest() {
         DispatchOffer offer = createRequestWithOffer();
-        String key = "reservation:" + offer.agentId().value();
+        String key = "reservation:" + offer.driverId().value();
         UUID replacement = UUID.randomUUID();
         redisTemplate.opsForValue().set(key, replacement.toString(), java.time.Duration.ofSeconds(10));
 
@@ -145,13 +145,13 @@ class OfferServiceTest extends AbstractIntegrationTest {
     @Test
     void driverThatBecameStaleAfterReservationCannotBeAccepted() {
         DispatchOffer offer = createRequestWithOffer();
-        redisTemplate.opsForHash().put("agent:state:" + offer.agentId().value(), "lastSeen",
+        redisTemplate.opsForHash().put("driver:state:" + offer.driverId().value(), "lastSeen",
                 Long.toString(java.time.Instant.now().minusSeconds(30).toEpochMilli()));
 
         assertThatThrownBy(() -> offerService.accept(offer.id())).isInstanceOf(ConflictException.class);
         assertThat(jdbc.queryForObject(
                 "SELECT count(*) FROM assignments WHERE offer_id = ?", Integer.class, offer.id().value()))
                 .isZero();
-        assertThat(redisTemplate.hasKey("reservation:" + offer.agentId().value())).isFalse();
+        assertThat(redisTemplate.hasKey("reservation:" + offer.driverId().value())).isFalse();
     }
 }

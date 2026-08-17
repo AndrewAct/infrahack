@@ -27,7 +27,7 @@ complete -> COMPLETED
 ```
 
 After asynchronous processing, PostgreSQL showed all six generated outbox rows published
-(`DispatchRequestCreated`, `AgentReserved`, `AssignmentCreated`, `AssignmentStarted`,
+(`DispatchRequestCreated`, `DriverReserved`, `AssignmentCreated`, `AssignmentStarted`,
 `AssignmentCompleted`, `PaymentSucceeded`), one `SUCCEEDED` payment with one attempt, one
 `SENT` notification, and one processed-event row for each consumer group. This validates
 the execution path; it is not a throughput benchmark.
@@ -43,7 +43,7 @@ the execution path; it is not a throughput benchmark.
 Default values are a smoke test, not a capacity benchmark. Override them explicitly:
 
 ```bash
-AGENT_COUNT=200 \
+DRIVER_COUNT=200 \
 LOCATION_VUS=100 \
 DISPATCH_RATE=20 \
 DURATION=10m \

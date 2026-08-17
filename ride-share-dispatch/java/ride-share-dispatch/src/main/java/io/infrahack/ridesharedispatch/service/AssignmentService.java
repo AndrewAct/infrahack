@@ -6,7 +6,7 @@ import io.infrahack.ridesharedispatch.domain.AssignmentId;
 import io.infrahack.ridesharedispatch.domain.AssignmentStatus;
 import io.infrahack.ridesharedispatch.domain.exception.ConflictException;
 import io.infrahack.ridesharedispatch.domain.exception.NotFoundException;
-import io.infrahack.ridesharedispatch.infrastructure.redis.AgentOperationalStateStore;
+import io.infrahack.ridesharedispatch.infrastructure.redis.DriverOperationalStateStore;
 import io.infrahack.ridesharedispatch.observability.DispatchMetrics;
 import io.infrahack.ridesharedispatch.repository.AssignmentRepository;
 import io.infrahack.ridesharedispatch.repository.OutboxRepository;
@@ -36,13 +36,13 @@ public class AssignmentService {
 
     private final AssignmentRepository assignmentRepository;
     private final OutboxRepository outboxRepository;
-    private final AgentOperationalStateStore stateStore;
+    private final DriverOperationalStateStore stateStore;
     private final DispatchMetrics metrics;
     private final TransactionTemplate transactionTemplate;
     private final Duration freshnessWindow;
 
     public AssignmentService(AssignmentRepository assignmentRepository, OutboxRepository outboxRepository,
-                              AgentOperationalStateStore stateStore, DispatchMetrics metrics,
+                              DriverOperationalStateStore stateStore, DispatchMetrics metrics,
                               DispatchProperties properties, PlatformTransactionManager transactionManager) {
         this.assignmentRepository = assignmentRepository;
         this.outboxRepository = outboxRepository;
@@ -91,7 +91,7 @@ public class AssignmentService {
                 outboxRepository.append("AssignmentCompleted", id.value(), Map.of(
                         "assignmentId", id.value().toString(),
                         "requestId", current.requestId().value().toString(),
-                        "agentId", current.agentId().value().toString(),
+                        "driverId", current.driverId().value().toString(),
                         "requesterId", current.requesterId().value().toString()));
             }
             return ok;
@@ -104,7 +104,7 @@ public class AssignmentService {
 
         metrics.assignmentCompletedTotal().increment();
         repairAvailabilityBestEffort(current);
-        log.info("assignment completed assignmentId={} agentId={}", id, current.agentId());
+        log.info("assignment completed assignmentId={} driverId={}", id, current.driverId());
         return requireAssignment(id);
     }
 
@@ -115,13 +115,13 @@ public class AssignmentService {
     private void repairAvailabilityBestEffort(Assignment assignment) {
         try {
             stateStore.markAvailableIfOwned(
-                    assignment.agentId(), assignment.id(), freshnessWindow);
+                    assignment.driverId(), assignment.id(), freshnessWindow);
         } catch (RuntimeException redisFailure) {
             // Durable completion and its outbox event already committed. Keeping the
-            // agent OCCUPIED is the safe failure mode; a duplicate complete retries this
+            // driver OCCUPIED is the safe failure mode; a duplicate complete retries this
             // repair without duplicating durable effects.
-            log.warn("could not release completed agent assignmentId={} agentId={}",
-                    assignment.id(), assignment.agentId(), redisFailure);
+            log.warn("could not release completed driver assignmentId={} driverId={}",
+                    assignment.id(), assignment.driverId(), redisFailure);
         }
     }
 }

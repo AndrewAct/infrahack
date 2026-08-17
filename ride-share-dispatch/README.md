@@ -5,8 +5,9 @@ driver, then carried through offer, assignment, completion, payment, and notific
 It is an executable distributed-systems lab: the interesting part is what happens under
 retries, races, stale locations, worker crashes, and unavailable infrastructure.
 
-The code uses the reusable names `Requester`, `MobileAgent`, and `DispatchRequest`.
-In the ride-share scenario, those mean **rider**, **driver**, and **ride request**.
+The code consistently uses `Driver` for the mobile service provider. It retains
+`Requester` and `DispatchRequest` for the rider and ride request because those names also
+describe their roles in the dispatch workflow without introducing ambiguity.
 Authentication, mobile apps, maps, surge pricing, and a real payment provider are outside
 this one-day MVP.
 
@@ -88,13 +89,12 @@ mvn test
 
 If Docker is not discoverable, the suite fails while `AbstractIntegrationTest` starts its
 containers. Verify that the daemon is running and, on macOS, that `DOCKER_HOST` points to
-the socket shown by `docker context inspect`. The project currently pins Testcontainers
-`1.21.3`, which also has a known compatibility gap with some recent Docker Engine setups;
-see the debugging section in
-[`INTERVIEW_GUIDE.md`](java/ride-share-dispatch/docs/INTERVIEW_GUIDE.md). An API-version
-override is only an environment-specific workaround, not the intended repository fix.
+the socket shown by `docker context inspect`. The project pins Testcontainers `1.21.4`,
+which includes the recent Docker Engine compatibility fix; no API-version override should
+be part of the normal build. See the debugging section in
+[`INTERVIEW_GUIDE.md`](java/ride-share-dispatch/docs/INTERVIEW_GUIDE.md).
 
-Current verified result: **36 tests, 0 failures**. The suite includes a repeated
+Current verified result: **37 tests, 0 failures**. The suite includes a repeated
 20-thread driver-reservation race, HTTP contract checks, crash-recovery paths, stale
 location/offer rejection, outbox/Kafka dedup, OCC, and payment timeout/retry.
 
@@ -107,7 +107,7 @@ cd java/ride-share-dispatch/load-tests
 k6 run dispatch-smoke.js
 ```
 
-Tune `AGENT_COUNT`, `LOCATION_VUS`, `DISPATCH_RATE`, and `DURATION` through k6 environment
+Tune `DRIVER_COUNT`, `LOCATION_VUS`, `DISPATCH_RATE`, and `DURATION` through k6 environment
 variables. Inspect p95/p99 HTTP latency, rejection rate, matching conflicts/timeouts,
 Redis latency, DB pool usage, outbox backlog, and Kafka lag. See
 [`BENCHMARK.md`](java/ride-share-dispatch/docs/BENCHMARK.md); historical results are not
@@ -129,7 +129,7 @@ presented as measurements of the refactored build.
 - [`V1__init_schema.sql`](java/ride-share-dispatch/src/main/resources/db/migration/V1__init_schema.sql)
   — constraints, conditional ownership, outbox, inbox, and provider idempotency ledger.
 - [`MatchingService.java`](java/ride-share-dispatch/src/main/java/io/infrahack/ridesharedispatch/service/MatchingService.java)
-  and [`AgentReservationStore.java`](java/ride-share-dispatch/src/main/java/io/infrahack/ridesharedispatch/infrastructure/redis/AgentReservationStore.java)
+  and [`DriverReservationStore.java`](java/ride-share-dispatch/src/main/java/io/infrahack/ridesharedispatch/infrastructure/redis/DriverReservationStore.java)
   — coarse-to-fine matching and the atomic reservation boundary.
 - [`OfferService.java`](java/ride-share-dispatch/src/main/java/io/infrahack/ridesharedispatch/service/OfferService.java)
   — reservation-to-assignment ownership transfer and compensation.
