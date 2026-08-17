@@ -1,0 +1,39 @@
+spring:
+  application:
+    name: ride-share-dispatch-test
+  # spring.kafka.bootstrap-servers is overridden per-test by AbstractIntegrationTest's
+  # @DynamicPropertySource, pointed at the Testcontainers Kafka broker.
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,prometheus,metrics
+
+# Short TTLs so expiry-driven tests do not need multi-second sleeps.
+dispatch:
+  reservation-ttl-seconds: 2
+  location-freshness-seconds: 5
+  offer-ttl-seconds: 2
+  max-cell-search-rings: 3
+  max-candidates: 5
+  matching-timeout-ms: 2000
+  outbox:
+    batch-size: 50
+    poll-interval-ms: 300
+    claim-ttl-seconds: 5
+  payment:
+    simulated-timeout-rate: 0.0
+    reconciliation-interval-ms: 1000
+    batch-size: 50
+    max-attempts: 3
+    base-backoff-seconds: 1
+    claim-ttl-seconds: 5
+  kafka:
+    consumer-concurrency: 1
+    retry-attempts: 2
+    retry-backoff-ms: 100
+
+logging:
+  level:
+    io.infrahack.ridesharedispatch: INFO
