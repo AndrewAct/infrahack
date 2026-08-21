@@ -1,0 +1,14 @@
+[project]
+name = "key-val-store-with-ttl"
+version = "0.1.0"
+description = "A temporal in-memory key-value store with per-write TTL and historical reads"
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = []
+
+[dependency-groups]
+dev = [
+    "pytest>=9.1.1",
+    "ruff>=0.16.4",
+    "ty>=0.0.73",
+]
