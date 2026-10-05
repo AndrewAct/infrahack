@@ -1,0 +1,67 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: ride-share-dispatch
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/ridesharedispatch
+    username: ridesharedispatch
+    password: ridesharedispatch
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 2
+
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      timeout: 2s
+
+  # Read directly by config.KafkaConfig (see its javadoc for why this is wired by hand
+  # instead of through spring-boot-starter's Kafka autoconfiguration).
+  kafka:
+    bootstrap-servers: localhost:9092
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,prometheus,metrics
+  endpoint:
+    health:
+      show-details: when_authorized
+  prometheus:
+    metrics:
+      export:
+        enabled: true
+
+# Explicit, tunable bounds -- see docs/DESIGN.md "Backpressure / overload".
+# None of these are unbounded: every search, retry, and hold has a ceiling.
+dispatch:
+  reservation-ttl-seconds: 30
+  location-freshness-seconds: 30
+  offer-ttl-seconds: 20
+  max-cell-search-rings: 3
+  max-candidates: 5
+  matching-timeout-ms: 2000
+  outbox:
+    batch-size: 50
+    poll-interval-ms: 500
+    claim-ttl-seconds: 15
+  payment:
+    simulated-timeout-rate: 0.0
+    reconciliation-interval-ms: 5000
+    batch-size: 50
+    max-attempts: 6
+    base-backoff-seconds: 2
+    claim-ttl-seconds: 15
+  kafka:
+    consumer-concurrency: 1
+    retry-attempts: 3
+    retry-backoff-ms: 1000
+
+logging:
+  level:
+    io.infrahack.ridesharedispatch: INFO
