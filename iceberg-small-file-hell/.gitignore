@@ -1,0 +1,43 @@
+# macOS and editor files
+.DS_Store
+.idea/
+.vscode/
+*.swp
+
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.venv/
+venv/
+
+# Local secrets and environment files
+.env
+.env.*
+!.env.example
+
+# Generated experiment state and output
+results/
+cloud-results/
+warehouse/
+*.db
+*.db-journal
+cloud/lab-state.env
+cloud/last-run.log
+
+# Generated bundles and non-code media
+*.zip
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.webp
+
+# Article and research material kept outside this code repository
+iceberg-small-file-hell.md
+benchmark-notes.md
+references/
+assets/
+archive/
