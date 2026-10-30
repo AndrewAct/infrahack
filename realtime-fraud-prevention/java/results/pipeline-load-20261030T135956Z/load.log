@@ -1,0 +1,5 @@
+LOAD stage 0 100 events/s for 50s
+LOAD stage 1 100 events/s for 60s
+LOAD stage 2 1000 events/s for 60s
+LOAD stage 3 5000 events/s for 60s
+PASS load 92750 cases

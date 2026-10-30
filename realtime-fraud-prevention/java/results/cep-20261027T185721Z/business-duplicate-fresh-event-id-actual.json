@@ -1,0 +1,33 @@
+[ {
+  "case_id" : "case_78e68b313bcc25e6118b9c1f01427fbce7686b1ba325e40327ccb35dd754671c",
+  "run_id" : "cep-fixtures-v1",
+  "tenant_id" : "tenant_synthetic_demo",
+  "account_id" : "standard",
+  "card_token_namespace" : "synthetic-merchant-v1",
+  "card_token" : "card_synthetic_000042",
+  "entity_type" : "account_card",
+  "entity_id" : "21:tenant_synthetic_demo8:standard21:synthetic-merchant-v121:card_synthetic_000042",
+  "case_family" : "payment_retry",
+  "currency" : "USD",
+  "rule_version" : "three-failures-then-success-v1",
+  "feature_spec_version" : "payment-retry-single-card-8d-v2",
+  "transform_version" : "log-cap-v1",
+  "feature_admission_policy" : "event-time-watermark-v1",
+  "feature_completeness" : "complete",
+  "feature_history_start" : "2026-10-26T14:51:30Z",
+  "case_time" : "2026-10-26T15:01:30Z",
+  "feature_cutoff" : "2026-10-26T15:01:30Z",
+  "knowledge_time" : "2026-10-27T18:57:30.267Z",
+  "evidence_event_ids" : [ "standard_0", "standard_1", "standard_2", "standard_3" ],
+  "features" : {
+    "attempt_count_10m" : 4,
+    "failed_attempt_count_10m" : 3,
+    "failure_fraction_10m" : 0.75,
+    "distinct_device_count_10m" : 2,
+    "distinct_ip_count_10m" : 3,
+    "attempted_amount_minor_sum_10m" : 4006,
+    "median_inter_attempt_seconds_10m" : 30.0,
+    "matched_sequence_duration_seconds" : 90.0
+  },
+  "behavior_vector" : [ 0.34873148798942566, 0.30038097500801086, 0.75, 0.3608488142490387, 0.45534050464630127, 0.6004698276519775, 0.5366783142089844, 0.7049765586853027 ]
+} ]

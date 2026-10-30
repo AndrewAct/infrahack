@@ -1,0 +1,6 @@
+LOAD stage 0 100 events/s for 50s
+LOAD stage 1 100 events/s for 60s
+LOAD stage 2 1000 events/s for 60s
+LOAD stage 3 5000 events/s for 60s
+
+Exception: java.lang.OutOfMemoryError thrown from the UncaughtExceptionHandler in thread "kafka-producer-network-thread | producer-1"

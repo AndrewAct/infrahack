@@ -1,0 +1,127 @@
+[2026-10-29T00:29:33,615][INFO ][o.o.n.Node               ] [Mac.ht.home] version[3.9.0], pid[42999], build[tar/4ee42a94e87f66fbf1e62a9871b1b87f91e02472/2026-09-22T19:37:17Z], OS[Mac OS X/26.6.2/aarch64], JVM[Homebrew/OpenJDK 64-Bit Server VM/25.0.5.0.2/25.0.5.0.2]
+[2026-10-29T00:29:33,616][INFO ][o.o.n.Node               ] [Mac.ht.home] JVM home [/opt/homebrew/Cellar/openjdk@25/25.0.5.0.2/libexec/openjdk.jdk/Contents/Home]
+[2026-10-29T00:29:33,619][INFO ][o.o.n.Node               ] [Mac.ht.home] JVM arguments [-Xshare:auto, -Dopensearch.networkaddress.cache.ttl=60, -Dopensearch.networkaddress.cache.negative.ttl=10, -XX:+AlwaysPreTouch, -Xss1m, -Djava.awt.headless=true, -Dfile.encoding=UTF-8, -Djna.nosys=true, -XX:-OmitStackTraceInFastThrow, -XX:+ShowCodeDetailsInExceptionMessages, -Dio.netty.noUnsafe=true, -Dio.netty.noKeySetOptimization=true, -Dio.netty.recycler.maxCapacityPerThread=0, -Dio.netty.allocator.numDirectArenas=0, -Dlog4j.shutdownHookEnabled=false, -Dlog4j2.disable.jmx=true, -Djava.locale.providers=SPI,CLDR, -Xms1g, -Xmx1g, -XX:+UseG1GC, -XX:G1ReservePercent=25, -XX:InitiatingHeapOccupancyPercent=30, -Djava.io.tmpdir=/var/folders/70/xydfd3kd2xq0d9kwgt7q102w0000gn/T/opensearch-14508281865159943004, -XX:+HeapDumpOnOutOfMemoryError, -XX:HeapDumpPath=data, -XX:ErrorFile=logs/hs_err_pid%p.log, -Xlog:gc*,gc+age=trace,safepoint:file=/opt/homebrew/var/log/opensearch/gc.log:utctime,pid,tags:filecount=32,filesize=64m, --add-modules=jdk.incubator.vector, -javaagent:agent/opensearch-agent.jar, --add-opens=java.base/java.nio=ALL-UNNAMED, -Dorg.apache.lucene.store.MMapDirectory.sharedArenaMaxPermits=1, -XX:+UseCompactObjectHeaders, -Xms512m, -Xmx512m, -XX:ActiveProcessorCount=2, -XX:MaxDirectMemorySize=268435456, -Dopensearch.path.home=/opt/homebrew/Cellar/opensearch/3.9.0/libexec, -Dopensearch.path.conf=/opt/homebrew/etc/opensearch, -Dopensearch.distribution.type=tar, -Dopensearch.bundled_jdk=false]
+[2026-10-29T00:29:33,704][INFO ][o.a.l.i.v.PanamaVectorizationProvider] [Mac.ht.home] Java vector incubator API enabled; uses preferredBitSize=128
+[2026-10-29T00:29:34,005][INFO ][o.o.t.g.GrpcPlugin       ] [Mac.ht.home] Loading 1 QueryBuilderProtoConverter extensions from other plugins
+[2026-10-29T00:29:34,005][INFO ][o.o.t.g.GrpcPlugin       ] [Mac.ht.home] Discovered QueryBuilderProtoConverter extension: org.opensearch.knn.grpc.proto.request.search.query.KNNQueryBuilderProtoConverter (handles: KNN)
+[2026-10-29T00:29:34,005][INFO ][o.o.t.g.GrpcPlugin       ] [Mac.ht.home] Successfully loaded 1 QueryBuilderProtoConverter extensions
+[2026-10-29T00:29:34,006][INFO ][o.o.t.g.GrpcPlugin       ] [Mac.ht.home] No AggregationBuilderProtoConverter extensions found from other plugins
+[2026-10-29T00:29:34,006][INFO ][o.o.t.g.GrpcPlugin       ] [Mac.ht.home] No AggregateProtoConverter extensions found from other plugins
+[2026-10-29T00:29:34,006][INFO ][o.o.t.g.GrpcPlugin       ] [Mac.ht.home] Found 0 gRPC interceptor providers [], will initialize during component creation
+[2026-10-29T00:29:34,007][INFO ][o.o.t.g.GrpcPlugin       ] [Mac.ht.home] Successfully loaded 0 GrpcServiceFactory extensions []
+[2026-10-29T00:29:34,007][INFO ][o.o.i.r.ReindexModulePlugin] [Mac.ht.home] ReindexPlugin reloadSPI called
+[2026-10-29T00:29:34,007][INFO ][o.o.i.r.ReindexModulePlugin] [Mac.ht.home] Unable to find any implementation for RemoteReindexExtension
+[2026-10-29T00:29:34,016][INFO ][o.o.p.PluginsService     ] [Mac.ht.home] loaded module [aggs-matrix-stats]
+[2026-10-29T00:29:34,017][INFO ][o.o.p.PluginsService     ] [Mac.ht.home] loaded module [analysis-common]
+[2026-10-29T00:29:34,017][INFO ][o.o.p.PluginsService     ] [Mac.ht.home] loaded module [cache-common]
+[2026-10-29T00:29:34,017][INFO ][o.o.p.PluginsService     ] [Mac.ht.home] loaded module [concurrency-limit]
+[2026-10-29T00:29:34,017][INFO ][o.o.p.PluginsService     ] [Mac.ht.home] loaded module [geo]
+[2026-10-29T00:29:34,017][INFO ][o.o.p.PluginsService     ] [Mac.ht.home] loaded module [ingest-common]
+[2026-10-29T00:29:34,017][INFO ][o.o.p.PluginsService     ] [Mac.ht.home] loaded module [ingest-geoip]
+[2026-10-29T00:29:34,017][INFO ][o.o.p.PluginsService     ] [Mac.ht.home] loaded module [ingest-user-agent]
+[2026-10-29T00:29:34,017][INFO ][o.o.p.PluginsService     ] [Mac.ht.home] loaded module [lang-expression]
+[2026-10-29T00:29:34,017][INFO ][o.o.p.PluginsService     ] [Mac.ht.home] loaded module [lang-mustache]
+[2026-10-29T00:29:34,017][INFO ][o.o.p.PluginsService     ] [Mac.ht.home] loaded module [lang-painless]
+[2026-10-29T00:29:34,017][INFO ][o.o.p.PluginsService     ] [Mac.ht.home] loaded module [mapper-extras]
+[2026-10-29T00:29:34,017][INFO ][o.o.p.PluginsService     ] [Mac.ht.home] loaded module [opensearch-dashboards]
+[2026-10-29T00:29:34,017][INFO ][o.o.p.PluginsService     ] [Mac.ht.home] loaded module [parent-join]
+[2026-10-29T00:29:34,017][INFO ][o.o.p.PluginsService     ] [Mac.ht.home] loaded module [percolator]
+[2026-10-29T00:29:34,017][INFO ][o.o.p.PluginsService     ] [Mac.ht.home] loaded module [rank-eval]
+[2026-10-29T00:29:34,018][INFO ][o.o.p.PluginsService     ] [Mac.ht.home] loaded module [reindex]
+[2026-10-29T00:29:34,018][INFO ][o.o.p.PluginsService     ] [Mac.ht.home] loaded module [repository-url]
+[2026-10-29T00:29:34,018][INFO ][o.o.p.PluginsService     ] [Mac.ht.home] loaded module [rule-framework]
+[2026-10-29T00:29:34,018][INFO ][o.o.p.PluginsService     ] [Mac.ht.home] loaded module [search-pipeline-common]
+[2026-10-29T00:29:34,018][INFO ][o.o.p.PluginsService     ] [Mac.ht.home] loaded module [store-subdirectory]
+[2026-10-29T00:29:34,018][INFO ][o.o.p.PluginsService     ] [Mac.ht.home] loaded module [transport-grpc]
+[2026-10-29T00:29:34,018][INFO ][o.o.p.PluginsService     ] [Mac.ht.home] loaded module [transport-netty4]
+[2026-10-29T00:29:34,018][INFO ][o.o.p.PluginsService     ] [Mac.ht.home] loaded plugin [opensearch-knn]
+[2026-10-29T00:29:34,055][INFO ][o.o.e.NodeEnvironment    ] [Mac.ht.home] using [1] data paths, mounts [[/System/Volumes/Data (/dev/disk3s5)]], net usable_space [412.9gb], net total_space [926.3gb], types [apfs]
+[2026-10-29T00:29:34,055][INFO ][o.o.e.NodeEnvironment    ] [Mac.ht.home] heap size [512mb], compressed ordinary object pointers [true]
+[2026-10-29T00:29:34,072][INFO ][o.o.n.Node               ] [Mac.ht.home] node name [Mac.ht.home], node ID [6dVBJ7MgQYyJOvt3s9qpfg], cluster name [opensearch_homebrew], roles [ingest, remote_cluster_client, data, cluster_manager]
+[2026-10-29T00:29:34,085][INFO ][o.o.e.ExtensionsManager  ] [Mac.ht.home] ExtensionsManager initialized
+[2026-10-29T00:29:34,439][INFO ][o.o.i.MergeSchedulerConfig] [Mac.ht.home] Updating autoThrottle for index _na_ from [false] to [true]
+[2026-10-29T00:29:34,439][INFO ][o.o.i.MergeSchedulerConfig] [Mac.ht.home] Updating maxThreadCount from [0] to [1] and maxMergeCount from [0] to [6] for index _na_.
+[2026-10-29T00:29:34,439][INFO ][o.o.i.MergeSchedulerConfig] [Mac.ht.home] Initialized index _na_ with maxMergeCount=6, maxThreadCount=1, autoThrottleEnabled=true
+[2026-10-29T00:29:34,513][INFO ][o.o.i.MergeSchedulerConfig] [Mac.ht.home] Updating autoThrottle for index _na_ from [false] to [true]
+[2026-10-29T00:29:34,514][INFO ][o.o.i.MergeSchedulerConfig] [Mac.ht.home] Updating maxThreadCount from [0] to [1] and maxMergeCount from [0] to [6] for index _na_.
+[2026-10-29T00:29:34,514][INFO ][o.o.i.MergeSchedulerConfig] [Mac.ht.home] Initialized index _na_ with maxMergeCount=6, maxThreadCount=1, autoThrottleEnabled=true
+[2026-10-29T00:29:34,717][WARN ][stderr                   ] [Mac.ht.home] SLF4J(W): No SLF4J providers were found.
+[2026-10-29T00:29:34,717][WARN ][stderr                   ] [Mac.ht.home] SLF4J(W): Defaulting to no-operation (NOP) logger implementation
+[2026-10-29T00:29:34,717][WARN ][stderr                   ] [Mac.ht.home] SLF4J(W): See https://www.slf4j.org/codes.html#noProviders for further details.
+[2026-10-29T00:29:35,070][INFO ][o.o.t.g.p.r.s.q.QueryBuilderProtoConverterSpiRegistry] [Mac.ht.home] Registered query converter for MATCH_ALL: org.opensearch.transport.grpc.proto.request.search.query.MatchAllQueryBuilderProtoConverter
+[2026-10-29T00:29:35,070][INFO ][o.o.t.g.p.r.s.q.QueryBuilderProtoConverterSpiRegistry] [Mac.ht.home] Registered query converter for MATCH_NONE: org.opensearch.transport.grpc.proto.request.search.query.MatchNoneQueryBuilderProtoConverter
+[2026-10-29T00:29:35,070][INFO ][o.o.t.g.p.r.s.q.QueryBuilderProtoConverterSpiRegistry] [Mac.ht.home] Registered query converter for TERM: org.opensearch.transport.grpc.proto.request.search.query.TermQueryBuilderProtoConverter
+[2026-10-29T00:29:35,070][INFO ][o.o.t.g.p.r.s.q.QueryBuilderProtoConverterSpiRegistry] [Mac.ht.home] Registered query converter for TERMS: org.opensearch.transport.grpc.proto.request.search.query.TermsQueryBuilderProtoConverter
+[2026-10-29T00:29:35,070][INFO ][o.o.t.g.p.r.s.q.QueryBuilderProtoConverterSpiRegistry] [Mac.ht.home] Registered query converter for MATCH_PHRASE: org.opensearch.transport.grpc.proto.request.search.query.MatchPhraseQueryBuilderProtoConverter
+[2026-10-29T00:29:35,070][INFO ][o.o.t.g.p.r.s.q.QueryBuilderProtoConverterSpiRegistry] [Mac.ht.home] Registered query converter for MULTI_MATCH: org.opensearch.transport.grpc.proto.request.search.query.MultiMatchQueryBuilderProtoConverter
+[2026-10-29T00:29:35,071][INFO ][o.o.t.g.p.r.s.q.QueryBuilderProtoConverterSpiRegistry] [Mac.ht.home] Registered query converter for BOOL: org.opensearch.transport.grpc.proto.request.search.query.BoolQueryBuilderProtoConverter
+[2026-10-29T00:29:35,071][INFO ][o.o.t.g.p.r.s.q.QueryBuilderProtoConverterSpiRegistry] [Mac.ht.home] Registered query converter for SCRIPT: org.opensearch.transport.grpc.proto.request.search.query.ScriptQueryBuilderProtoConverter
+[2026-10-29T00:29:35,071][INFO ][o.o.t.g.p.r.s.q.QueryBuilderProtoConverterSpiRegistry] [Mac.ht.home] Registered query converter for EXISTS: org.opensearch.transport.grpc.proto.request.search.query.ExistsQueryBuilderProtoConverter
+[2026-10-29T00:29:35,071][INFO ][o.o.t.g.p.r.s.q.QueryBuilderProtoConverterSpiRegistry] [Mac.ht.home] Registered query converter for REGEXP: org.opensearch.transport.grpc.proto.request.search.query.RegexpQueryBuilderProtoConverter
+[2026-10-29T00:29:35,071][INFO ][o.o.t.g.p.r.s.q.QueryBuilderProtoConverterSpiRegistry] [Mac.ht.home] Registered query converter for WILDCARD: org.opensearch.transport.grpc.proto.request.search.query.WildcardQueryBuilderProtoConverter
+[2026-10-29T00:29:35,071][INFO ][o.o.t.g.p.r.s.q.QueryBuilderProtoConverterSpiRegistry] [Mac.ht.home] Registered query converter for GEO_BOUNDING_BOX: org.opensearch.transport.grpc.proto.request.search.query.GeoBoundingBoxQueryBuilderProtoConverter
+[2026-10-29T00:29:35,071][INFO ][o.o.t.g.p.r.s.q.QueryBuilderProtoConverterSpiRegistry] [Mac.ht.home] Registered query converter for GEO_DISTANCE: org.opensearch.transport.grpc.proto.request.search.query.GeoDistanceQueryBuilderProtoConverter
+[2026-10-29T00:29:35,071][INFO ][o.o.t.g.p.r.s.q.QueryBuilderProtoConverterSpiRegistry] [Mac.ht.home] Registered query converter for NESTED: org.opensearch.transport.grpc.proto.request.search.query.NestedQueryBuilderProtoConverter
+[2026-10-29T00:29:35,072][INFO ][o.o.t.g.p.r.s.q.QueryBuilderProtoConverterSpiRegistry] [Mac.ht.home] Registered query converter for IDS: org.opensearch.transport.grpc.proto.request.search.query.IdsQueryBuilderProtoConverter
+[2026-10-29T00:29:35,072][INFO ][o.o.t.g.p.r.s.q.QueryBuilderProtoConverterSpiRegistry] [Mac.ht.home] Registered query converter for RANGE: org.opensearch.transport.grpc.proto.request.search.query.RangeQueryBuilderProtoConverter
+[2026-10-29T00:29:35,072][INFO ][o.o.t.g.p.r.s.q.QueryBuilderProtoConverterSpiRegistry] [Mac.ht.home] Registered query converter for TERMS_SET: org.opensearch.transport.grpc.proto.request.search.query.TermsSetQueryBuilderProtoConverter
+[2026-10-29T00:29:35,072][INFO ][o.o.t.g.p.r.s.q.QueryBuilderProtoConverterSpiRegistry] [Mac.ht.home] Registered query converter for CONSTANT_SCORE: org.opensearch.transport.grpc.proto.request.search.query.ConstantScoreQueryBuilderProtoConverter
+[2026-10-29T00:29:35,072][INFO ][o.o.t.g.p.r.s.q.QueryBuilderProtoConverterSpiRegistry] [Mac.ht.home] Registered query converter for FUZZY: org.opensearch.transport.grpc.proto.request.search.query.FuzzyQueryBuilderProtoConverter
+[2026-10-29T00:29:35,072][INFO ][o.o.t.g.p.r.s.q.QueryBuilderProtoConverterSpiRegistry] [Mac.ht.home] Registered query converter for PREFIX: org.opensearch.transport.grpc.proto.request.search.query.PrefixQueryBuilderProtoConverter
+[2026-10-29T00:29:35,072][INFO ][o.o.t.g.p.r.s.q.QueryBuilderProtoConverterSpiRegistry] [Mac.ht.home] Registered query converter for MATCH: org.opensearch.transport.grpc.proto.request.search.query.MatchQueryBuilderProtoConverter
+[2026-10-29T00:29:35,072][INFO ][o.o.t.g.p.r.s.q.QueryBuilderProtoConverterSpiRegistry] [Mac.ht.home] Registered query converter for MATCH_BOOL_PREFIX: org.opensearch.transport.grpc.proto.request.search.query.MatchBoolPrefixQueryBuilderProtoConverter
+[2026-10-29T00:29:35,072][INFO ][o.o.t.g.p.r.s.q.QueryBuilderProtoConverterSpiRegistry] [Mac.ht.home] Registered query converter for MATCH_PHRASE_PREFIX: org.opensearch.transport.grpc.proto.request.search.query.MatchPhrasePrefixQueryBuilderProtoConverter
+[2026-10-29T00:29:35,072][INFO ][o.o.t.g.p.r.s.q.QueryBuilderProtoConverterSpiRegistry] [Mac.ht.home] Registered query converter for FUNCTION_SCORE: org.opensearch.transport.grpc.proto.request.search.query.functionscore.FunctionScoreQueryBuilderProtoConverter
+[2026-10-29T00:29:35,072][INFO ][o.o.t.g.p.r.s.q.QueryBuilderProtoConverterSpiRegistry] [Mac.ht.home] Set registry on 24 converters
+[2026-10-29T00:29:35,072][INFO ][o.o.t.g.p.r.s.q.QueryBuilderProtoConverterRegistryImpl] [Mac.ht.home] Registered 24 built-in query converters
+[2026-10-29T00:29:35,073][INFO ][o.o.t.g.p.r.s.a.AggregationBuilderProtoConverterSpiRegistry] [Mac.ht.home] Registered aggregation converter for MIN: org.opensearch.transport.grpc.proto.request.search.aggregation.metrics.MinAggregationBuilderProtoConverter
+[2026-10-29T00:29:35,073][INFO ][o.o.t.g.p.r.s.a.AggregationBuilderProtoConverterSpiRegistry] [Mac.ht.home] Registered aggregation converter for MAX: org.opensearch.transport.grpc.proto.request.search.aggregation.metrics.MaxAggregationBuilderProtoConverter
+[2026-10-29T00:29:35,074][INFO ][o.o.t.g.p.r.s.a.AggregationBuilderProtoConverterSpiRegistry] [Mac.ht.home] Registered aggregation converter for TERMS_AGGREGATION: org.opensearch.transport.grpc.proto.request.search.aggregation.bucket.terms.TermsAggregationBuilderConverter
+[2026-10-29T00:29:35,074][INFO ][o.o.t.g.p.r.s.a.AggregationBuilderProtoConverterSpiRegistry] [Mac.ht.home] Set registry on 3 aggregation converter(s)
+[2026-10-29T00:29:35,074][INFO ][o.o.t.g.p.r.s.a.AggregationBuilderProtoConverterRegistryImpl] [Mac.ht.home] Registered 3 built-in aggregation converter(s)
+[2026-10-29T00:29:35,075][INFO ][o.o.t.g.p.r.s.a.AggregateProtoConverterSpiRegistry] [Mac.ht.home] Registered aggregate converter for org.opensearch.search.aggregations.metrics.InternalMin: org.opensearch.transport.grpc.proto.response.search.aggregation.metrics.MinAggregateProtoConverter
+[2026-10-29T00:29:35,075][INFO ][o.o.t.g.p.r.s.a.AggregateProtoConverterSpiRegistry] [Mac.ht.home] Registered aggregate converter for org.opensearch.search.aggregations.metrics.InternalMax: org.opensearch.transport.grpc.proto.response.search.aggregation.metrics.MaxAggregateProtoConverter
+[2026-10-29T00:29:35,075][INFO ][o.o.t.g.p.r.s.a.AggregateProtoConverterSpiRegistry] [Mac.ht.home] Registered aggregate converter for org.opensearch.search.aggregations.bucket.terms.DoubleTerms: org.opensearch.transport.grpc.proto.response.search.aggregation.bucket.terms.DoubleTermsAggregateConverter
+[2026-10-29T00:29:35,075][INFO ][o.o.t.g.p.r.s.a.AggregateProtoConverterSpiRegistry] [Mac.ht.home] Registered aggregate converter for org.opensearch.search.aggregations.bucket.terms.LongTerms: org.opensearch.transport.grpc.proto.response.search.aggregation.bucket.terms.LongTermsAggregateConverter
+[2026-10-29T00:29:35,075][INFO ][o.o.t.g.p.r.s.a.AggregateProtoConverterSpiRegistry] [Mac.ht.home] Registered aggregate converter for org.opensearch.search.aggregations.bucket.terms.UnsignedLongTerms: org.opensearch.transport.grpc.proto.response.search.aggregation.bucket.terms.UnsignedLongTermsAggregateConverter
+[2026-10-29T00:29:35,075][INFO ][o.o.t.g.p.r.s.a.AggregateProtoConverterSpiRegistry] [Mac.ht.home] Registered aggregate converter for org.opensearch.search.aggregations.bucket.terms.StringTerms: org.opensearch.transport.grpc.proto.response.search.aggregation.bucket.terms.StringTermsAggregateConverter
+[2026-10-29T00:29:35,076][INFO ][o.o.t.g.p.r.s.a.AggregateProtoConverterSpiRegistry] [Mac.ht.home] Registered aggregate converter for org.opensearch.search.aggregations.bucket.terms.UnmappedTerms: org.opensearch.transport.grpc.proto.response.search.aggregation.bucket.terms.UnmappedTermsAggregateConverter
+[2026-10-29T00:29:35,076][INFO ][o.o.t.g.p.r.s.a.AggregateProtoConverterSpiRegistry] [Mac.ht.home] Set registry on 7 aggregate converter(s)
+[2026-10-29T00:29:35,076][INFO ][o.o.t.g.GrpcPlugin       ] [Mac.ht.home] Injecting registry and registering 1 external QueryBuilderProtoConverter(s)
+[2026-10-29T00:29:35,076][INFO ][o.o.t.g.GrpcPlugin       ] [Mac.ht.home] Processing external converter: org.opensearch.knn.grpc.proto.request.search.query.KNNQueryBuilderProtoConverter (handles: KNN)
+[2026-10-29T00:29:35,076][INFO ][o.o.t.g.GrpcPlugin       ] [Mac.ht.home] Injected registry into converter: org.opensearch.knn.grpc.proto.request.search.query.KNNQueryBuilderProtoConverter
+[2026-10-29T00:29:35,076][INFO ][o.o.t.g.p.r.s.q.QueryBuilderProtoConverterSpiRegistry] [Mac.ht.home] Registered query converter for KNN: org.opensearch.knn.grpc.proto.request.search.query.KNNQueryBuilderProtoConverter
+[2026-10-29T00:29:35,076][INFO ][o.o.t.g.GrpcPlugin       ] [Mac.ht.home] Successfully injected registry and registered all 1 external converters
+[2026-10-29T00:29:35,076][INFO ][o.o.t.g.p.r.s.q.QueryBuilderProtoConverterSpiRegistry] [Mac.ht.home] Set registry on 25 converters
+[2026-10-29T00:29:35,076][INFO ][o.o.t.g.GrpcPlugin       ] [Mac.ht.home] Updated registry on all converters to include external converters
+[2026-10-29T00:29:35,076][INFO ][o.o.t.g.GrpcPlugin       ] [Mac.ht.home] No external AggregationBuilderProtoConverter(s) to register
+[2026-10-29T00:29:35,076][INFO ][o.o.t.g.GrpcPlugin       ] [Mac.ht.home] No external AggregateProtoConverter(s) to register
+[2026-10-29T00:29:35,233][INFO ][o.o.t.NettyAllocator     ] [Mac.ht.home] creating NettyAllocator with the following configs: [name=unpooled, suggested_max_allocation_size=256kb, factors={opensearch.unsafe.use_unpooled_allocator=null, g1gc_enabled=true, g1gc_region_size=1mb, heap_size=512mb}]
+[2026-10-29T00:29:35,258][INFO ][o.o.d.DiscoveryModule    ] [Mac.ht.home] using discovery type [single-node] and seed hosts providers [settings]
+[2026-10-29T00:29:35,377][WARN ][o.o.g.DanglingIndicesState] [Mac.ht.home] gateway.auto_import_dangling_indices is disabled, dangling indices will not be automatically detected or imported and must be managed manually
+[2026-10-29T00:29:35,458][INFO ][o.o.n.Node               ] [Mac.ht.home] initialized
+[2026-10-29T00:29:35,458][INFO ][o.o.n.Node               ] [Mac.ht.home] starting ...
+[2026-10-29T00:29:35,521][INFO ][o.o.t.TransportService   ] [Mac.ht.home] publish_address {127.0.0.1:19300}, bound_addresses {127.0.0.1:19300}
+[2026-10-29T00:29:35,522][INFO ][o.o.t.TransportService   ] [Mac.ht.home] Remote clusters initialized successfully.
+[2026-10-29T00:29:35,624][INFO ][o.o.c.c.Coordinator      ] [Mac.ht.home] setting initial configuration to VotingConfiguration{6dVBJ7MgQYyJOvt3s9qpfg}
+[2026-10-29T00:29:35,738][INFO ][o.o.c.s.ClusterManagerService] [Mac.ht.home] Tasks batched with key: org.opensearch.cluster.coordination.JoinHelper, count:3 and sample tasks: elected-as-cluster-manager ([1] nodes joined)[{Mac.ht.home}{6dVBJ7MgQYyJOvt3s9qpfg}{s1PkhqCHRl-B22eJ35aGhQ}{127.0.0.1}{127.0.0.1:19300}{dimr}{shard_indexing_pressure_enabled=true} elect leader, _BECOME_CLUSTER_MANAGER_TASK_, _FINISH_ELECTION_], term: 1, version: 1, delta: cluster-manager node changed {previous [], current [{Mac.ht.home}{6dVBJ7MgQYyJOvt3s9qpfg}{s1PkhqCHRl-B22eJ35aGhQ}{127.0.0.1}{127.0.0.1:19300}{dimr}{shard_indexing_pressure_enabled=true}]}
+[2026-10-29T00:29:35,774][INFO ][o.o.c.c.CoordinationState] [Mac.ht.home] cluster UUID set to [m3kDYj3oSROTI6NMDrfnbQ]
+[2026-10-29T00:29:35,802][INFO ][o.o.c.s.ClusterApplierService] [Mac.ht.home] cluster-manager node changed {previous [], current [{Mac.ht.home}{6dVBJ7MgQYyJOvt3s9qpfg}{s1PkhqCHRl-B22eJ35aGhQ}{127.0.0.1}{127.0.0.1:19300}{dimr}{shard_indexing_pressure_enabled=true}]}, term: 1, version: 1, reason: Publication{term=1, version=1}
+[2026-10-29T00:29:35,807][INFO ][o.o.d.PeerFinder         ] [Mac.ht.home] setting findPeersInterval to [1s] as node commission status = [true] for local node [{Mac.ht.home}{6dVBJ7MgQYyJOvt3s9qpfg}{s1PkhqCHRl-B22eJ35aGhQ}{127.0.0.1}{127.0.0.1:19300}{dimr}{shard_indexing_pressure_enabled=true}]
+[2026-10-29T00:29:35,812][INFO ][o.o.h.AbstractHttpServerTransport] [Mac.ht.home] publish_address {127.0.0.1:19200}, bound_addresses {127.0.0.1:19200}
+[2026-10-29T00:29:35,814][INFO ][o.o.n.Node               ] [Mac.ht.home] started
+[2026-10-29T00:29:35,830][INFO ][o.o.g.GatewayService     ] [Mac.ht.home] recovered [0] indices into cluster_state
+[2026-10-29T00:30:12,102][INFO ][o.o.c.s.ClusterManagerTaskThrottler] [Mac.ht.home] Starting cluster manager throttling as all nodes are higher than or equal to 2.5.0
+[2026-10-29T00:30:12,110][INFO ][o.o.i.MergeSchedulerConfig] [Mac.ht.home] Updating autoThrottle for index fraud-article-cep-9503e104 from [false] to [true]
+[2026-10-29T00:30:12,111][INFO ][o.o.i.MergeSchedulerConfig] [Mac.ht.home] Updating maxThreadCount from [0] to [1] and maxMergeCount from [0] to [6] for index fraud-article-cep-9503e104.
+[2026-10-29T00:30:12,111][INFO ][o.o.i.MergeSchedulerConfig] [Mac.ht.home] Initialized index fraud-article-cep-9503e104 with maxMergeCount=6, maxThreadCount=1, autoThrottleEnabled=true
+[2026-10-29T00:30:12,118][INFO ][o.o.p.PluginsService     ] [Mac.ht.home] PluginService:onIndexModule index:[fraud-article-cep-9503e104/-Ey1vhXcShSKrH3nWl36zA]
+[2026-10-29T00:30:12,165][INFO ][o.o.i.MergeSchedulerConfig] [Mac.ht.home] Updating autoThrottle for index fraud-article-cep-9503e104 from [true] to [true]
+[2026-10-29T00:30:12,195][INFO ][o.o.c.m.MetadataCreateIndexService] [Mac.ht.home] [fraud-article-cep-9503e104] creating index, cause [api], templates [], shards [1]/[0]
+[2026-10-29T00:30:12,256][INFO ][o.o.i.MergeSchedulerConfig] [Mac.ht.home] Updating autoThrottle for index fraud-article-cep-9503e104 from [false] to [true]
+[2026-10-29T00:30:12,256][INFO ][o.o.i.MergeSchedulerConfig] [Mac.ht.home] Updating maxThreadCount from [0] to [1] and maxMergeCount from [0] to [6] for index fraud-article-cep-9503e104.
+[2026-10-29T00:30:12,256][INFO ][o.o.i.MergeSchedulerConfig] [Mac.ht.home] Initialized index fraud-article-cep-9503e104 with maxMergeCount=6, maxThreadCount=1, autoThrottleEnabled=true
+[2026-10-29T00:30:12,256][INFO ][o.o.p.PluginsService     ] [Mac.ht.home] PluginService:onIndexModule index:[fraud-article-cep-9503e104/-Ey1vhXcShSKrH3nWl36zA]
+[2026-10-29T00:30:12,258][INFO ][o.o.i.MergeSchedulerConfig] [Mac.ht.home] Updating autoThrottle for index fraud-article-cep-9503e104 from [true] to [true]
+[2026-10-29T00:30:12,433][INFO ][o.o.c.r.a.AllocationService] [Mac.ht.home] Cluster health status changed from [YELLOW] to [GREEN] (reason: [shards started [[fraud-article-cep-9503e104][0]]]).
+[2026-10-29T00:30:19,911][INFO ][o.o.c.m.MetadataDeleteIndexService] [Mac.ht.home] [fraud-article-cep-9503e104/-Ey1vhXcShSKrH3nWl36zA] deleting index

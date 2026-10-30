@@ -1,0 +1,21 @@
+[ {
+  "fixture" : "stalled",
+  "watermark" : -1,
+  "retained_attempts" : 1,
+  "serialized_operator_snapshot_bytes" : 5883
+}, {
+  "fixture" : "stalled",
+  "watermark" : -1,
+  "retained_attempts" : 24,
+  "serialized_operator_snapshot_bytes" : 81476
+}, {
+  "fixture" : "resume-first-expiry",
+  "watermark" : 120000,
+  "retained_attempts" : 23,
+  "serialized_operator_snapshot_bytes" : 78201
+}, {
+  "fixture" : "resume-all-due",
+  "watermark" : 120023,
+  "retained_attempts" : 0,
+  "serialized_operator_snapshot_bytes" : 2438
+} ]

@@ -1,0 +1,10 @@
+run_id: kafka-cep-20261029T052948Z
+provenance: measured
+cluster_id: 0Bt9wadKSqKPbN2CDDKovQ
+runtime: Flink 2.3.0 / connector 5.1.0-2.3 RC1 / Java 21
+scope: correctness; one broker, one partition, parallelism 1; test heap 2 GiB
+opensearch: http://127.0.0.1:19200
+openjdk version "21.0.13.0.2" 2026-10-22
+OpenJDK Runtime Environment Homebrew (build 21.0.13.0.2)
+OpenJDK 64-Bit Server VM Homebrew (build 21.0.13.0.2, mixed mode, sharing)
+4.3.1

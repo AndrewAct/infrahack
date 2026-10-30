@@ -1,0 +1,81 @@
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ----------------------< dev.infrahack:fraud-cep >-----------------------
+[INFO] Building fraud-cep 0.1.0
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ fraud-cep ---
+[INFO] skip non existing resourceDirectory /private/tmp/fraud-cep-work/realtime-fraud-prevention/java/src/main/resources
+[INFO] 
+[INFO] --- compiler:3.13.0:compile (default-compile) @ fraud-cep ---
+[INFO] Recompiling the module because of changed source code.
+[INFO] Compiling 7 source files with javac [debug release 21] to target/classes
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ fraud-cep ---
+[INFO] Copying 2 resources from src/test/resources to target/test-classes
+[INFO] 
+[INFO] --- compiler:3.13.0:testCompile (default-testCompile) @ fraud-cep ---
+[INFO] Recompiling the module because of changed dependency.
+[INFO] Compiling 4 source files with javac [debug release 21] to target/test-classes
+[INFO] Annotation processing is enabled because one or more processors were found
+  on the class path. A future release of javac may disable annotation processing
+  unless at least one processor is specified by name (-processor), or a search
+  path is specified (--processor-path, --processor-module-path), or annotation
+  processing is enabled explicitly (-proc:only, -proc:full).
+  Use -Xlint:-options to suppress this message.
+  Use -proc:none to disable annotation processing.
+[INFO] 
+[INFO] --- surefire:3.5.2:test (default-test) @ fraud-cep ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running dev.infrahack.fraud.ManagedStateTest
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.370 s -- in dev.infrahack.fraud.ManagedStateTest
+[INFO] Running dev.infrahack.fraud.CepIntegrationTest
+{"fixture":"ordered","steps":4,"expected_cases":1,"actual_cases":1,"pass":true,"rejections":{}}
+{"fixture":"reordered-admitted","steps":5,"expected_cases":1,"actual_cases":1,"pass":true,"rejections":{}}
+{"fixture":"reordered-too-late","steps":5,"expected_cases":0,"actual_cases":0,"pass":true,"rejections":{"late":1}}
+{"fixture":"watermark-tolerance-2000","steps":8,"expected_cases":0,"actual_cases":0,"pass":true,"rejections":{"late":1}}
+{"fixture":"watermark-tolerance-10000","steps":8,"expected_cases":0,"actual_cases":0,"pass":true,"rejections":{"late":1}}
+{"fixture":"watermark-tolerance-45000","steps":8,"expected_cases":1,"actual_cases":1,"pass":true,"rejections":{}}
+{"fixture":"two-failures","steps":3,"expected_cases":0,"actual_cases":0,"pass":true,"rejections":{}}
+{"fixture":"latest-three-of-four","steps":5,"expected_cases":1,"actual_cases":1,"pass":true,"rejections":{}}
+{"fixture":"success-breaks-sequence","steps":5,"expected_cases":0,"actual_cases":0,"pass":true,"rejections":{}}
+{"fixture":"one-failure-redelivered","steps":4,"expected_cases":0,"actual_cases":0,"pass":true,"rejections":{"duplicate":2}}
+{"fixture":"business-duplicate-fresh-event-id","steps":5,"expected_cases":1,"actual_cases":1,"pass":true,"rejections":{"duplicate":1}}
+{"fixture":"unfinished","steps":3,"expected_cases":0,"actual_cases":0,"pass":true,"rejections":{}}
+{"fixture":"duration-119999","steps":4,"expected_cases":1,"actual_cases":1,"pass":true,"rejections":{}}
+{"fixture":"duration-120000","steps":4,"expected_cases":0,"actual_cases":0,"pass":true,"rejections":{}}
+{"fixture":"duration-120001","steps":4,"expected_cases":0,"actual_cases":0,"pass":true,"rejections":{}}
+{"fixture":"equal-time-position-cutoff","steps":5,"expected_cases":1,"actual_cases":1,"pass":true,"rejections":{}}
+{"fixture":"equal-time-sequence-event-id-tie","steps":4,"expected_cases":1,"actual_cases":1,"pass":true,"rejections":{}}
+{"fixture":"interleaved-full-keys","steps":19,"expected_cases":4,"actual_cases":4,"pass":true,"rejections":{}}
+{"fixture":"attempt-conflict","steps":5,"expected_cases":1,"actual_cases":1,"pass":true,"rejections":{"conflict":1}}
+{"fixture":"event-id-conflict","steps":5,"expected_cases":1,"actual_cases":1,"pass":true,"rejections":{"conflict":1}}
+{"fixture":"missing-device","steps":4,"expected_cases":1,"actual_cases":1,"pass":true,"rejections":{}}
+{"fixture":"mixed-currency","steps":4,"expected_cases":1,"actual_cases":1,"pass":true,"rejections":{}}
+{"fixture":"startup-incomplete","steps":4,"expected_cases":1,"actual_cases":1,"pass":true,"rejections":{}}
+{"fixture":"ten-minute-open-lower-bound","steps":6,"expected_cases":1,"actual_cases":1,"pass":true,"rejections":{}}
+{"fixture":"invalid-input","steps":4,"expected_cases":0,"actual_cases":0,"pass":true,"rejections":{"invalid":4}}
+{"fixture":"seeded-randomized","steps":1450,"expected_cases":100,"actual_cases":100,"pass":true,"rejections":{"duplicate":298}}
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 12.76 s -- in dev.infrahack.fraud.CepIntegrationTest
+[INFO] 
+[INFO] Results:
+[INFO] 
+[INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] 
+[INFO] --- jar:3.4.2:jar (default-jar) @ fraud-cep ---
+[INFO] Building jar: /private/tmp/fraud-cep-work/realtime-fraud-prevention/java/target/fraud-cep-0.1.0.jar
+[INFO] 
+[INFO] --- dependency:3.7.0:build-classpath (default-cli) @ fraud-cep ---
+[INFO] Skipped writing classpath file '/private/tmp/fraud-cep-work/realtime-fraud-prevention/java/target/classpath.txt'.  No changes found.
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  14.819 s
+[INFO] Finished at: 2026-10-27T13:57:37-05:00
+[INFO] ------------------------------------------------------------------------

@@ -1,0 +1,5 @@
+{
+  "ordered_cases" : 1,
+  "reordered_cases" : 0,
+  "processing_time_policy" : "arrival order; no event-time comparator or feature reordering"
+}

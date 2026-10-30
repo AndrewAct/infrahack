@@ -1,0 +1,14 @@
+LOAD stage 0 100 events/s for 50s
+Exception in thread "main" java.lang.RuntimeException: org.apache.kafka.common.KafkaException: Failed to create new KafkaAdminClient
+	at dev.infrahack.fraud.PipelineLoadBenchmark.main(PipelineLoadBenchmark.java:194)
+Caused by: org.apache.kafka.common.KafkaException: Failed to create new KafkaAdminClient
+	at org.apache.kafka.clients.admin.KafkaAdminClient.createInternal(KafkaAdminClient.java:572)
+	at org.apache.kafka.clients.admin.Admin.create(Admin.java:144)
+	at org.apache.kafka.clients.admin.AdminClient.create(AdminClient.java:49)
+	at dev.infrahack.fraud.PipelineLoadBenchmark.lambda$main$4(PipelineLoadBenchmark.java:152)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+Caused by: org.apache.kafka.common.config.ConfigException: The specified value of default.api.timeout.ms must be no smaller than the value of request.timeout.ms.
+	at org.apache.kafka.clients.admin.KafkaAdminClient.configureDefaultApiTimeoutMs(KafkaAdminClient.java:656)
+	at org.apache.kafka.clients.admin.KafkaAdminClient.<init>(KafkaAdminClient.java:615)
+	at org.apache.kafka.clients.admin.KafkaAdminClient.createInternal(KafkaAdminClient.java:567)
+	... 4 more
