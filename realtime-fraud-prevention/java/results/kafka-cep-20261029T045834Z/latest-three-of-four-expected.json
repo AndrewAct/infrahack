@@ -1,0 +1,16 @@
+[ {
+  "evidence_event_ids" : [ "four_1", "four_2", "four_3", "four_4" ],
+  "features" : {
+    "attempt_count_10m" : 5,
+    "failed_attempt_count_10m" : 4,
+    "failure_fraction_10m" : 0.8,
+    "distinct_device_count_10m" : 2,
+    "distinct_ip_count_10m" : 3,
+    "attempted_amount_minor_sum_10m" : 5010,
+    "median_inter_attempt_seconds_10m" : 10.0,
+    "matched_sequence_duration_seconds" : 30.0
+  },
+  "feature_completeness" : "complete",
+  "feature_cutoff" : "2026-10-26T15:00:40Z",
+  "behavior_vector" : [ 0.38823676109313965, 0.34873148798942566, 0.8, 0.3608488142490387, 0.45534050464630127, 0.6166540384292603, 0.3747534155845642, 0.5366783142089844 ]
+} ]

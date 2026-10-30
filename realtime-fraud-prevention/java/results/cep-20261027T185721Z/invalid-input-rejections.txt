@@ -1,0 +1,5 @@
+invalid:Unrecognized token 'not': was expecting (JSON String, Number, Array, Object or token 'null', 'true' or 'false')
+ at [Source: REDACTED (`StreamReadFeature.INCLUDE_SOURCE_IN_LOCATION` disabled); line: 1, column: 4]
+invalid:missing string /payment/attempt_id
+invalid:expected a terminal authorization outcome
+invalid:invalid integer /payment/amount_minor

@@ -1,0 +1,1432 @@
+{
+  "n" : 100000,
+  "dimension" : 256,
+  "build_seconds" : 57.999454667,
+  "merge_seconds" : 0.070635708,
+  "segments" : {
+    "_shards" : {
+      "total" : 1,
+      "successful" : 1,
+      "failed" : 0
+    },
+    "indices" : {
+      "fraud-p2-retrieval-20261030t051228z-100000-256" : {
+        "shards" : {
+          "0" : [ {
+            "routing" : {
+              "state" : "STARTED",
+              "primary" : true,
+              "node" : "GNJzptVyQ4-JrZxWslW9zA"
+            },
+            "num_committed_segments" : 1,
+            "num_search_segments" : 1,
+            "segments" : {
+              "_0" : {
+                "generation" : 0,
+                "num_docs" : 100006,
+                "deleted_docs" : 0,
+                "size_in_bytes" : 110606536,
+                "memory_in_bytes" : 0,
+                "committed" : true,
+                "search" : true,
+                "version" : "10.5.1",
+                "compound" : true,
+                "attributes" : {
+                  "Lucene90StoredFieldsFormat.mode" : "BEST_SPEED",
+                  "derived_vector_fields" : "vector",
+                  "knn_delegate_stored_fields_codec_key" : "Lucene104"
+                }
+              }
+            }
+          } ]
+        }
+      }
+    }
+  },
+  "eligible_count" : 100000,
+  "graph_path" : {
+    "debugger_detached_before_timing" : true,
+    "queries" : [ {
+      "approximate_entries" : 1,
+      "query" : 0,
+      "exact_entries" : 0,
+      "returned_ids" : [ "c42152", "c98616", "c24040", "c86584", "c65120", "c96208", "c26704", "c45080", "c43472", "c77744" ]
+    }, {
+      "approximate_entries" : 1,
+      "query" : 1,
+      "exact_entries" : 0,
+      "returned_ids" : [ "c17697", "c38241", "c63529", "c46329", "c48465", "c80473", "c70721", "c61281", "c23881", "c46161" ]
+    }, {
+      "approximate_entries" : 1,
+      "query" : 2,
+      "exact_entries" : 0,
+      "returned_ids" : [ "c57850", "c17962", "c34730", "c31914", "c76658", "c58866", "c13810", "c85154", "c2938", "c59090" ]
+    }, {
+      "approximate_entries" : 1,
+      "query" : 3,
+      "exact_entries" : 0,
+      "returned_ids" : [ "c14387", "c31843", "c91971", "c83339", "c86819", "c48203", "c94083", "c15019", "c82019", "c55611" ]
+    }, {
+      "approximate_entries" : 1,
+      "query" : 4,
+      "exact_entries" : 0,
+      "returned_ids" : [ "c244", "c70836", "c36788", "c37420", "c41660", "c57716", "c65332", "c38316", "c20284", "c91940" ]
+    }, {
+      "approximate_entries" : 1,
+      "query" : 5,
+      "exact_entries" : 0,
+      "returned_ids" : [ "c27621", "c17573", "c41157", "c94085", "c78509", "c55805", "c62573", "c84909", "c173", "c34621" ]
+    }, {
+      "approximate_entries" : 1,
+      "query" : 6,
+      "exact_entries" : 0,
+      "returned_ids" : [ "c75822", "c29958", "c14238", "c75982", "c1078", "c25006", "c69350", "c65790", "c19910", "c95998" ]
+    }, {
+      "approximate_entries" : 1,
+      "query" : 7,
+      "exact_entries" : 0,
+      "returned_ids" : [ "c26295", "c16999", "c95551", "c50127", "c41727", "c34215", "c18575", "c78735", "c33343", "c3295" ]
+    }, {
+      "approximate_entries" : 1,
+      "query" : 8,
+      "exact_entries" : 0,
+      "returned_ids" : [ "c68816", "c14480", "c70216", "c77712", "c51768", "c58688", "c50008", "c95360", "c46256", "c64632" ]
+    }, {
+      "approximate_entries" : 1,
+      "query" : 9,
+      "exact_entries" : 0,
+      "returned_ids" : [ "c89849", "c87529", "c51001", "c7313", "c12817", "c11745", "c417", "c64817", "c70353", "c74977" ]
+    }, {
+      "approximate_entries" : 1,
+      "query" : 10,
+      "exact_entries" : 0,
+      "returned_ids" : [ "c86514", "c85562", "c11866", "c51378", "c30250", "c44370", "c24874", "c91410", "c20266", "c66426" ]
+    }, {
+      "approximate_entries" : 1,
+      "query" : 11,
+      "exact_entries" : 0,
+      "returned_ids" : [ "c67051", "c94483", "c57763", "c52227", "c91971", "c55547", "c37235", "c88595", "c36027", "c97995" ]
+    } ]
+  },
+  "selective_exact_path" : {
+    "debugger_detached_before_timing" : true,
+    "queries" : [ {
+      "approximate_entries" : 0,
+      "query" : 0,
+      "exact_entries" : 1,
+      "returned_ids" : [ "c0", "c1", "c3", "c2", "c4" ]
+    } ]
+  },
+  "graph_path_32" : {
+    "debugger_detached_before_timing" : true,
+    "queries" : [ {
+      "approximate_entries" : 1,
+      "query" : 0,
+      "exact_entries" : 0,
+      "returned_ids" : [ "c42152", "c98616", "c24040", "c86584", "c65120", "c96208", "c26704", "c45080", "c43472", "c77744" ]
+    }, {
+      "approximate_entries" : 1,
+      "query" : 1,
+      "exact_entries" : 0,
+      "returned_ids" : [ "c17697", "c38241", "c63529", "c80473", "c70721", "c23881", "c46161", "c16217", "c87281", "c61265" ]
+    }, {
+      "approximate_entries" : 1,
+      "query" : 2,
+      "exact_entries" : 0,
+      "returned_ids" : [ "c17962", "c34730", "c31914", "c76658", "c13810", "c85154", "c2938", "c59090", "c72466", "c97010" ]
+    }, {
+      "approximate_entries" : 1,
+      "query" : 3,
+      "exact_entries" : 0,
+      "returned_ids" : [ "c14387", "c31843", "c83339", "c86819", "c48203", "c94083", "c15019", "c82019", "c55611", "c75883" ]
+    }, {
+      "approximate_entries" : 1,
+      "query" : 4,
+      "exact_entries" : 0,
+      "returned_ids" : [ "c70836", "c36788", "c41660", "c57716", "c65332", "c38316", "c20284", "c91940", "c44028", "c65324" ]
+    }, {
+      "approximate_entries" : 1,
+      "query" : 5,
+      "exact_entries" : 0,
+      "returned_ids" : [ "c27621", "c17573", "c62573", "c56605", "c22885", "c74605", "c50501", "c19469", "c61973", "c80677" ]
+    }, {
+      "approximate_entries" : 1,
+      "query" : 6,
+      "exact_entries" : 0,
+      "returned_ids" : [ "c75822", "c29958", "c1078", "c25006", "c69350", "c19910", "c95998", "c24774", "c38302", "c82662" ]
+    }, {
+      "approximate_entries" : 1,
+      "query" : 7,
+      "exact_entries" : 0,
+      "returned_ids" : [ "c26295", "c16999", "c50127", "c41727", "c34215", "c18575", "c78735", "c33343", "c3295", "c21447" ]
+    }, {
+      "approximate_entries" : 1,
+      "query" : 8,
+      "exact_entries" : 0,
+      "returned_ids" : [ "c14480", "c70216", "c77712", "c51768", "c58688", "c95360", "c64632", "c42424", "c432", "c10864" ]
+    }, {
+      "approximate_entries" : 1,
+      "query" : 9,
+      "exact_entries" : 0,
+      "returned_ids" : [ "c51001", "c7313", "c12817", "c11745", "c417", "c64817", "c70353", "c74977", "c48545", "c76561" ]
+    }, {
+      "approximate_entries" : 1,
+      "query" : 10,
+      "exact_entries" : 0,
+      "returned_ids" : [ "c86514", "c85562", "c11866", "c51378", "c91410", "c66426", "c81762", "c12418", "c23426", "c85858" ]
+    }, {
+      "approximate_entries" : 1,
+      "query" : 11,
+      "exact_entries" : 0,
+      "returned_ids" : [ "c94483", "c91971", "c55547", "c88595", "c36027", "c97995", "c99363", "c60011", "c54307", "c84627" ]
+    } ]
+  },
+  "graph_path_200" : {
+    "debugger_detached_before_timing" : true,
+    "queries" : [ {
+      "approximate_entries" : 1,
+      "query" : 0,
+      "exact_entries" : 0,
+      "returned_ids" : [ "c42152", "c98616", "c24040", "c86584", "c65120", "c96208", "c26704", "c45080", "c43472", "c77744" ]
+    }, {
+      "approximate_entries" : 1,
+      "query" : 1,
+      "exact_entries" : 0,
+      "returned_ids" : [ "c17697", "c38241", "c63529", "c46329", "c48465", "c80473", "c70721", "c61281", "c23881", "c46161" ]
+    }, {
+      "approximate_entries" : 1,
+      "query" : 2,
+      "exact_entries" : 0,
+      "returned_ids" : [ "c57850", "c17962", "c34730", "c31914", "c76658", "c58866", "c13810", "c85154", "c2938", "c59090" ]
+    }, {
+      "approximate_entries" : 1,
+      "query" : 3,
+      "exact_entries" : 0,
+      "returned_ids" : [ "c14387", "c31843", "c91971", "c83339", "c86819", "c48203", "c94083", "c15019", "c82019", "c55611" ]
+    }, {
+      "approximate_entries" : 1,
+      "query" : 4,
+      "exact_entries" : 0,
+      "returned_ids" : [ "c244", "c70836", "c36788", "c37420", "c41660", "c57716", "c65332", "c85620", "c38316", "c75508" ]
+    }, {
+      "approximate_entries" : 1,
+      "query" : 5,
+      "exact_entries" : 0,
+      "returned_ids" : [ "c27621", "c17573", "c41157", "c94085", "c78509", "c61869", "c55805", "c62573", "c84909", "c173" ]
+    }, {
+      "approximate_entries" : 1,
+      "query" : 6,
+      "exact_entries" : 0,
+      "returned_ids" : [ "c75822", "c29958", "c14238", "c75982", "c74174", "c1078", "c25006", "c69350", "c65790", "c19910" ]
+    }, {
+      "approximate_entries" : 1,
+      "query" : 7,
+      "exact_entries" : 0,
+      "returned_ids" : [ "c26295", "c16999", "c95551", "c50127", "c41727", "c65919", "c34215", "c18575", "c78735", "c33343" ]
+    }, {
+      "approximate_entries" : 1,
+      "query" : 8,
+      "exact_entries" : 0,
+      "returned_ids" : [ "c68816", "c14480", "c70216", "c77712", "c51768", "c58688", "c50008", "c95360", "c46256", "c64632" ]
+    }, {
+      "approximate_entries" : 1,
+      "query" : 9,
+      "exact_entries" : 0,
+      "returned_ids" : [ "c89849", "c87529", "c51001", "c7313", "c12817", "c11745", "c417", "c64817", "c70353", "c74977" ]
+    }, {
+      "approximate_entries" : 1,
+      "query" : 10,
+      "exact_entries" : 0,
+      "returned_ids" : [ "c86514", "c33170", "c85562", "c11866", "c51378", "c30250", "c44370", "c24874", "c91410", "c20266" ]
+    }, {
+      "approximate_entries" : 1,
+      "query" : 11,
+      "exact_entries" : 0,
+      "returned_ids" : [ "c67051", "c94483", "c57763", "c52227", "c91971", "c55547", "c37235", "c88595", "c36027", "c97995" ]
+    } ]
+  },
+  "index_stats" : {
+    "_shards" : {
+      "total" : 1,
+      "successful" : 1,
+      "failed" : 0
+    },
+    "_all" : {
+      "primaries" : {
+        "docs" : {
+          "count" : 100006,
+          "deleted" : 0
+        },
+        "store" : {
+          "size_in_bytes" : 1147091,
+          "reserved_in_bytes" : 0
+        },
+        "indexing" : {
+          "index_total" : 100006,
+          "index_time_in_millis" : 40285,
+          "index_current" : 0,
+          "index_failed" : 0,
+          "delete_total" : 0,
+          "delete_time_in_millis" : 0,
+          "delete_current" : 0,
+          "noop_update_total" : 0,
+          "is_throttled" : false,
+          "throttle_time_in_millis" : 0,
+          "max_last_index_request_timestamp" : 1793337287149
+        },
+        "get" : {
+          "total" : 0,
+          "getTime" : "0s",
+          "time_in_millis" : 0,
+          "exists_total" : 0,
+          "exists_time_in_millis" : 0,
+          "missing_total" : 0,
+          "missing_time_in_millis" : 0,
+          "current" : 0
+        },
+        "search" : {
+          "open_contexts" : 0,
+          "query_total" : 294,
+          "query_time_in_millis" : 1675,
+          "query_current" : 0,
+          "query_failed" : 0,
+          "concurrent_query_total" : 0,
+          "concurrent_query_time_in_millis" : 0,
+          "concurrent_query_current" : 0,
+          "concurrent_avg_slice_count" : 0.0,
+          "startree_query_total" : 0,
+          "startree_query_time_in_millis" : 0,
+          "startree_query_current" : 0,
+          "startree_query_failed" : 0,
+          "fetch_total" : 294,
+          "fetch_time_in_millis" : 17,
+          "fetch_current" : 0,
+          "scroll_total" : 0,
+          "scroll_time_in_millis" : 0,
+          "scroll_current" : 0,
+          "point_in_time_total" : 0,
+          "point_in_time_time_in_millis" : 0,
+          "point_in_time_current" : 0,
+          "suggest_total" : 0,
+          "suggest_time_in_millis" : 0,
+          "suggest_current" : 0,
+          "search_idle_reactivate_count_total" : 0
+        },
+        "merges" : {
+          "current" : 0,
+          "current_docs" : 0,
+          "current_size_in_bytes" : 0,
+          "total" : 0,
+          "total_time_in_millis" : 0,
+          "total_docs" : 0,
+          "total_size_in_bytes" : 0,
+          "total_stopped_time_in_millis" : 0,
+          "total_throttled_time_in_millis" : 0,
+          "total_auto_throttle_in_bytes" : 20971520,
+          "unreferenced_file_cleanups_performed" : 0,
+          "warmer" : {
+            "total_invocations_count" : 0,
+            "total_time_millis" : 0,
+            "total_failure_count" : 0,
+            "total_bytes_sent" : 0,
+            "total_bytes_received" : 0,
+            "total_send_time_millis" : 0,
+            "total_receive_time_millis" : 0,
+            "ongoing_count" : 0
+          }
+        },
+        "refresh" : {
+          "total" : 4,
+          "total_time_in_millis" : 282,
+          "external_total" : 3,
+          "external_total_time_in_millis" : 282,
+          "listeners" : 0
+        },
+        "flush" : {
+          "total" : 0,
+          "periodic" : 0,
+          "total_time_in_millis" : 0
+        },
+        "warmer" : {
+          "current" : 0,
+          "total" : 2,
+          "total_time_in_millis" : 0
+        },
+        "query_cache" : {
+          "memory_size_in_bytes" : 28528,
+          "total_count" : 708,
+          "hit_count" : 287,
+          "miss_count" : 421,
+          "cache_size" : 3,
+          "cache_count" : 3,
+          "evictions" : 0
+        },
+        "fielddata" : {
+          "memory_size_in_bytes" : 0,
+          "evictions" : 0
+        },
+        "completion" : {
+          "size_in_bytes" : 0
+        },
+        "segments" : {
+          "count" : 1,
+          "memory_in_bytes" : 0,
+          "terms_memory_in_bytes" : 0,
+          "stored_fields_memory_in_bytes" : 0,
+          "term_vectors_memory_in_bytes" : 0,
+          "norms_memory_in_bytes" : 0,
+          "points_memory_in_bytes" : 0,
+          "doc_values_memory_in_bytes" : 0,
+          "index_writer_memory_in_bytes" : 0,
+          "version_map_memory_in_bytes" : 0,
+          "fixed_bit_set_memory_in_bytes" : 0,
+          "max_unsafe_auto_id_timestamp" : -1,
+          "remote_store" : {
+            "upload" : {
+              "total_upload_size" : {
+                "started_bytes" : 0,
+                "succeeded_bytes" : 0,
+                "failed_bytes" : 0
+              },
+              "refresh_size_lag" : {
+                "total_bytes" : 0,
+                "max_bytes" : 0
+              },
+              "max_refresh_time_lag_in_millis" : 0,
+              "total_time_spent_in_millis" : 0,
+              "pressure" : {
+                "total_rejections" : 0
+              }
+            },
+            "download" : {
+              "total_download_size" : {
+                "started_bytes" : 0,
+                "succeeded_bytes" : 0,
+                "failed_bytes" : 0
+              },
+              "total_time_spent_in_millis" : 0
+            }
+          },
+          "segment_replication" : {
+            "max_bytes_behind" : 0,
+            "total_bytes_behind" : 0,
+            "max_replication_lag" : 0
+          },
+          "file_sizes" : { }
+        },
+        "translog" : {
+          "operations" : 0,
+          "size_in_bytes" : 55,
+          "uncommitted_operations" : 0,
+          "uncommitted_size_in_bytes" : 55,
+          "earliest_last_modified_age" : 6926,
+          "remote_store" : {
+            "upload" : {
+              "total_uploads" : {
+                "started" : 0,
+                "failed" : 0,
+                "succeeded" : 0
+              },
+              "total_upload_size" : {
+                "started_bytes" : 0,
+                "failed_bytes" : 0,
+                "succeeded_bytes" : 0
+              }
+            }
+          }
+        },
+        "request_cache" : {
+          "memory_size_in_bytes" : 1152,
+          "evictions" : 0,
+          "hit_count" : 0,
+          "miss_count" : 1
+        },
+        "recovery" : {
+          "current_as_source" : 0,
+          "current_as_target" : 0,
+          "throttle_time_in_millis" : 0
+        }
+      },
+      "total" : {
+        "docs" : {
+          "count" : 100006,
+          "deleted" : 0
+        },
+        "store" : {
+          "size_in_bytes" : 1147091,
+          "reserved_in_bytes" : 0
+        },
+        "indexing" : {
+          "index_total" : 100006,
+          "index_time_in_millis" : 40285,
+          "index_current" : 0,
+          "index_failed" : 0,
+          "delete_total" : 0,
+          "delete_time_in_millis" : 0,
+          "delete_current" : 0,
+          "noop_update_total" : 0,
+          "is_throttled" : false,
+          "throttle_time_in_millis" : 0,
+          "max_last_index_request_timestamp" : 1793337287149
+        },
+        "get" : {
+          "total" : 0,
+          "getTime" : "0s",
+          "time_in_millis" : 0,
+          "exists_total" : 0,
+          "exists_time_in_millis" : 0,
+          "missing_total" : 0,
+          "missing_time_in_millis" : 0,
+          "current" : 0
+        },
+        "search" : {
+          "open_contexts" : 0,
+          "query_total" : 294,
+          "query_time_in_millis" : 1675,
+          "query_current" : 0,
+          "query_failed" : 0,
+          "concurrent_query_total" : 0,
+          "concurrent_query_time_in_millis" : 0,
+          "concurrent_query_current" : 0,
+          "concurrent_avg_slice_count" : 0.0,
+          "startree_query_total" : 0,
+          "startree_query_time_in_millis" : 0,
+          "startree_query_current" : 0,
+          "startree_query_failed" : 0,
+          "fetch_total" : 294,
+          "fetch_time_in_millis" : 17,
+          "fetch_current" : 0,
+          "scroll_total" : 0,
+          "scroll_time_in_millis" : 0,
+          "scroll_current" : 0,
+          "point_in_time_total" : 0,
+          "point_in_time_time_in_millis" : 0,
+          "point_in_time_current" : 0,
+          "suggest_total" : 0,
+          "suggest_time_in_millis" : 0,
+          "suggest_current" : 0,
+          "search_idle_reactivate_count_total" : 0
+        },
+        "merges" : {
+          "current" : 0,
+          "current_docs" : 0,
+          "current_size_in_bytes" : 0,
+          "total" : 0,
+          "total_time_in_millis" : 0,
+          "total_docs" : 0,
+          "total_size_in_bytes" : 0,
+          "total_stopped_time_in_millis" : 0,
+          "total_throttled_time_in_millis" : 0,
+          "total_auto_throttle_in_bytes" : 20971520,
+          "unreferenced_file_cleanups_performed" : 0,
+          "warmer" : {
+            "total_invocations_count" : 0,
+            "total_time_millis" : 0,
+            "total_failure_count" : 0,
+            "total_bytes_sent" : 0,
+            "total_bytes_received" : 0,
+            "total_send_time_millis" : 0,
+            "total_receive_time_millis" : 0,
+            "ongoing_count" : 0
+          }
+        },
+        "refresh" : {
+          "total" : 4,
+          "total_time_in_millis" : 282,
+          "external_total" : 3,
+          "external_total_time_in_millis" : 282,
+          "listeners" : 0
+        },
+        "flush" : {
+          "total" : 0,
+          "periodic" : 0,
+          "total_time_in_millis" : 0
+        },
+        "warmer" : {
+          "current" : 0,
+          "total" : 2,
+          "total_time_in_millis" : 0
+        },
+        "query_cache" : {
+          "memory_size_in_bytes" : 28528,
+          "total_count" : 708,
+          "hit_count" : 287,
+          "miss_count" : 421,
+          "cache_size" : 3,
+          "cache_count" : 3,
+          "evictions" : 0
+        },
+        "fielddata" : {
+          "memory_size_in_bytes" : 0,
+          "evictions" : 0
+        },
+        "completion" : {
+          "size_in_bytes" : 0
+        },
+        "segments" : {
+          "count" : 1,
+          "memory_in_bytes" : 0,
+          "terms_memory_in_bytes" : 0,
+          "stored_fields_memory_in_bytes" : 0,
+          "term_vectors_memory_in_bytes" : 0,
+          "norms_memory_in_bytes" : 0,
+          "points_memory_in_bytes" : 0,
+          "doc_values_memory_in_bytes" : 0,
+          "index_writer_memory_in_bytes" : 0,
+          "version_map_memory_in_bytes" : 0,
+          "fixed_bit_set_memory_in_bytes" : 0,
+          "max_unsafe_auto_id_timestamp" : -1,
+          "remote_store" : {
+            "upload" : {
+              "total_upload_size" : {
+                "started_bytes" : 0,
+                "succeeded_bytes" : 0,
+                "failed_bytes" : 0
+              },
+              "refresh_size_lag" : {
+                "total_bytes" : 0,
+                "max_bytes" : 0
+              },
+              "max_refresh_time_lag_in_millis" : 0,
+              "total_time_spent_in_millis" : 0,
+              "pressure" : {
+                "total_rejections" : 0
+              }
+            },
+            "download" : {
+              "total_download_size" : {
+                "started_bytes" : 0,
+                "succeeded_bytes" : 0,
+                "failed_bytes" : 0
+              },
+              "total_time_spent_in_millis" : 0
+            }
+          },
+          "segment_replication" : {
+            "max_bytes_behind" : 0,
+            "total_bytes_behind" : 0,
+            "max_replication_lag" : 0
+          },
+          "file_sizes" : { }
+        },
+        "translog" : {
+          "operations" : 0,
+          "size_in_bytes" : 55,
+          "uncommitted_operations" : 0,
+          "uncommitted_size_in_bytes" : 55,
+          "earliest_last_modified_age" : 6926,
+          "remote_store" : {
+            "upload" : {
+              "total_uploads" : {
+                "started" : 0,
+                "failed" : 0,
+                "succeeded" : 0
+              },
+              "total_upload_size" : {
+                "started_bytes" : 0,
+                "failed_bytes" : 0,
+                "succeeded_bytes" : 0
+              }
+            }
+          }
+        },
+        "request_cache" : {
+          "memory_size_in_bytes" : 1152,
+          "evictions" : 0,
+          "hit_count" : 0,
+          "miss_count" : 1
+        },
+        "recovery" : {
+          "current_as_source" : 0,
+          "current_as_target" : 0,
+          "throttle_time_in_millis" : 0
+        }
+      }
+    },
+    "indices" : {
+      "fraud-p2-retrieval-20261030t051228z-100000-256" : {
+        "uuid" : "mnttSxbOQNC0qmJwNoFhaw",
+        "primaries" : {
+          "docs" : {
+            "count" : 100006,
+            "deleted" : 0
+          },
+          "store" : {
+            "size_in_bytes" : 1147091,
+            "reserved_in_bytes" : 0
+          },
+          "indexing" : {
+            "index_total" : 100006,
+            "index_time_in_millis" : 40285,
+            "index_current" : 0,
+            "index_failed" : 0,
+            "delete_total" : 0,
+            "delete_time_in_millis" : 0,
+            "delete_current" : 0,
+            "noop_update_total" : 0,
+            "is_throttled" : false,
+            "throttle_time_in_millis" : 0,
+            "max_last_index_request_timestamp" : 1793337287149
+          },
+          "get" : {
+            "total" : 0,
+            "getTime" : "0s",
+            "time_in_millis" : 0,
+            "exists_total" : 0,
+            "exists_time_in_millis" : 0,
+            "missing_total" : 0,
+            "missing_time_in_millis" : 0,
+            "current" : 0
+          },
+          "search" : {
+            "open_contexts" : 0,
+            "query_total" : 294,
+            "query_time_in_millis" : 1675,
+            "query_current" : 0,
+            "query_failed" : 0,
+            "concurrent_query_total" : 0,
+            "concurrent_query_time_in_millis" : 0,
+            "concurrent_query_current" : 0,
+            "concurrent_avg_slice_count" : 0.0,
+            "startree_query_total" : 0,
+            "startree_query_time_in_millis" : 0,
+            "startree_query_current" : 0,
+            "startree_query_failed" : 0,
+            "fetch_total" : 294,
+            "fetch_time_in_millis" : 17,
+            "fetch_current" : 0,
+            "scroll_total" : 0,
+            "scroll_time_in_millis" : 0,
+            "scroll_current" : 0,
+            "point_in_time_total" : 0,
+            "point_in_time_time_in_millis" : 0,
+            "point_in_time_current" : 0,
+            "suggest_total" : 0,
+            "suggest_time_in_millis" : 0,
+            "suggest_current" : 0,
+            "search_idle_reactivate_count_total" : 0
+          },
+          "merges" : {
+            "current" : 0,
+            "current_docs" : 0,
+            "current_size_in_bytes" : 0,
+            "total" : 0,
+            "total_time_in_millis" : 0,
+            "total_docs" : 0,
+            "total_size_in_bytes" : 0,
+            "total_stopped_time_in_millis" : 0,
+            "total_throttled_time_in_millis" : 0,
+            "total_auto_throttle_in_bytes" : 20971520,
+            "unreferenced_file_cleanups_performed" : 0,
+            "warmer" : {
+              "total_invocations_count" : 0,
+              "total_time_millis" : 0,
+              "total_failure_count" : 0,
+              "total_bytes_sent" : 0,
+              "total_bytes_received" : 0,
+              "total_send_time_millis" : 0,
+              "total_receive_time_millis" : 0,
+              "ongoing_count" : 0
+            }
+          },
+          "refresh" : {
+            "total" : 4,
+            "total_time_in_millis" : 282,
+            "external_total" : 3,
+            "external_total_time_in_millis" : 282,
+            "listeners" : 0
+          },
+          "flush" : {
+            "total" : 0,
+            "periodic" : 0,
+            "total_time_in_millis" : 0
+          },
+          "warmer" : {
+            "current" : 0,
+            "total" : 2,
+            "total_time_in_millis" : 0
+          },
+          "query_cache" : {
+            "memory_size_in_bytes" : 28528,
+            "total_count" : 708,
+            "hit_count" : 287,
+            "miss_count" : 421,
+            "cache_size" : 3,
+            "cache_count" : 3,
+            "evictions" : 0
+          },
+          "fielddata" : {
+            "memory_size_in_bytes" : 0,
+            "evictions" : 0
+          },
+          "completion" : {
+            "size_in_bytes" : 0
+          },
+          "segments" : {
+            "count" : 1,
+            "memory_in_bytes" : 0,
+            "terms_memory_in_bytes" : 0,
+            "stored_fields_memory_in_bytes" : 0,
+            "term_vectors_memory_in_bytes" : 0,
+            "norms_memory_in_bytes" : 0,
+            "points_memory_in_bytes" : 0,
+            "doc_values_memory_in_bytes" : 0,
+            "index_writer_memory_in_bytes" : 0,
+            "version_map_memory_in_bytes" : 0,
+            "fixed_bit_set_memory_in_bytes" : 0,
+            "max_unsafe_auto_id_timestamp" : -1,
+            "remote_store" : {
+              "upload" : {
+                "total_upload_size" : {
+                  "started_bytes" : 0,
+                  "succeeded_bytes" : 0,
+                  "failed_bytes" : 0
+                },
+                "refresh_size_lag" : {
+                  "total_bytes" : 0,
+                  "max_bytes" : 0
+                },
+                "max_refresh_time_lag_in_millis" : 0,
+                "total_time_spent_in_millis" : 0,
+                "pressure" : {
+                  "total_rejections" : 0
+                }
+              },
+              "download" : {
+                "total_download_size" : {
+                  "started_bytes" : 0,
+                  "succeeded_bytes" : 0,
+                  "failed_bytes" : 0
+                },
+                "total_time_spent_in_millis" : 0
+              }
+            },
+            "segment_replication" : {
+              "max_bytes_behind" : 0,
+              "total_bytes_behind" : 0,
+              "max_replication_lag" : 0
+            },
+            "file_sizes" : { }
+          },
+          "translog" : {
+            "operations" : 0,
+            "size_in_bytes" : 55,
+            "uncommitted_operations" : 0,
+            "uncommitted_size_in_bytes" : 55,
+            "earliest_last_modified_age" : 6926,
+            "remote_store" : {
+              "upload" : {
+                "total_uploads" : {
+                  "started" : 0,
+                  "failed" : 0,
+                  "succeeded" : 0
+                },
+                "total_upload_size" : {
+                  "started_bytes" : 0,
+                  "failed_bytes" : 0,
+                  "succeeded_bytes" : 0
+                }
+              }
+            }
+          },
+          "request_cache" : {
+            "memory_size_in_bytes" : 1152,
+            "evictions" : 0,
+            "hit_count" : 0,
+            "miss_count" : 1
+          },
+          "recovery" : {
+            "current_as_source" : 0,
+            "current_as_target" : 0,
+            "throttle_time_in_millis" : 0
+          }
+        },
+        "total" : {
+          "docs" : {
+            "count" : 100006,
+            "deleted" : 0
+          },
+          "store" : {
+            "size_in_bytes" : 1147091,
+            "reserved_in_bytes" : 0
+          },
+          "indexing" : {
+            "index_total" : 100006,
+            "index_time_in_millis" : 40285,
+            "index_current" : 0,
+            "index_failed" : 0,
+            "delete_total" : 0,
+            "delete_time_in_millis" : 0,
+            "delete_current" : 0,
+            "noop_update_total" : 0,
+            "is_throttled" : false,
+            "throttle_time_in_millis" : 0,
+            "max_last_index_request_timestamp" : 1793337287149
+          },
+          "get" : {
+            "total" : 0,
+            "getTime" : "0s",
+            "time_in_millis" : 0,
+            "exists_total" : 0,
+            "exists_time_in_millis" : 0,
+            "missing_total" : 0,
+            "missing_time_in_millis" : 0,
+            "current" : 0
+          },
+          "search" : {
+            "open_contexts" : 0,
+            "query_total" : 294,
+            "query_time_in_millis" : 1675,
+            "query_current" : 0,
+            "query_failed" : 0,
+            "concurrent_query_total" : 0,
+            "concurrent_query_time_in_millis" : 0,
+            "concurrent_query_current" : 0,
+            "concurrent_avg_slice_count" : 0.0,
+            "startree_query_total" : 0,
+            "startree_query_time_in_millis" : 0,
+            "startree_query_current" : 0,
+            "startree_query_failed" : 0,
+            "fetch_total" : 294,
+            "fetch_time_in_millis" : 17,
+            "fetch_current" : 0,
+            "scroll_total" : 0,
+            "scroll_time_in_millis" : 0,
+            "scroll_current" : 0,
+            "point_in_time_total" : 0,
+            "point_in_time_time_in_millis" : 0,
+            "point_in_time_current" : 0,
+            "suggest_total" : 0,
+            "suggest_time_in_millis" : 0,
+            "suggest_current" : 0,
+            "search_idle_reactivate_count_total" : 0
+          },
+          "merges" : {
+            "current" : 0,
+            "current_docs" : 0,
+            "current_size_in_bytes" : 0,
+            "total" : 0,
+            "total_time_in_millis" : 0,
+            "total_docs" : 0,
+            "total_size_in_bytes" : 0,
+            "total_stopped_time_in_millis" : 0,
+            "total_throttled_time_in_millis" : 0,
+            "total_auto_throttle_in_bytes" : 20971520,
+            "unreferenced_file_cleanups_performed" : 0,
+            "warmer" : {
+              "total_invocations_count" : 0,
+              "total_time_millis" : 0,
+              "total_failure_count" : 0,
+              "total_bytes_sent" : 0,
+              "total_bytes_received" : 0,
+              "total_send_time_millis" : 0,
+              "total_receive_time_millis" : 0,
+              "ongoing_count" : 0
+            }
+          },
+          "refresh" : {
+            "total" : 4,
+            "total_time_in_millis" : 282,
+            "external_total" : 3,
+            "external_total_time_in_millis" : 282,
+            "listeners" : 0
+          },
+          "flush" : {
+            "total" : 0,
+            "periodic" : 0,
+            "total_time_in_millis" : 0
+          },
+          "warmer" : {
+            "current" : 0,
+            "total" : 2,
+            "total_time_in_millis" : 0
+          },
+          "query_cache" : {
+            "memory_size_in_bytes" : 28528,
+            "total_count" : 708,
+            "hit_count" : 287,
+            "miss_count" : 421,
+            "cache_size" : 3,
+            "cache_count" : 3,
+            "evictions" : 0
+          },
+          "fielddata" : {
+            "memory_size_in_bytes" : 0,
+            "evictions" : 0
+          },
+          "completion" : {
+            "size_in_bytes" : 0
+          },
+          "segments" : {
+            "count" : 1,
+            "memory_in_bytes" : 0,
+            "terms_memory_in_bytes" : 0,
+            "stored_fields_memory_in_bytes" : 0,
+            "term_vectors_memory_in_bytes" : 0,
+            "norms_memory_in_bytes" : 0,
+            "points_memory_in_bytes" : 0,
+            "doc_values_memory_in_bytes" : 0,
+            "index_writer_memory_in_bytes" : 0,
+            "version_map_memory_in_bytes" : 0,
+            "fixed_bit_set_memory_in_bytes" : 0,
+            "max_unsafe_auto_id_timestamp" : -1,
+            "remote_store" : {
+              "upload" : {
+                "total_upload_size" : {
+                  "started_bytes" : 0,
+                  "succeeded_bytes" : 0,
+                  "failed_bytes" : 0
+                },
+                "refresh_size_lag" : {
+                  "total_bytes" : 0,
+                  "max_bytes" : 0
+                },
+                "max_refresh_time_lag_in_millis" : 0,
+                "total_time_spent_in_millis" : 0,
+                "pressure" : {
+                  "total_rejections" : 0
+                }
+              },
+              "download" : {
+                "total_download_size" : {
+                  "started_bytes" : 0,
+                  "succeeded_bytes" : 0,
+                  "failed_bytes" : 0
+                },
+                "total_time_spent_in_millis" : 0
+              }
+            },
+            "segment_replication" : {
+              "max_bytes_behind" : 0,
+              "total_bytes_behind" : 0,
+              "max_replication_lag" : 0
+            },
+            "file_sizes" : { }
+          },
+          "translog" : {
+            "operations" : 0,
+            "size_in_bytes" : 55,
+            "uncommitted_operations" : 0,
+            "uncommitted_size_in_bytes" : 55,
+            "earliest_last_modified_age" : 6926,
+            "remote_store" : {
+              "upload" : {
+                "total_uploads" : {
+                  "started" : 0,
+                  "failed" : 0,
+                  "succeeded" : 0
+                },
+                "total_upload_size" : {
+                  "started_bytes" : 0,
+                  "failed_bytes" : 0,
+                  "succeeded_bytes" : 0
+                }
+              }
+            }
+          },
+          "request_cache" : {
+            "memory_size_in_bytes" : 1152,
+            "evictions" : 0,
+            "hit_count" : 0,
+            "miss_count" : 1
+          },
+          "recovery" : {
+            "current_as_source" : 0,
+            "current_as_target" : 0,
+            "throttle_time_in_millis" : 0
+          }
+        }
+      }
+    }
+  },
+  "node_stats" : {
+    "_nodes" : {
+      "total" : 1,
+      "successful" : 1,
+      "failed" : 0
+    },
+    "cluster_name" : "fraud-part2-isolated",
+    "nodes" : {
+      "GNJzptVyQ4-JrZxWslW9zA" : {
+        "timestamp" : 1793337294530,
+        "name" : "fraud-part2-node",
+        "transport_address" : "127.0.0.1:19300",
+        "host" : "127.0.0.1",
+        "ip" : "127.0.0.1:19300",
+        "roles" : [ "cluster_manager", "data", "ingest", "remote_cluster_client" ],
+        "attributes" : {
+          "shard_indexing_pressure_enabled" : "true"
+        },
+        "indices" : {
+          "docs" : {
+            "count" : 100006,
+            "deleted" : 0
+          },
+          "store" : {
+            "size_in_bytes" : 1147091,
+            "reserved_in_bytes" : 0
+          },
+          "indexing" : {
+            "index_total" : 790096,
+            "index_time_in_millis" : 190248,
+            "index_current" : 0,
+            "index_failed" : 0,
+            "delete_total" : 0,
+            "delete_time_in_millis" : 0,
+            "delete_current" : 0,
+            "noop_update_total" : 0,
+            "is_throttled" : false,
+            "throttle_time_in_millis" : 0,
+            "max_last_index_request_timestamp" : 1793337287149
+          },
+          "get" : {
+            "total" : 0,
+            "getTime" : "0s",
+            "time_in_millis" : 0,
+            "exists_total" : 0,
+            "exists_time_in_millis" : 0,
+            "missing_total" : 0,
+            "missing_time_in_millis" : 0,
+            "current" : 0
+          },
+          "search" : {
+            "open_contexts" : 0,
+            "query_total" : 2534,
+            "query_time_in_millis" : 449646,
+            "query_current" : 0,
+            "query_failed" : 0,
+            "concurrent_query_total" : 0,
+            "concurrent_query_time_in_millis" : 0,
+            "concurrent_query_current" : 0,
+            "concurrent_avg_slice_count" : 0.0,
+            "startree_query_total" : 0,
+            "startree_query_time_in_millis" : 0,
+            "startree_query_current" : 0,
+            "startree_query_failed" : 0,
+            "fetch_total" : 2534,
+            "fetch_time_in_millis" : 1754,
+            "fetch_current" : 0,
+            "scroll_total" : 0,
+            "scroll_time_in_millis" : 0,
+            "scroll_current" : 0,
+            "point_in_time_total" : 0,
+            "point_in_time_time_in_millis" : 0,
+            "point_in_time_current" : 0,
+            "suggest_total" : 0,
+            "suggest_time_in_millis" : 0,
+            "suggest_current" : 0,
+            "search_idle_reactivate_count_total" : 0,
+            "request" : {
+              "took" : {
+                "time_in_millis" : 452400,
+                "current" : 0,
+                "total" : 2534
+              },
+              "dfs_pre_query" : {
+                "time_in_millis" : 0,
+                "current" : 0,
+                "total" : 0
+              },
+              "query" : {
+                "time_in_millis" : 452028,
+                "current" : 0,
+                "total" : 2534
+              },
+              "fetch" : {
+                "time_in_millis" : 44,
+                "current" : 0,
+                "total" : 2534
+              },
+              "dfs_query" : {
+                "time_in_millis" : 0,
+                "current" : 0,
+                "total" : 0
+              },
+              "expand" : {
+                "time_in_millis" : 1,
+                "current" : 0,
+                "total" : 2534
+              },
+              "can_match" : {
+                "time_in_millis" : 0,
+                "current" : 0,
+                "total" : 0
+              }
+            }
+          },
+          "merges" : {
+            "current" : 0,
+            "current_docs" : 0,
+            "current_size_in_bytes" : 0,
+            "total" : 1,
+            "total_time_in_millis" : 16989,
+            "total_docs" : 100006,
+            "total_size_in_bytes" : 315126808,
+            "total_stopped_time_in_millis" : 0,
+            "total_throttled_time_in_millis" : 0,
+            "total_auto_throttle_in_bytes" : 333637818,
+            "unreferenced_file_cleanups_performed" : 0,
+            "warmer" : {
+              "total_invocations_count" : 0,
+              "total_time_millis" : 0,
+              "total_failure_count" : 0,
+              "total_bytes_sent" : 0,
+              "total_bytes_received" : 0,
+              "total_send_time_millis" : 0,
+              "total_receive_time_millis" : 0,
+              "ongoing_count" : 0
+            }
+          },
+          "refresh" : {
+            "total" : 65,
+            "total_time_in_millis" : 1811,
+            "external_total" : 48,
+            "external_total_time_in_millis" : 1798,
+            "listeners" : 0
+          },
+          "flush" : {
+            "total" : 1,
+            "periodic" : 1,
+            "total_time_in_millis" : 571
+          },
+          "warmer" : {
+            "current" : 0,
+            "total" : 2,
+            "total_time_in_millis" : 0
+          },
+          "query_cache" : {
+            "memory_size_in_bytes" : 28528,
+            "total_count" : 708,
+            "hit_count" : 287,
+            "miss_count" : 421,
+            "cache_size" : 3,
+            "cache_count" : 3,
+            "evictions" : 0
+          },
+          "fielddata" : {
+            "memory_size_in_bytes" : 0,
+            "evictions" : 0
+          },
+          "completion" : {
+            "size_in_bytes" : 0
+          },
+          "segments" : {
+            "count" : 1,
+            "memory_in_bytes" : 0,
+            "terms_memory_in_bytes" : 0,
+            "stored_fields_memory_in_bytes" : 0,
+            "term_vectors_memory_in_bytes" : 0,
+            "norms_memory_in_bytes" : 0,
+            "points_memory_in_bytes" : 0,
+            "doc_values_memory_in_bytes" : 0,
+            "index_writer_memory_in_bytes" : 0,
+            "version_map_memory_in_bytes" : 0,
+            "fixed_bit_set_memory_in_bytes" : 0,
+            "max_unsafe_auto_id_timestamp" : -1,
+            "remote_store" : {
+              "upload" : {
+                "total_upload_size" : {
+                  "started_bytes" : 0,
+                  "succeeded_bytes" : 0,
+                  "failed_bytes" : 0
+                },
+                "refresh_size_lag" : {
+                  "total_bytes" : 0,
+                  "max_bytes" : 0
+                },
+                "max_refresh_time_lag_in_millis" : 0,
+                "total_time_spent_in_millis" : 0,
+                "pressure" : {
+                  "total_rejections" : 0
+                }
+              },
+              "download" : {
+                "total_download_size" : {
+                  "started_bytes" : 0,
+                  "succeeded_bytes" : 0,
+                  "failed_bytes" : 0
+                },
+                "total_time_spent_in_millis" : 0
+              }
+            },
+            "segment_replication" : {
+              "max_bytes_behind" : 0,
+              "total_bytes_behind" : 0,
+              "max_replication_lag" : 0
+            },
+            "file_sizes" : { }
+          },
+          "translog" : {
+            "operations" : 0,
+            "size_in_bytes" : 55,
+            "uncommitted_operations" : 0,
+            "uncommitted_size_in_bytes" : 55,
+            "earliest_last_modified_age" : 6927,
+            "remote_store" : {
+              "upload" : {
+                "total_uploads" : {
+                  "started" : 0,
+                  "failed" : 0,
+                  "succeeded" : 0
+                },
+                "total_upload_size" : {
+                  "started_bytes" : 0,
+                  "failed_bytes" : 0,
+                  "succeeded_bytes" : 0
+                }
+              }
+            }
+          },
+          "request_cache" : {
+            "memory_size_in_bytes" : 1152,
+            "evictions" : 0,
+            "hit_count" : 0,
+            "miss_count" : 1
+          },
+          "recovery" : {
+            "current_as_source" : 0,
+            "current_as_target" : 0,
+            "throttle_time_in_millis" : 0
+          },
+          "status_counter" : {
+            "doc_status" : {
+              "success" : 790096,
+              "user_error" : 0,
+              "system_failure" : 0
+            },
+            "search_response_status" : {
+              "success" : 2534,
+              "user_error" : 0,
+              "system_failure" : 0
+            }
+          }
+        },
+        "os" : {
+          "timestamp" : 1793337294530,
+          "cpu" : {
+            "percent" : 16,
+            "load_average" : {
+              "1m" : 3.17529296875
+            }
+          },
+          "mem" : {
+            "total_in_bytes" : 51539607552,
+            "free_in_bytes" : 171819008,
+            "used_in_bytes" : 51367788544,
+            "free_percent" : 0,
+            "used_percent" : 100
+          },
+          "swap" : {
+            "total_in_bytes" : 0,
+            "free_in_bytes" : 0,
+            "used_in_bytes" : 0
+          }
+        },
+        "process" : {
+          "timestamp" : 1793337294530,
+          "open_file_descriptors" : 212,
+          "max_file_descriptors" : 1048576,
+          "cpu" : {
+            "percent" : 25,
+            "total_in_millis" : 843450
+          },
+          "mem" : {
+            "total_virtual_in_bytes" : 449885143040
+          }
+        },
+        "jvm" : {
+          "timestamp" : 1793337294530,
+          "uptime_in_millis" : 1783440,
+          "mem" : {
+            "heap_used_in_bytes" : 1293418496,
+            "heap_used_percent" : 60,
+            "heap_committed_in_bytes" : 2147483648,
+            "heap_max_in_bytes" : 2147483648,
+            "non_heap_used_in_bytes" : 173257728,
+            "non_heap_committed_in_bytes" : 184418304,
+            "pools" : {
+              "young" : {
+                "used_in_bytes" : 830472192,
+                "max_in_bytes" : 0,
+                "peak_used_in_bytes" : 1265631232,
+                "peak_max_in_bytes" : 0,
+                "last_gc_stats" : {
+                  "used_in_bytes" : 0,
+                  "max_in_bytes" : 0,
+                  "usage_percent" : -1
+                }
+              },
+              "old" : {
+                "used_in_bytes" : 377487360,
+                "max_in_bytes" : 2147483648,
+                "peak_used_in_bytes" : 663748608,
+                "peak_max_in_bytes" : 2147483648,
+                "last_gc_stats" : {
+                  "used_in_bytes" : 154678368,
+                  "max_in_bytes" : 2147483648,
+                  "usage_percent" : 7
+                }
+              },
+              "survivor" : {
+                "used_in_bytes" : 85458944,
+                "max_in_bytes" : 0,
+                "peak_used_in_bytes" : 107479040,
+                "peak_max_in_bytes" : 0,
+                "last_gc_stats" : {
+                  "used_in_bytes" : 85458944,
+                  "max_in_bytes" : 0,
+                  "usage_percent" : -1
+                }
+              }
+            }
+          },
+          "threads" : {
+            "count" : 42,
+            "peak_count" : 44
+          },
+          "gc" : {
+            "collectors" : {
+              "young" : {
+                "collection_count" : 86,
+                "collection_time_in_millis" : 733
+              },
+              "G1 Concurrent GC" : {
+                "collection_count" : 10,
+                "collection_time_in_millis" : 26
+              },
+              "old" : {
+                "collection_count" : 0,
+                "collection_time_in_millis" : 0
+              }
+            }
+          },
+          "buffer_pools" : {
+            "mapped" : {
+              "count" : 1,
+              "used_in_bytes" : 110605472,
+              "total_capacity_in_bytes" : 110605472
+            },
+            "direct" : {
+              "count" : 10,
+              "used_in_bytes" : 4521985,
+              "total_capacity_in_bytes" : 4521984
+            },
+            "mapped - 'non-volatile memory'" : {
+              "count" : 0,
+              "used_in_bytes" : 0,
+              "total_capacity_in_bytes" : 0
+            }
+          },
+          "classes" : {
+            "current_loaded_count" : 21553,
+            "total_loaded_count" : 22164,
+            "total_unloaded_count" : 611
+          }
+        },
+        "native_memory" : {
+          "total_estimated_bytes" : -1
+        }
+      }
+    }
+  }
+}

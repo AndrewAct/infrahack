@@ -1,0 +1,3 @@
+16365:
+garbage-first heap   total reserved 2097152K, committed 2097152K, used 1035776K [0x0000000400000000, 0x0000000480000000)
+ region size 1024K, 910 young (931840K), 48 survivors (49152K)

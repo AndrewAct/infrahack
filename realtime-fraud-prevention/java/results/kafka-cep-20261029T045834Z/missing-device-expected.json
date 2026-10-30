@@ -1,0 +1,15 @@
+[ {
+  "evidence_event_ids" : [ "standard_0", "standard_1", "standard_2", "standard_3" ],
+  "features" : {
+    "attempt_count_10m" : 4,
+    "failed_attempt_count_10m" : 3,
+    "failure_fraction_10m" : 0.75,
+    "distinct_device_count_10m" : 2,
+    "distinct_ip_count_10m" : 3,
+    "attempted_amount_minor_sum_10m" : 4006,
+    "median_inter_attempt_seconds_10m" : 30.0,
+    "matched_sequence_duration_seconds" : 90.0
+  },
+  "feature_completeness" : "incomplete",
+  "feature_cutoff" : "2026-10-26T15:01:30Z"
+} ]

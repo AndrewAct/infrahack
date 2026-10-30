@@ -1,0 +1,29 @@
+{
+  "seed" : 20261026,
+  "encoder" : "seeded-tanh-200-v1",
+  "query_count" : 12,
+  "repetitions" : 3,
+  "warmup_passes" : 2,
+  "java" : "21.0.13.0.2",
+  "os" : {
+    "name" : "fraud-part2-node",
+    "cluster_name" : "fraud-part2-isolated",
+    "cluster_uuid" : "BWyE8tEUSLe_3L70MGAdYQ",
+    "version" : {
+      "distribution" : "opensearch",
+      "number" : "3.9.0",
+      "build_type" : "tar",
+      "build_hash" : "4ee42a94e87f66fbf1e62a9871b1b87f91e02472",
+      "build_date" : "2026-09-22T19:37:17Z",
+      "build_snapshot" : false,
+      "lucene_version" : "10.5.1",
+      "minimum_wire_compatibility_version" : "2.19.0",
+      "minimum_index_compatibility_version" : "2.0.0"
+    },
+    "tagline" : "The OpenSearch Project: https://opensearch.org/"
+  },
+  "input_fields" : 200,
+  "query_episode_ids" : "1000000..1000011; disjoint from c0..c99999",
+  "semantics" : "200 standardized synthetic continuous fields, 8 latent templates plus independent noise; no learned semantics or online multi-key features",
+  "field_groups" : [ "payment-window:0..39", "device-window:40..79", "network-window:80..119", "account-window:120..159", "order-window:160..199" ]
+}
