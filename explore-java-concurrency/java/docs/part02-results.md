@@ -1,0 +1,5 @@
+# Part 2 correctness result — October 24, 2026
+
+Run the JDK 25 Maven test command in [../README.md](../README.md). `VersionedMealTest` has four passing tests: two moves against one observed snapshot commit exactly one change, a version-0 expiry cannot erase a version-1 transfer, a naive timestamp register can choose a stale cleanup stamped later, and moving at the deadline is rejected.
+
+The CAS publishes one immutable `MealSnapshot`; it does not update actual container capacity or membership. The move test supplies a later expiry to stand in for a validated deterioration calculation. The old task reports `STALE`; a fresh version check at the old deadline reports `NOT_DUE`, and a check at the later deadline expires the meal. A real caller must arrange that replacement check; no scheduler or decay formula is implemented here. The timestamp fixture is an illustrative register, not a Cassandra or DynamoDB simulation. No CAS-versus-lock performance benchmark was run. JDK 25.0.2 source notes for `AtomicReference`, `ReentrantLock`, and AQS are in the Medium series; AQS parking is source analysis rather than an observation from these CAS tests.
