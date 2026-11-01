@@ -18,6 +18,16 @@ The `kitchen` package protects one map of meal claim/expiry state with one priva
 
 The first implementation defines a small operation result for each outcome, rather than collapse every conflict into `not found`. Time comes from an injectable clock. Part 1 evaluates eligibility at a clock sample inside the monitor; the logical claim linearizes at that decision, even if the thread pauses before committing state or returning. A sample at the exact expiry boundary is ineligible. Part 3 separately counts whether synthetic handoff completion beats its deadline. A rider arrival is an event, not necessarily a Java thread.
 
+### Part 1 expiry result semantics
+
+Design context retained at Andrew's request on 2026-11-01: `MealStatus` describes the meal's current state; `ExpiryResult` describes the outcome of this particular `expire()` call.
+
+- `EXPIRED`: this call changed an eligible `AVAILABLE` meal to `EXPIRED` after reaching its deadline.
+- `ALREADY_EXPIRED`: the meal was already marked `EXPIRED`; this call left its state unchanged. Either an earlier `expire()` or a `claim()` that detected the deadline may have marked it expired.
+- Repeated expiry is idempotent with respect to state, even though the first and subsequent return values differ. The shared monitor makes the check and transition atomic, so competing expiry calls cannot both report a new transition.
+
+This distinction lets a caller identify newly applied expiry transitions, for example when counting them; the current implementation does not include downstream expiry side effects. `PickupRaceTest.claimRejectsAtExpiryEvenWithoutCleanup` and `twoRidersAndCleanupAtDeadlineCannotClaimExpiredFood` cover the claim/cleanup interaction. Keep this context local to this module rather than treating it as a global preference for every result type.
+
 ## Invariants
 
 1. One meal has at most one successful claim. Claim and expiry cannot both win.
