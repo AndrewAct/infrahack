@@ -30,7 +30,7 @@ This distinction lets a caller identify newly applied expiry transitions, for ex
 
 ## Invariants
 
-1. One meal has at most one successful claim. Claim and expiry cannot both win.
+1. One meal has at most one successful claim. Claim and expiry cannot both win. A rider's bag holds one meal, and an occupied bag stays occupied in the part 1 slice.
 2. A successful claim's freshness decision samples a time strictly before expiry inside the monitor; this is not a wall-clock completion guarantee.
 3. No container exceeds capacity. Stable container membership and meal location agree.
 4. Transfer changes future deterioration, not the amount already accrued.

@@ -14,7 +14,7 @@ Run this from `explore-java-concurrency/java/`. On another machine, set `JAVA_HO
 
 The module is one small Maven project. The `kitchen` package implements part 1 claim/expiry, `part02` publishes immutable meal snapshots with CAS, and `part03` runs a synthetic bounded handoff workload. Tests mirror each slice under `src/test/java/`. These are focused experiments around the same scenario rather than one complete kitchen service.
 
-All 13 tests pass on the recorded JDK 25 build. Read [design.md](docs/design.md) for scope and [experiments.md](docs/experiments.md) for result links. After `mvn test` compiles the classes, run the load experiment with:
+All 16 tests pass on the recorded JDK 25 build. Read [design.md](docs/design.md) for scope and [experiments.md](docs/experiments.md) for result links. After `mvn test` compiles the classes, run the load experiment with:
 
 ```bash
 /Library/Java/JavaVirtualMachines/jdk-25.jdk/Contents/Home/bin/java -cp target/classes io.infrahack.explorejavaconcurrency.part03.LunchRushExperiment

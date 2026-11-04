@@ -3,14 +3,17 @@ package io.infrahack.explorejavaconcurrency.kitchen;
 import java.time.Clock;
 import java.time.Instant;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
 
 public final class SynchronizedKitchen {
     private final Clock clock;
     private final Object lock = new Object();
     private final Map<String, Entry> meals = new HashMap<>();
+    private final Set<String> ridersWithMeal = new HashSet<>();
 
     public SynchronizedKitchen(Clock clock) {
         this.clock = Objects.requireNonNull(clock, "clock");
@@ -26,8 +29,9 @@ public final class SynchronizedKitchen {
         }
     }
 
-    public PickupResult claim(String mealId) {
+    public PickupResult claim(String mealId, String riderId) {
         Objects.requireNonNull(mealId, "mealId");
+        Objects.requireNonNull(riderId, "riderId");
         synchronized (lock) {
             Entry entry = meals.get(mealId);
             if (entry == null) {
@@ -43,6 +47,9 @@ public final class SynchronizedKitchen {
             if (!decisionAt.isBefore(entry.meal.expiresAt())) {
                 entry.status = MealStatus.EXPIRED;
                 return PickupResult.EXPIRED;
+            }
+            if (!ridersWithMeal.add(riderId)) {
+                return PickupResult.RIDER_BUSY;
             }
             entry.status = MealStatus.CLAIMED;
             return PickupResult.CLAIMED;

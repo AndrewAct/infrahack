@@ -4,7 +4,7 @@ The first experiment slices are complete. Results are in [part01-results.md](par
 
 ## Part 1: claim versus expiry
 
-Use barriers or controlled steps to force a known read/check/write interleaving in the intentionally unsafe variant. Use an injectable clock for expiry at, before, and after the boundary. The corrected variant passes if at most one terminal outcome wins and no meal is claimed at or after expiry. Do not rely on a race appearing by chance.
+Use barriers or controlled steps to force a known read/check/write interleaving in the intentionally unsafe variants. Hold one rider at the injected clock read, inside the monitor, until the contender reports `BLOCKED`, so the corrected variant faces a known schedule too. Use an injectable clock for expiry at, before, and after the boundary. The corrected variant passes if at most one terminal outcome wins and no meal is claimed at or after expiry. Do not rely on a race appearing by chance.
 
 ## Part 2: stale work and contention
 
