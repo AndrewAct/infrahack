@@ -1,0 +1,4 @@
+<Configuration status="ERROR">
+  <Appenders><Console name="console" target="SYSTEM_ERR"><PatternLayout pattern="%level %logger{1}: %msg%n"/></Console></Appenders>
+  <Loggers><Root level="error"><AppenderRef ref="console"/></Root></Loggers>
+</Configuration>

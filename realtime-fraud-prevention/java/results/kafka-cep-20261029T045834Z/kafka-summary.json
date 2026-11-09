@@ -1,0 +1,16 @@
+{
+  "exactly_once_committed" : 1,
+  "at_least_once_committed" : 2,
+  "raw_replay_committed" : 1,
+  "pending_cep_restored" : true,
+  "live_replay_logical_equal" : true,
+  "scope" : "one local broker; one source partition; parallelism 1; task failure, not broker/node loss",
+  "index_created" : 1,
+  "index_retry_duplicates" : 1,
+  "index_rebuild_duplicates" : 1,
+  "index_conflicts" : 1,
+  "partial_bulk_offsets_uncommitted" : true,
+  "search_visible_cases_before_partial_fixture" : 1,
+  "opensearch_index" : "fraud-article-cep-c3b58c9f",
+  "opensearch_test_index_deleted" : true
+}

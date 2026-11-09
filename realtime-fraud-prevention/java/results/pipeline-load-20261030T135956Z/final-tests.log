@@ -1,0 +1,72 @@
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ----------------------< dev.infrahack:fraud-cep >-----------------------
+[INFO] Building fraud-cep 0.1.0
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ fraud-cep ---
+[INFO] skip non existing resourceDirectory /private/tmp/fraud-part2-work/java/src/main/resources
+[INFO] 
+[INFO] --- compiler:3.13.0:compile (default-compile) @ fraud-cep ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ fraud-cep ---
+[INFO] Copying 3 resources from src/test/resources to target/test-classes
+[INFO] 
+[INFO] --- compiler:3.13.0:testCompile (default-testCompile) @ fraud-cep ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- surefire:3.5.2:test (default-test) @ fraud-cep ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running dev.infrahack.fraud.CheckpointStorageTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 4.675 s -- in dev.infrahack.fraud.CheckpointStorageTest
+[INFO] Running dev.infrahack.fraud.KafkaPipelineTest
+[WARNING] Tests run: 1, Failures: 0, Errors: 0, Skipped: 1, Time elapsed: 0 s -- in dev.infrahack.fraud.KafkaPipelineTest
+[INFO] Running dev.infrahack.fraud.CaseEncoderTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.069 s -- in dev.infrahack.fraud.CaseEncoderTest
+[INFO] Running dev.infrahack.fraud.ManagedStateTest
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.036 s -- in dev.infrahack.fraud.ManagedStateTest
+[INFO] Running dev.infrahack.fraud.CepIntegrationTest
+{"fixture":"ordered","steps":4,"expected_cases":1,"actual_cases":1,"pass":true,"rejections":{}}
+{"fixture":"reordered-admitted","steps":5,"expected_cases":1,"actual_cases":1,"pass":true,"rejections":{}}
+{"fixture":"reordered-too-late","steps":5,"expected_cases":0,"actual_cases":0,"pass":true,"rejections":{"late":1}}
+{"fixture":"watermark-tolerance-2000","steps":8,"expected_cases":0,"actual_cases":0,"pass":true,"rejections":{"late":1}}
+{"fixture":"watermark-tolerance-10000","steps":8,"expected_cases":0,"actual_cases":0,"pass":true,"rejections":{"late":1}}
+{"fixture":"watermark-tolerance-45000","steps":8,"expected_cases":1,"actual_cases":1,"pass":true,"rejections":{}}
+{"fixture":"two-failures","steps":3,"expected_cases":0,"actual_cases":0,"pass":true,"rejections":{}}
+{"fixture":"latest-three-of-four","steps":5,"expected_cases":1,"actual_cases":1,"pass":true,"rejections":{}}
+{"fixture":"success-breaks-sequence","steps":5,"expected_cases":0,"actual_cases":0,"pass":true,"rejections":{}}
+{"fixture":"one-failure-redelivered","steps":4,"expected_cases":0,"actual_cases":0,"pass":true,"rejections":{"duplicate":2}}
+{"fixture":"business-duplicate-fresh-event-id","steps":5,"expected_cases":1,"actual_cases":1,"pass":true,"rejections":{"duplicate":1}}
+{"fixture":"unfinished","steps":3,"expected_cases":0,"actual_cases":0,"pass":true,"rejections":{}}
+{"fixture":"duration-119999","steps":4,"expected_cases":1,"actual_cases":1,"pass":true,"rejections":{}}
+{"fixture":"duration-120000","steps":4,"expected_cases":0,"actual_cases":0,"pass":true,"rejections":{}}
+{"fixture":"duration-120001","steps":4,"expected_cases":0,"actual_cases":0,"pass":true,"rejections":{}}
+{"fixture":"equal-time-position-cutoff","steps":5,"expected_cases":1,"actual_cases":1,"pass":true,"rejections":{}}
+{"fixture":"equal-time-sequence-event-id-tie","steps":4,"expected_cases":1,"actual_cases":1,"pass":true,"rejections":{}}
+{"fixture":"interleaved-full-keys","steps":19,"expected_cases":4,"actual_cases":4,"pass":true,"rejections":{}}
+{"fixture":"attempt-conflict","steps":5,"expected_cases":1,"actual_cases":1,"pass":true,"rejections":{"conflict":1}}
+{"fixture":"event-id-conflict","steps":5,"expected_cases":1,"actual_cases":1,"pass":true,"rejections":{"conflict":1}}
+{"fixture":"missing-device","steps":4,"expected_cases":1,"actual_cases":1,"pass":true,"rejections":{}}
+{"fixture":"mixed-currency","steps":4,"expected_cases":1,"actual_cases":1,"pass":true,"rejections":{}}
+{"fixture":"startup-incomplete","steps":4,"expected_cases":1,"actual_cases":1,"pass":true,"rejections":{}}
+{"fixture":"ten-minute-open-lower-bound","steps":6,"expected_cases":1,"actual_cases":1,"pass":true,"rejections":{}}
+{"fixture":"invalid-input","steps":4,"expected_cases":0,"actual_cases":0,"pass":true,"rejections":{"invalid":4}}
+{"fixture":"seeded-randomized","steps":1450,"expected_cases":100,"actual_cases":100,"pass":true,"rejections":{"duplicate":298}}
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 12.37 s -- in dev.infrahack.fraud.CepIntegrationTest
+[INFO] 
+[INFO] Results:
+[INFO] 
+[WARNING] Tests run: 10, Failures: 0, Errors: 0, Skipped: 1
+[INFO] 
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  18.360 s
+[INFO] Finished at: 2026-10-30T09:10:28-05:00
+[INFO] ------------------------------------------------------------------------

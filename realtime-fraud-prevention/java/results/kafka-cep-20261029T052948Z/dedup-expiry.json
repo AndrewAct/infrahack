@@ -1,0 +1,11 @@
+[ {
+  "fixture" : "before-expiry",
+  "watermark" : 119999,
+  "retained_attempts" : 1,
+  "serialized_operator_snapshot_bytes" : 5871
+}, {
+  "fixture" : "at-expiry-after-restore-and-redelivery",
+  "watermark" : 120000,
+  "retained_attempts" : 0,
+  "serialized_operator_snapshot_bytes" : 2438
+} ]

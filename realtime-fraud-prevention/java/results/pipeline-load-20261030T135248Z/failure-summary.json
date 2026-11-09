@@ -1,0 +1,12 @@
+{
+  "outcome": "OutOfMemoryError during final offered-rate stage; excluded from completed ladder metrics",
+  "application_heap": "2g",
+  "stage_rates": [
+    100,
+    1000,
+    5000
+  ],
+  "retained_verified_case_records": 26792,
+  "expected_cases": 92750,
+  "used_wrapper_sha256": "0f090eba6e59d7f48bdf06c9ab0f2ddb0fb8bd770da21e9b549b0c9123ccd9ea"
+}

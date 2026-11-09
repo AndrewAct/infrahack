@@ -1,0 +1,117 @@
+{
+  "settings": {
+    "index": {
+      "knn": true,
+      "number_of_shards": 1,
+      "number_of_replicas": 0,
+      "refresh_interval": "1s"
+    }
+  },
+  "mappings": {
+    "dynamic": "strict",
+    "properties": {
+      "case_id": {
+        "type": "keyword"
+      },
+      "run_id": {
+        "type": "keyword"
+      },
+      "case_family": {
+        "type": "keyword"
+      },
+      "entity_type": {
+        "type": "keyword"
+      },
+      "entity_id": {
+        "type": "keyword"
+      },
+      "currency": {
+        "type": "keyword"
+      },
+      "rule_version": {
+        "type": "keyword"
+      },
+      "feature_spec_version": {
+        "type": "keyword"
+      },
+      "transform_version": {
+        "type": "keyword"
+      },
+      "feature_completeness": {
+        "type": "keyword"
+      },
+      "case_time": {
+        "type": "date"
+      },
+      "feature_cutoff": {
+        "type": "date"
+      },
+      "knowledge_time": {
+        "type": "date"
+      },
+      "evidence_event_ids": {
+        "type": "keyword"
+      },
+      "features": {
+        "properties": {
+          "attempt_count_10m": {
+            "type": "integer"
+          },
+          "failed_attempt_count_10m": {
+            "type": "integer"
+          },
+          "failure_fraction_10m": {
+            "type": "float"
+          },
+          "distinct_device_count_10m": {
+            "type": "integer"
+          },
+          "distinct_ip_count_10m": {
+            "type": "integer"
+          },
+          "attempted_amount_minor_sum_10m": {
+            "type": "long"
+          },
+          "median_inter_attempt_seconds_10m": {
+            "type": "float"
+          },
+          "matched_sequence_duration_seconds": {
+            "type": "float"
+          }
+        }
+      },
+      "behavior_vector": {
+        "type": "knn_vector",
+        "dimension": 8,
+        "data_type": "float",
+        "method": {
+          "name": "hnsw",
+          "engine": "lucene",
+          "space_type": "l2",
+          "parameters": {
+            "m": 16,
+            "ef_construction": 100
+          }
+        }
+      },
+      "tenant_id": {
+        "type": "keyword"
+      },
+      "account_id": {
+        "type": "keyword"
+      },
+      "card_token_namespace": {
+        "type": "keyword"
+      },
+      "card_token": {
+        "type": "keyword"
+      },
+      "feature_admission_policy": {
+        "type": "keyword"
+      },
+      "feature_history_start": {
+        "type": "date"
+      }
+    }
+  }
+}

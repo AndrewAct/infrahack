@@ -1,0 +1,16 @@
+{
+  "primary": "results/retrieval-20261030T051228Z",
+  "replacement": "results/retrieval-20261030T052153Z",
+  "replaced_groups": [
+    [
+      100000,
+      768,
+      "exact"
+    ],
+    [
+      100000,
+      768,
+      "hnsw-100"
+    ]
+  ]
+}

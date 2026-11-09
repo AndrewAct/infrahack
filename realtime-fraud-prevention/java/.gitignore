@@ -1,0 +1,5 @@
+/target/
+# Large reproducible payloads remain local; metrics and source manifests are reviewable.
+results/**/*.f32
+results/**/committed.jsonl
+results/**/checkpoints/
