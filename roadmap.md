@@ -12,3 +12,6 @@ This roadmap records completed InfraHack milestones. Keep entries short, dated, 
 - [x] Payment-retry Kafka/CEP integration (Java) — task recovery, replay and immutable OpenSearch projection (October 28, 2026)
 - [x] Case conflict quarantine (Java) — acknowledged Kafka isolation before source-offset commit, with replay safety (October 29, 2026)
 - [x] Historical case retrieval and load evidence (Java) — verified HNSW/exact matrix and 92,750-case pipeline ladder (October 30, 2026)
+- [x] Java concurrency kitchen experiments — JDK 25 monitor/CAS correctness, CopyOnWrite snapshots, bounded platform/virtual-thread load, and 13 tests (October 24, 2026)
+
+- [x] Java kitchen meal readiness — independent futures, atomic assigned-rider claims, and timeout/interruption tests (November 8, 2026)
