@@ -1,0 +1,52 @@
+{
+  "provenance": "measured",
+  "date": "2026-11-08",
+  "timezone": "America/Chicago",
+  "execution_directory": "/private/tmp/part03-ready-meals-work/infrahack/explore-java-concurrency/java",
+  "original_repository": "/Users/andrewchen/dev/infrahack",
+  "original_head": "9b703366418c18077e6d4fe4c235af505b84a5bc",
+  "original_write_status": "Not modified; sandbox rejected writes outside the article workspace.",
+  "command": "JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk-25.jdk/Contents/Home mvn -o test",
+  "jdk": "Oracle JDK 25.0.2+10-LTS-69",
+  "maven": "3.9.9",
+  "os": "macOS 26.6.2 aarch64",
+  "result": {
+    "tests": 26,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "readiness_cases": 10
+  },
+  "source_sha256": {
+    "src/main/java/io/infrahack/explorejavaconcurrency/part03/ReadyMeal.java": "b85da38415f7f82182247a5fe777732bd11a5a1bb1033f373a19e64c3568b727",
+    "src/test/java/io/infrahack/explorejavaconcurrency/part03/ReadyMealTest.java": "ba361bc510a251f99c477fdcf7de8c0017efd14eec0950d63a3c1e3c85004b7d",
+    "src/main/java/io/infrahack/explorejavaconcurrency/part03/LunchRushExperiment.java": "a13ac5f088401f5f1850f74e205eb0dcc56e59378e5b33015b91ab0d58004391",
+    "pom.xml": "ca8a1797d1b15295f9faf33c75ba6e0ebabaeadfbe323130e0bd2cdb9257b960"
+  },
+  "negative_controls": [
+    {
+      "mutation": "Move readiness get inside the acquired-permit try block",
+      "test": "laterRiderCanClaimTheirReadyMealFirst",
+      "tests": 2,
+      "failures": 2,
+      "errors": 0
+    },
+    {
+      "mutation": "Remove final in-monitor deadline check",
+      "test": "expiryDuringCapacityWaitIsRecheckedInsideClaimDecision",
+      "tests": 1,
+      "failures": 1,
+      "errors": 0
+    },
+    {
+      "mutation": "Remove final claim monitor",
+      "test": "competingDuplicateRequestsHaveOnlyOneSuccessfulClaim",
+      "tests": 1,
+      "failures": 1,
+      "errors": 0
+    }
+  ],
+  "negative_control_scope": "Controls preceded a refinement of two unrelated timeout tests. The three tested methods and final production source are otherwise the tested baseline. Broken variants were discarded; tests.log is the subsequent full-suite run against the final source.",
+  "benchmark_status": "No new recorded load benchmark. LunchRushExperiment.java is byte-identical to the original source; prior CSV remains unchanged.",
+  "logs_compression": "gzip, original log bytes preserved"
+}
